@@ -47,5 +47,9 @@
     "postcss": "^8.4.32",
     "tailwindcss": "^3.3.6"
   },
+<<<<<<< HEAD
   "proxy": "http://localhost:5001"
+=======
+  "proxy": "http://localhost:5000"
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
 }

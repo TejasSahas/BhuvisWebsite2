@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Send } from 'lucide-react';
+<<<<<<< HEAD
 import MarkdownRenderer from './MarkdownRenderer';
+=======
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
 
 const ChatAssistant = ({ started, onStart, messages, setMessages }) => {
   const [input, setInput] = useState('');
   const [isSending, setIsSending] = useState(false);
+<<<<<<< HEAD
   const chatContainerRef = useRef(null);
   const textareaRef = useRef(null);
 
@@ -13,6 +17,13 @@ const ChatAssistant = ({ started, onStart, messages, setMessages }) => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
+=======
+  const messagesEndRef = useRef(null);
+  const textareaRef = useRef(null);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
   }, [messages]);
 
   useEffect(() => {
@@ -48,6 +59,7 @@ const ChatAssistant = ({ started, onStart, messages, setMessages }) => {
 
   const content = (
     <div className={`w-full ${started ? '' : 'max-w-2xl mx-auto'}`}>
+<<<<<<< HEAD
       <div ref={chatContainerRef} className={`w-full ${started ? 'h-80' : 'h-64'} overflow-y-auto px-2`}>
         {messages.map((m, idx) => (
           <div key={idx} className={`flex w-full my-1 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
@@ -56,6 +68,17 @@ const ChatAssistant = ({ started, onStart, messages, setMessages }) => {
             </div>
           </div>
         ))}
+=======
+      <div className={`w-full ${started ? 'h-80' : 'h-64'} overflow-y-auto px-2`}>
+        {messages.map((m, idx) => (
+          <div key={idx} className={`flex w-full my-1 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+            <div className={`rounded-2xl px-4 py-2 max-w-[80%] whitespace-pre-wrap break-words ${m.role === 'user' ? 'bg-primary-200 text-gray-900' : 'bg-gray-100 dark:bg-gray-800'}`}>
+              {m.content}
+            </div>
+          </div>
+        ))}
+        <div ref={messagesEndRef} />
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
       </div>
 
       <form

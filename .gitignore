@@ -1,3 +1,14 @@
+<<<<<<< HEAD
+=======
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Production builds
+build/
+dist/
+
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
 # Environment variables
 .env
 .env.local
@@ -5,14 +16,21 @@
 .env.test.local
 .env.production.local
 
+<<<<<<< HEAD
 # Dependencies
 node_modules/
 */node_modules/
 
+=======
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
 # Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+<<<<<<< HEAD
+=======
+lerna-debug.log*
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
 
 # Runtime data
 pids
@@ -22,6 +40,10 @@ pids
 
 # Coverage directory used by tools like istanbul
 coverage/
+<<<<<<< HEAD
+=======
+*.lcov
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
 
 # nyc test coverage
 .nyc_output
@@ -32,6 +54,18 @@ jspm_packages/
 # Optional npm cache directory
 .npm
 
+<<<<<<< HEAD
+=======
+# Optional eslint cache
+.eslintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
 # Optional REPL history
 .node_repl_history
 
@@ -41,6 +75,7 @@ jspm_packages/
 # Yarn Integrity file
 .yarn-integrity
 
+<<<<<<< HEAD
 # dotenv environment variables file
 .env
 
@@ -49,10 +84,39 @@ build/
 dist/
 
 # IDE files
+=======
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
+
+# Next.js build output
+.next
+
+# Nuxt.js build / generate output
+.nuxt
+
+# Gatsby files
+.cache/
+# public
+
+# Storybook build outputs
+.out
+.storybook-out
+
+# Temporary folders
+tmp/
+temp/
+
+# Editor directories and files
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
 .vscode/
 .idea/
 *.swp
 *.swo
+<<<<<<< HEAD
+=======
+*~
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
 
 # OS generated files
 .DS_Store
@@ -61,4 +125,12 @@ dist/
 .Spotlight-V100
 .Trashes
 ehthumbs.db
+<<<<<<< HEAD
 Thumbs.db
+=======
+Thumbs.db
+
+# Package lock files (optional - uncomment if you want to exclude them)
+# package-lock.json
+# */package-lock.json
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd

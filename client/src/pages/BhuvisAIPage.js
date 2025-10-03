@@ -3,12 +3,19 @@ import { Send, User, Bot, Sparkles, MapPin, X, ChevronDown, Check } from 'lucide
 import { MapContainer, TileLayer, Marker, Tooltip, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+<<<<<<< HEAD
 import MarkdownRenderer from '../components/MarkdownRenderer';
+=======
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
 
 // Dropdown button that opens a menu; click toggles a value then auto-closes
 const Dropdown = ({ label, placeholder, options, values, onToggle }) => {
   const [open, setOpen] = useState(false);
+<<<<<<< HEAD
   const btnText = values.length ? values.join(', ') : (placeholder || `Select ${label}`);
+=======
+  const btnText = values.length ? label : (placeholder || `Select ${label}`);
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
   return (
     <div className="flex flex-col gap-1 min-w-[120px] max-w-[180px] w-full mx-auto relative">
       <label className="text-xs font-semibold text-gray-600 dark:text-gray-300">{label}</label>
@@ -45,6 +52,7 @@ const Dropdown = ({ label, placeholder, options, values, onToggle }) => {
   );
 };
 
+<<<<<<< HEAD
 // Searchable dropdown for area selection
 const SearchableAreaDropdown = ({ label, placeholder, options, values, onToggle, searchTerm, onSearchChange }) => {
   const [open, setOpen] = useState(false);
@@ -104,6 +112,8 @@ const SearchableAreaDropdown = ({ label, placeholder, options, values, onToggle,
   );
 };
 
+=======
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
 const QuickAction = ({ label, onClick }) => (
   <button
     onClick={() => onClick(label)}
@@ -115,6 +125,7 @@ const QuickAction = ({ label, onClick }) => (
 
 export default function BhuvisAIPage() {
   // Filters (extensible)
+<<<<<<< HEAD
   const cityOptions = ['Pune'];
   
   // Comprehensive locality options by city
@@ -136,16 +147,27 @@ export default function BhuvisAIPage() {
   };
   
   const budgetOptions = ['< ₹50L', '₹50L – ₹1Cr', '₹1Cr – ₹2Cr', '₹2Cr – ₹5Cr', '> ₹5Cr'];
+=======
+  const cityOptions = ['Pune', 'Mumbai', 'Bengaluru', 'Hyderabad'];
+  const localityOptions = ['Baner', 'Aundh', 'Kharadi', 'Hinjewadi'];
+  const propertyTypeOptions = ['Residential', 'Commercial'];
+  const segmentOptions = ['Apartment', 'Villa', 'Office', 'Plot'];
+  const budgetOptions = ['< ₹50L', '₹50L – ₹1Cr', '₹1Cr – ₹2Cr', '> ₹2Cr'];
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
   const possessionOptions = ['Ready to Move', 'Under Construction'];
   const bhkOptions = ['1 BHK', '2 BHK', '3 BHK', '4+ BHK'];
   const furnishingOptions = ['Unfurnished', 'Semi-furnished', 'Furnished'];
 
+<<<<<<< HEAD
   // State for hierarchical filters
+=======
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
   const [selectedCities, setSelectedCities] = useState(['Pune']);
   const [selectedLocalities, setSelectedLocalities] = useState(['Baner']);
   const [selectedPropertyTypes, setSelectedPropertyTypes] = useState(['Residential']);
   const [selectedSegments, setSelectedSegments] = useState(['Apartment']);
   const [selectedBudgets, setSelectedBudgets] = useState([]);
+<<<<<<< HEAD
   const [selectedPossession, setSelectedPossession] = useState([]);
   const [selectedBHK, setSelectedBHK] = useState([]);
   const [selectedFurnishing, setSelectedFurnishing] = useState([]);
@@ -214,6 +236,8 @@ export default function BhuvisAIPage() {
       setSelectedSegments(validSegments);
     }
   }, [selectedPropertyTypes, availableSegments]);
+=======
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
 
   // Conversations
   const [conversations, setConversations] = useState([
@@ -224,6 +248,7 @@ export default function BhuvisAIPage() {
 
   // Chat state
   const [messages, setMessages] = useState([
+<<<<<<< HEAD
     { role: 'assistant', content: 'Hello! I\'m BhuvisAI, your dedicated **real estate consultant**. I specialize in helping you with **price per sqft**, **rental yields**, **capital appreciation**, and investment insights across Indian markets. How can I assist you with your real estate queries today?' }
   ]);
   const [input, setInput] = useState('');
@@ -235,6 +260,16 @@ export default function BhuvisAIPage() {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
+=======
+    { role: 'assistant', content: 'Hi! I am BhuvisAI. How can I help you explore real estate insights today?' }
+  ]);
+  const [input, setInput] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
   }, [messages, isTyping]);
 
   // Page remains scrollable; no height syncing
@@ -277,6 +312,7 @@ export default function BhuvisAIPage() {
     });
   }, [markerImageUrl]);
 
+<<<<<<< HEAD
 
   const handleSend = async (text) => {
     const content = (text ?? input).trim();
@@ -306,6 +342,12 @@ export default function BhuvisAIPage() {
     }
     
     setMessages((prev) => [...prev, { role: 'user', content: userMessage }]);
+=======
+  const handleSend = async (text) => {
+    const content = (text ?? input).trim();
+    if (!content) return;
+    setMessages((prev) => [...prev, { role: 'user', content }]);
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
     setInput('');
     setIsTyping(true);
 
@@ -314,16 +356,24 @@ export default function BhuvisAIPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+<<<<<<< HEAD
           prompt: content || 'Show me properties based on the selected filters',
+=======
+          prompt: content,
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
           filters: {
             cities: selectedCities,
             localities: selectedLocalities,
             propertyTypes: selectedPropertyTypes,
             segments: selectedSegments,
+<<<<<<< HEAD
             budgets: selectedBudgets,
             possession: selectedPossession,
             bhk: selectedBHK,
             furnishing: selectedFurnishing
+=======
+            budgets: selectedBudgets
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
           }
         })
       });
@@ -364,14 +414,23 @@ export default function BhuvisAIPage() {
             {/* Chat window */}
             <div className="rounded-2xl border border-primary-200 dark:border-primary-800 bg-white/80 dark:bg-gray-900/60 backdrop-blur p-4 flex flex-col min-h-[80vh] lg:h-[calc(100vh-6rem)] overflow-hidden shadow-soft">
               {/* Messages area scrolls inside chat card */}
+<<<<<<< HEAD
               <div ref={chatContainerRef} className="flex-1 overflow-y-auto space-y-2 pr-2 scroll-smooth">
+=======
+              <div className="flex-1 overflow-y-auto space-y-2 pr-2 scroll-smooth">
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
                 {messages.map((m, idx) => (
                   <div key={idx} className={`flex items-start gap-2 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                     {m.role === 'assistant' && (
                       <div className="w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center shrink-0"><Bot className="w-4 h-4" /></div>
                     )}
+<<<<<<< HEAD
                     <div className={`rounded-2xl px-4 py-2 max-w-[80%] break-words shadow ${m.role === 'user' ? 'bg-yellow-100 text-gray-900 border border-yellow-200' : 'bg-gray-100 dark:bg-gray-800 border border-gray-200/70 dark:border-gray-700'}`}>
                       <MarkdownRenderer content={m.content} />
+=======
+                    <div className={`rounded-2xl px-4 py-2 max-w-[80%] whitespace-pre-wrap break-words shadow ${m.role === 'user' ? 'bg-yellow-100 text-gray-900 border border-yellow-200' : 'bg-gray-100 dark:bg-gray-800 border border-gray-200/70 dark:border-gray-700'}`}>
+                      {m.content}
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
                     </div>
                     {m.role === 'user' && (
                       <div className="w-7 h-7 rounded-full bg-gray-800 text-white flex items-center justify-center shrink-0"><User className="w-4 h-4" /></div>
@@ -390,6 +449,10 @@ export default function BhuvisAIPage() {
                     </div>
                   </div>
                 )}
+<<<<<<< HEAD
+=======
+                <div ref={messagesEndRef} />
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
               </div>
 
               {/* Quick actions */}
@@ -437,6 +500,7 @@ export default function BhuvisAIPage() {
                       <button aria-label={`Remove ${v}`} onClick={() => setSelectedBudgets((prev) => prev.filter((x) => x !== v))} className="hover:text-red-600"><X className="w-3 h-3" /></button>
                     </span>
                   ))}
+<<<<<<< HEAD
                   {selectedPossession.map((v) => (
                     <span key={`pos-${v}`} className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-yellow-100 text-yellow-900 border border-yellow-200 text-xs">
                       {v}
@@ -455,6 +519,8 @@ export default function BhuvisAIPage() {
                       <button aria-label={`Remove ${v}`} onClick={() => setSelectedFurnishing((prev) => prev.filter((x) => x !== v))} className="hover:text-red-600"><X className="w-3 h-3" /></button>
                     </span>
                   ))}
+=======
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
                   <textarea
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
@@ -484,6 +550,7 @@ export default function BhuvisAIPage() {
             <div className="p-4 rounded-2xl border border-primary-200 dark:border-primary-800 bg-white/80 dark:bg-gray-900/60 backdrop-blur mb-4 shadow-soft relative z-[10001]">
               {/* Row 1: four filters */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-3">
+<<<<<<< HEAD
                 <Dropdown label="City" placeholder="Select City" options={cityOptions} values={selectedCities} onToggle={(opt) => {
                   const newCities = selectedCities.includes(opt) ? selectedCities.filter((v) => v !== opt) : [...selectedCities, opt];
                   setSelectedCities(newCities);
@@ -545,16 +612,36 @@ export default function BhuvisAIPage() {
                 ) : (
                   <Dropdown label="Furnishing" placeholder="Select Furnishing" options={furnishingOptions} values={[]} onToggle={() => {}} />
                 )}
+=======
+                <Dropdown label="City" placeholder="Select City" options={cityOptions} values={selectedCities} onToggle={(opt) => setSelectedCities((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
+                <Dropdown label="Locality / Area" placeholder="Select Locality" options={localityOptions} values={selectedLocalities} onToggle={(opt) => setSelectedLocalities((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
+                <Dropdown label="Property Type" placeholder="Select Type" options={propertyTypeOptions} values={selectedPropertyTypes} onToggle={(opt) => setSelectedPropertyTypes((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
+                <Dropdown label="Segment" placeholder="Select Segment" options={segmentOptions} values={selectedSegments} onToggle={(opt) => setSelectedSegments((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
+              </div>
+              {/* Row 2: four filters */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <Dropdown label="Budget Range" placeholder="Select Budget" options={budgetOptions} values={selectedBudgets} onToggle={(opt) => setSelectedBudgets((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
+                <Dropdown label="Possession" placeholder="Select Possession" options={possessionOptions} values={[]} onToggle={() => {}} />
+                <Dropdown label="BHK" placeholder="Select BHK" options={bhkOptions} values={[]} onToggle={() => {}} />
+                <Dropdown label="Furnishing" placeholder="Select Furnishing" options={furnishingOptions} values={[]} onToggle={() => {}} />
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
               </div>
             </div>
 
             {/* Map placed under the grid so it aligns to the right column while filters occupy top rows */}
             <div className="rounded-2xl overflow-hidden border border-primary-200 dark:border-primary-800 bg-white/80 dark:bg-gray-900/60 backdrop-blur aspect-square shadow-soft relative z-0 isolate">
               <div className="h-full">
+<<<<<<< HEAD
                 <MapContainer center={[18.5603, 73.7769]} zoom={12} scrollWheelZoom attributionControl={false} style={{ height: '100%', width: '100%' }}>
                   <MapInvalidate />
                   <TileLayer
                     attribution=""
+=======
+                <MapContainer center={[18.5603, 73.7769]} zoom={12} scrollWheelZoom style={{ height: '100%', width: '100%' }}>
+                  <MapInvalidate />
+                  <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+>>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   />
                   {markers.map((m, idx) => (
