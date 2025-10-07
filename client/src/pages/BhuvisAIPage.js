@@ -3,19 +3,13 @@ import { Send, User, Bot, Sparkles, MapPin, X, ChevronDown, Check } from 'lucide
 import { MapContainer, TileLayer, Marker, Tooltip, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-<<<<<<< HEAD
-import MarkdownRenderer from '../components/MarkdownRenderer';
-=======
->>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 // Dropdown button that opens a menu; click toggles a value then auto-closes
 const Dropdown = ({ label, placeholder, options, values, onToggle }) => {
   const [open, setOpen] = useState(false);
-<<<<<<< HEAD
   const btnText = values.length ? values.join(', ') : (placeholder || `Select ${label}`);
-=======
-  const btnText = values.length ? label : (placeholder || `Select ${label}`);
->>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
   return (
     <div className="flex flex-col gap-1 min-w-[120px] max-w-[180px] w-full mx-auto relative">
       <label className="text-xs font-semibold text-gray-600 dark:text-gray-300">{label}</label>
@@ -52,7 +46,6 @@ const Dropdown = ({ label, placeholder, options, values, onToggle }) => {
   );
 };
 
-<<<<<<< HEAD
 // Searchable dropdown for area selection
 const SearchableAreaDropdown = ({ label, placeholder, options, values, onToggle, searchTerm, onSearchChange }) => {
   const [open, setOpen] = useState(false);
@@ -112,8 +105,6 @@ const SearchableAreaDropdown = ({ label, placeholder, options, values, onToggle,
   );
 };
 
-=======
->>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
 const QuickAction = ({ label, onClick }) => (
   <button
     onClick={() => onClick(label)}
@@ -125,7 +116,6 @@ const QuickAction = ({ label, onClick }) => (
 
 export default function BhuvisAIPage() {
   // Filters (extensible)
-<<<<<<< HEAD
   const cityOptions = ['Pune'];
   
   // Comprehensive locality options by city
@@ -133,9 +123,9 @@ export default function BhuvisAIPage() {
     'Pune': [
       'Peth Areas', 'Shivaji Nagar', 'Deccan Gymkhana', 'Model Colony', 'Shaniwar Wada', 'Swargate', 'Tilak Road', 'Bhandarkar Road', 'Ganeshkhind Road', 'Gokhale Nagar', 'Senapati Bapat Road', 'Prabhat Road', 'Camp', 'Pulgate', 'Shankar Sheth Road', 'Bajirao Road', 'FC Road', 'JM Road', 'Laxmi Road', 'Sangamwadi', 'Khadki', 'Range Hills', 'Bhosale Nagar', 'Pune University', 'Bund Garden', 'Pune Railway Station', 'Tadiwala Road', 'Vishrantwadi', 'Dhanori', 'Lohegaon', 'Alandi', 'Dighi', 'Bopkhel', 'Charholi', 'Bhosari', 'Moshi', 'Chakan', 'Kurali', 'Rajgurunagar', 'Manchar', 'Yerwada', 'Tingre Nagar', '509 Area', 'Viman Nagar', 'Kharadi', 'Vadgaon Sheri', 'Hadapsar', 'Mundhwa', 'Koregaon Park', 'Kalyani Nagar', 'Wanwadi', 'Magarpatta', 'Shewalewadi', 'Manjari', 'Bhekrainagar', 'Phursungi', 'Lulla Nagar', 'Wagholi', 'Chandan Nagar', 'Nagar Road', 'Shikrapur', 'Lonikand', 'Uruli Kanchan', 'Loni Kalbhor', 'Talegaon Dhamdhere', 'Shirur', 'Yavat', 'Balaji Nagar', 'Katraj', 'Sinhagad Road', 'Vadgaon Budruk', 'Dhayari', 'Narhe Gaon', 'Ambegaon', 'Dhankawadi', 'Bibwewadi', 'Jambhulwadi', 'Khed Shivapur', 'Kapurhol', 'Upper Indira Nagar', 'Kondhwa', 'Khadakwasla', 'Yewalewadi', 'Saswad', 'Jejuri', 'Satara Road', 'Marketyard', 'Kothrud', 'Erandwane', 'Paud Road', 'Karve Road', 'Karve Nagar', 'Warje', 'Uttam Nagar', 'Bavdhan', 'Bhugaon', 'Pirangut', 'Pashan', 'Baner', 'Aundh', 'Sus', 'Mahalunge', 'Balewadi', 'Wakad', 'Hinjewadi', 'Thergaon', 'Rahatani', 'Pimple Nilakh', 'Pimple Gurav', 'Pimple Saudagar', 'Sangvi', 'Dapodi', 'Kasarwadi', 'Pimpri', 'Nehru Nagar', 'Chinchwad', 'Vallabh Nagar', 'Kalewadi', 'Tathawade', 'Punawale', 'Kiwale', 'Ravet', 'Akurdi', 'Walhekarwadi', 'Nigdi', 'Dehu Road', 'Chikhali', 'Talawade', 'Dehu', 'Talegaon Dabhade', 'Vadgaon', 'Lonavala', 'Gahunje', 'Kudalwadi'
     ],
-    'Mumbai': ['Bandra', 'Andheri', 'Powai', 'Malad', 'Goregaon', 'Borivali', 'Kandivali', 'Dahisar', 'Mira Road', 'Bhayandar', 'Thane', 'Navi Mumbai', 'Vashi', 'Nerul', 'Seawoods', 'Kharghar', 'Panvel', 'Kalyan', 'Dombivli', 'Ambernath', 'Badlapur', 'Ulhasnagar', 'Bhiwandi', 'Vasai', 'Virar', 'Nalasopara', 'Borivali West', 'Borivali East', 'Kandivali West', 'Kandivali East', 'Malad West', 'Malad East', 'Goregaon West', 'Goregaon East', 'Andheri West', 'Andheri East', 'Jogeshwari West', 'Jogeshwari East', 'Santacruz West', 'Santacruz East', 'Vile Parle West', 'Vile Parle East', 'Juhu', 'Versova', 'Lokhandwala', 'Oshiwara', 'Goregaon', 'Malad', 'Kandivali', 'Borivali', 'Dahisar', 'Mira Road', 'Bhayandar', 'Thane', 'Navi Mumbai', 'Vashi', 'Nerul', 'Seawoods', 'Kharghar', 'Panvel', 'Kalyan', 'Dombivli', 'Ambernath', 'Badlapur', 'Ulhasnagar', 'Bhiwandi', 'Vasai', 'Virar', 'Nalasopara'],
-    'Bengaluru': ['Whitefield', 'Koramangala', 'Indiranagar', 'HSR Layout', 'Electronic City', 'Marathahalli', 'Sarjapur', 'Bellandur', 'Kundalahalli', 'Brookefield', 'KR Puram', 'Hennur', 'Banashankari', 'Jayanagar', 'JP Nagar', 'Bannerghatta', 'Uttarahalli', 'Rajarajeshwari Nagar', 'Vijayanagar', 'Rajajinagar', 'Malleshwaram', 'Basavanagudi', 'Chamrajpet', 'Shivajinagar', 'Cubbon Park', 'MG Road', 'Brigade Road', 'Commercial Street', 'Residency Road', 'Richmond Road', 'Lavelle Road', 'St. Marks Road', 'Church Street', 'Cunningham Road', 'Vasanth Nagar', 'Fraser Town', 'Cox Town', 'Murphy Town', 'Richmond Town', 'Langford Town', 'Shantinagar', 'Domlur', 'Ulsoor', 'Halasuru', 'Sivanchetty Garden', 'Richmond Town', 'Cox Town', 'Murphy Town', 'Fraser Town', 'Richmond Town', 'Langford Town', 'Shantinagar', 'Domlur', 'Ulsoor', 'Halasuru', 'Sivanchetty Garden'],
-    'Hyderabad': ['Gachibowli', 'HITEC City', 'Kondapur', 'Madhapur', 'Jubilee Hills', 'Banjara Hills', 'Begumpet', 'Secunderabad', 'Ameerpet', 'Kukatpally', 'Miyapur', 'Chandanagar', 'Serilingampally', 'Nizampet', 'Bachupally', 'Quthbullapur', 'Balanagar', 'KPHB', 'Kukatpally', 'Miyapur', 'Chandanagar', 'Serilingampally', 'Nizampet', 'Bachupally', 'Quthbullapur', 'Balanagar', 'KPHB', 'Kukatpally', 'Miyapur', 'Chandanagar', 'Serilingampally', 'Nizampet', 'Bachupally', 'Quthbullapur', 'Balanagar', 'KPHB']
+    'Mumbai': ['Bandra', 'Andheri', 'Powai', 'Malad', 'Goregaon', 'Borivali', 'Kandivali', 'Dahisar', 'Mira Road', 'Bhayandar', 'Thane', 'Navi Mumbai', 'Vashi', 'Nerul', 'Seawoods', 'Kharghar', 'Panvel', 'Kalyan', 'Dombivli', 'Ambernath', 'Badlapur', 'Ulhasnagar', 'Bhiwandi', 'Vasai', 'Virar', 'Nalasopara'],
+    'Bengaluru': ['Whitefield', 'Koramangala', 'Indiranagar', 'HSR Layout', 'Electronic City', 'Marathahalli', 'Sarjapur', 'Bellandur', 'Kundalahalli', 'Brookefield', 'KR Puram', 'Hennur', 'Banashankari', 'Jayanagar', 'JP Nagar', 'Bannerghatta', 'Uttarahalli', 'Rajarajeshwari Nagar', 'Vijayanagar', 'Rajajinagar', 'Malleshwaram', 'Basavanagudi', 'Chamrajpet', 'Shivajinagar', 'Cubbon Park', 'MG Road', 'Brigade Road', 'Commercial Street', 'Residency Road', 'Richmond Road', 'Lavelle Road', 'St. Marks Road', 'Church Street', 'Cunningham Road', 'Vasanth Nagar', 'Fraser Town', 'Cox Town', 'Murphy Town', 'Richmond Town', 'Langford Town', 'Shantinagar', 'Domlur', 'Ulsoor', 'Halasuru', 'Sivanchetty Garden'],
+    'Hyderabad': ['Gachibowli', 'HITEC City', 'Kondapur', 'Madhapur', 'Jubilee Hills', 'Banjara Hills', 'Begumpet', 'Secunderabad', 'Ameerpet', 'Kukatpally', 'Miyapur', 'Chandanagar', 'Serilingampally', 'Nizampet', 'Bachupally', 'Quthbullapur', 'Balanagar', 'KPHB']
   };
   
   // Hierarchical filter options
@@ -147,27 +137,16 @@ export default function BhuvisAIPage() {
   };
   
   const budgetOptions = ['< ₹50L', '₹50L – ₹1Cr', '₹1Cr – ₹2Cr', '₹2Cr – ₹5Cr', '> ₹5Cr'];
-=======
-  const cityOptions = ['Pune', 'Mumbai', 'Bengaluru', 'Hyderabad'];
-  const localityOptions = ['Baner', 'Aundh', 'Kharadi', 'Hinjewadi'];
-  const propertyTypeOptions = ['Residential', 'Commercial'];
-  const segmentOptions = ['Apartment', 'Villa', 'Office', 'Plot'];
-  const budgetOptions = ['< ₹50L', '₹50L – ₹1Cr', '₹1Cr – ₹2Cr', '> ₹2Cr'];
->>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
   const possessionOptions = ['Ready to Move', 'Under Construction'];
   const bhkOptions = ['1 BHK', '2 BHK', '3 BHK', '4+ BHK'];
   const furnishingOptions = ['Unfurnished', 'Semi-furnished', 'Furnished'];
 
-<<<<<<< HEAD
   // State for hierarchical filters
-=======
->>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
   const [selectedCities, setSelectedCities] = useState(['Pune']);
   const [selectedLocalities, setSelectedLocalities] = useState(['Baner']);
   const [selectedPropertyTypes, setSelectedPropertyTypes] = useState(['Residential']);
   const [selectedSegments, setSelectedSegments] = useState(['Apartment']);
   const [selectedBudgets, setSelectedBudgets] = useState([]);
-<<<<<<< HEAD
   const [selectedPossession, setSelectedPossession] = useState([]);
   const [selectedBHK, setSelectedBHK] = useState([]);
   const [selectedFurnishing, setSelectedFurnishing] = useState([]);
@@ -236,8 +215,6 @@ export default function BhuvisAIPage() {
       setSelectedSegments(validSegments);
     }
   }, [selectedPropertyTypes, availableSegments]);
-=======
->>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
 
   // Conversations
   const [conversations, setConversations] = useState([
@@ -248,71 +225,145 @@ export default function BhuvisAIPage() {
 
   // Chat state
   const [messages, setMessages] = useState([
-<<<<<<< HEAD
-    { role: 'assistant', content: 'Hello! I\'m BhuvisAI, your dedicated **real estate consultant**. I specialize in helping you with **price per sqft**, **rental yields**, **capital appreciation**, and investment insights across Indian markets. How can I assist you with your real estate queries today?' }
+    { role: 'assistant', content: 'Hi! I am BhuvisAI. How can I help you explore real estate insights today?' }
   ]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const chatContainerRef = useRef(null);
+  
+  // Coordinates data for map redirection
+  const [coordinatesData, setCoordinatesData] = useState({});
+  const [mapCenter, setMapCenter] = useState([18.5603, 73.7769]); // Default Pune center
+  const [mapZoom, setMapZoom] = useState(12);
 
   useEffect(() => {
     // Scroll only the chat container, not the entire page
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
-=======
-    { role: 'assistant', content: 'Hi! I am BhuvisAI. How can I help you explore real estate insights today?' }
-  ]);
-  const [input, setInput] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
-  const messagesEndRef = useRef(null);
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
->>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
   }, [messages, isTyping]);
+
+  // Load coordinates data
+  useEffect(() => {
+    fetch('/pune-coordinates.json')
+      .then(response => response.json())
+      .then(data => {
+        setCoordinatesData(data);
+      })
+      .catch(error => {
+        console.error('Error loading coordinates:', error);
+      });
+  }, []);
+
+  // Update map when area is selected - show all selected areas
+  useEffect(() => {
+    if (selectedLocalities.length > 0 && Object.keys(coordinatesData).length > 0) {
+      // Get coordinates for all selected areas
+      const validCoordinates = selectedLocalities
+        .map(locality => {
+          const areaKey = locality.toLowerCase();
+          const coords = coordinatesData[areaKey];
+          return coords ? [coords.lat, coords.lng] : null;
+        })
+        .filter(Boolean);
+
+      if (validCoordinates.length > 0) {
+        if (validCoordinates.length === 1) {
+          // Single area - center on it with high zoom
+          setMapCenter(validCoordinates[0]);
+          setMapZoom(15);
+        } else {
+          // Multiple areas - calculate bounds to show all
+          const lats = validCoordinates.map(coord => coord[0]);
+          const lngs = validCoordinates.map(coord => coord[1]);
+          
+          const minLat = Math.min(...lats);
+          const maxLat = Math.max(...lats);
+          const minLng = Math.min(...lngs);
+          const maxLng = Math.max(...lngs);
+          
+          // Calculate center point
+          const centerLat = (minLat + maxLat) / 2;
+          const centerLng = (minLng + maxLng) / 2;
+          
+          // Calculate appropriate zoom level based on bounds
+          const latDiff = maxLat - minLat;
+          const lngDiff = maxLng - minLng;
+          const maxDiff = Math.max(latDiff, lngDiff);
+          
+          let zoom;
+          if (maxDiff > 0.1) zoom = 10;      // Very wide area
+          else if (maxDiff > 0.05) zoom = 11; // Wide area
+          else if (maxDiff > 0.02) zoom = 12; // Medium area
+          else if (maxDiff > 0.01) zoom = 13; // Close area
+          else zoom = 14; // Very close areas
+          
+          setMapCenter([centerLat, centerLng]);
+          setMapZoom(zoom);
+        }
+      }
+    } else {
+      // Reset to default Pune center when no area is selected
+      setMapCenter([18.5603, 73.7769]);
+      setMapZoom(12);
+    }
+  }, [selectedLocalities, coordinatesData]);
 
   // Page remains scrollable; no height syncing
 
   const markers = useMemo(() => {
-    // Basic demo markers grouped by locality
-    const base = {
-      Baner: [
-        { pos: [18.5603, 73.7769], label: 'Baner Central', price: '₹8,200', growth: '+3.1%', demand: 'High' },
-        { pos: [18.565, 73.78], label: 'Baner West', price: '₹7,900', growth: '+2.4%', demand: 'Medium' }
-      ],
-      Aundh: [
-        { pos: [18.56, 73.807], label: 'Aundh East', price: '₹9,100', growth: '+2.8%', demand: 'High' },
-        { pos: [18.565, 73.815], label: 'Aundh Central', price: '₹8,750', growth: '+3.0%', demand: 'High' }
-      ],
-      Kharadi: [
-        { pos: [18.551, 73.94], label: 'Kharadi IT Park', price: '₹9,800', growth: '+3.5%', demand: 'Very High' },
-      ],
-      Hinjewadi: [
-        { pos: [18.59, 73.73], label: 'Phase 1', price: '₹6,900', growth: '+2.2%', demand: 'Medium' },
-      ]
-    };
-    const locs = selectedLocalities.length ? selectedLocalities : ['Baner'];
-    return locs.flatMap((l) => base[l] || []);
-  }, [selectedLocalities]);
+    // Create markers for selected areas using coordinates data
+    if (selectedLocalities.length > 0 && Object.keys(coordinatesData).length > 0) {
+      const markers = selectedLocalities.map(locality => {
+        const areaKey = locality.toLowerCase();
+        const coords = coordinatesData[areaKey];
+        
+        if (coords) {
+          return {
+            pos: [coords.lat, coords.lng],
+            label: coords.name,
+            price: 'Selected Area',
+            growth: 'Active',
+            demand: 'Selected',
+            locality: locality
+          };
+        }
+        return null;
+      }).filter(Boolean);
+      
+      console.log(`Created ${markers.length} markers for areas:`, selectedLocalities);
+      return markers;
+    }
+    
+    // Default markers when no area is selected
+    return [
+      { pos: [18.5603, 73.7769], label: 'Pune Center', price: 'Default View', growth: 'Overview', demand: 'General', locality: 'Pune' }
+    ];
+  }, [selectedLocalities, coordinatesData]);
 
-  const quickActions = ['📈 Price Trends', '🏢 Best Office Spaces', '🚀 Top Investment Areas'];
-
-  const firstCity = selectedCities[0] ?? 'Pune';
-  const firstLocality = selectedLocalities[0] ?? 'Baner';
-
-  // Custom marker icon (replace with a direct PNG URL if desired)
-  const markerImageUrl = 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png';
-  const customIcon = useMemo(() => {
-    return L.icon({
-      iconUrl: markerImageUrl,
+  // Custom icons for markers - different colors for multiple selections
+  const getMarkerIcon = (index, total) => {
+    // Using a more comprehensive color palette with verified available colors
+    const colors = [
+      'red', 'blue', 'green', 'orange', 'purple', 
+      'darkred', 'lightred', 'beige', 'darkblue', 'darkgreen',
+      'pink', 'yellow', 'violet', 'gold', 'silver'
+    ];
+    const color = colors[index % colors.length];
+    
+    // Debug log to see which colors are being used
+    console.log(`Marker ${index + 1}/${total}: Using color ${color}`);
+    
+    // Create icon with proper configuration
+    return new L.Icon({
+      iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${color}.png`,
+      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
       iconSize: [25, 41],
       iconAnchor: [12, 41],
-      className: 'leaflet-marker-icon leaflet-zoom-animated leaflet-interactive'
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
     });
-  }, [markerImageUrl]);
-
-<<<<<<< HEAD
+  };
 
   const handleSend = async (text) => {
     const content = (text ?? input).trim();
@@ -342,12 +393,6 @@ export default function BhuvisAIPage() {
     }
     
     setMessages((prev) => [...prev, { role: 'user', content: userMessage }]);
-=======
-  const handleSend = async (text) => {
-    const content = (text ?? input).trim();
-    if (!content) return;
-    setMessages((prev) => [...prev, { role: 'user', content }]);
->>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
     setInput('');
     setIsTyping(true);
 
@@ -356,24 +401,16 @@ export default function BhuvisAIPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-<<<<<<< HEAD
           prompt: content || 'Show me properties based on the selected filters',
-=======
-          prompt: content,
->>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
           filters: {
             cities: selectedCities,
             localities: selectedLocalities,
             propertyTypes: selectedPropertyTypes,
             segments: selectedSegments,
-<<<<<<< HEAD
             budgets: selectedBudgets,
             possession: selectedPossession,
             bhk: selectedBHK,
             furnishing: selectedFurnishing
-=======
-            budgets: selectedBudgets
->>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
           }
         })
       });
@@ -389,7 +426,7 @@ export default function BhuvisAIPage() {
   };
 
   const handlePinClick = (m) => {
-    handleSend(`Tell me about ${m.label} in ${firstLocality}, ${firstCity}.`);
+    handleSend(`Tell me about ${m.label} in ${m.locality}, Pune.`);
   };
 
   // Ensures Leaflet recalculates size when mounted/resized
@@ -404,6 +441,37 @@ export default function BhuvisAIPage() {
     return null;
   };
 
+  // Component to update map center and zoom
+  const MapUpdater = ({ center, zoom, markers }) => {
+    const map = useMap();
+    
+    useEffect(() => {
+      if (center && center.length === 2) {
+        if (markers && markers.length > 1) {
+          // For multiple markers, fit bounds to show all
+          const bounds = L.latLngBounds(markers.map(m => m.pos));
+          map.fitBounds(bounds, { padding: [20, 20] });
+        } else {
+          // Single marker or no markers, use center and zoom
+          map.setView(center, zoom);
+        }
+      }
+    }, [map, center, zoom, markers]);
+    
+    return null;
+  };
+
+  const quickActions = [
+    'Show me properties in Baner',
+    'What\'s the rental yield in Pune?',
+    'Price trends in Hinjewadi',
+    'Investment opportunities'
+  ];
+
+  // Get first selected city and locality for display
+  const firstCity = selectedCities[0] || 'Pune';
+  const firstLocality = selectedLocalities[0] || 'Baner';
+
   return (
     <div className="relative min-h-screen bg-gray-50 dark:bg-gray-950 pt-6 lg:pt-8">
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1554469384-e58fac16e23a?w=1200')] bg-cover bg-center opacity-15 pointer-events-none"></div>
@@ -414,23 +482,86 @@ export default function BhuvisAIPage() {
             {/* Chat window */}
             <div className="rounded-2xl border border-primary-200 dark:border-primary-800 bg-white/80 dark:bg-gray-900/60 backdrop-blur p-4 flex flex-col min-h-[80vh] lg:h-[calc(100vh-6rem)] overflow-hidden shadow-soft">
               {/* Messages area scrolls inside chat card */}
-<<<<<<< HEAD
-              <div ref={chatContainerRef} className="flex-1 overflow-y-auto space-y-2 pr-2 scroll-smooth">
-=======
-              <div className="flex-1 overflow-y-auto space-y-2 pr-2 scroll-smooth">
->>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
+              <div ref={chatContainerRef} className="flex-1 overflow-y-auto space-y-4 px-4 pb-4 scroll-smooth relative">
+                {/* Subtle fade at top */}
+                <div className="absolute top-0 left-0 right-0 h-4 bg-gradient-to-b from-white/80 to-transparent dark:from-gray-900/80 pointer-events-none z-10"></div>
+                {/* Subtle fade at bottom */}
+                <div className="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-white/80 to-transparent dark:from-gray-900/80 pointer-events-none z-10"></div>
                 {messages.map((m, idx) => (
-                  <div key={idx} className={`flex items-start gap-2 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div key={idx} className={`flex items-start gap-2 ${m.role === 'user' ? 'justify-end' : 'justify-start'} animate-slide-up`}>
                     {m.role === 'assistant' && (
                       <div className="w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center shrink-0"><Bot className="w-4 h-4" /></div>
                     )}
-<<<<<<< HEAD
                     <div className={`rounded-2xl px-4 py-2 max-w-[80%] break-words shadow ${m.role === 'user' ? 'bg-yellow-100 text-gray-900 border border-yellow-200' : 'bg-gray-100 dark:bg-gray-800 border border-gray-200/70 dark:border-gray-700'}`}>
-                      <MarkdownRenderer content={m.content} />
-=======
-                    <div className={`rounded-2xl px-4 py-2 max-w-[80%] whitespace-pre-wrap break-words shadow ${m.role === 'user' ? 'bg-yellow-100 text-gray-900 border border-yellow-200' : 'bg-gray-100 dark:bg-gray-800 border border-gray-200/70 dark:border-gray-700'}`}>
-                      {m.content}
->>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
+                      {m.role === 'assistant' ? (
+                        <div className="prose max-w-none text-gray-900 dark:text-gray-100 leading-relaxed overflow-y-auto">
+                          <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            components={{
+                              h2: ({ children }) => (
+                                <h2 className="text-xl font-bold mt-4 mb-3 border-b-2 border-gray-400 dark:border-gray-500 pb-2 text-gray-900 dark:text-white">
+                                  {children}
+                                </h2>
+                              ),
+                              h3: ({ children }) => (
+                                <h3 className="text-lg font-bold mt-4 mb-2 border-b border-gray-300 dark:border-gray-600 pb-1 text-gray-900 dark:text-white">
+                                  {children}
+                                </h3>
+                              ),
+                              h4: ({ children }) => (
+                                <h4 className="text-md font-semibold mt-2 mb-1 ml-2 text-blue-600 dark:text-blue-400">
+                                  {children}
+                                </h4>
+                              ),
+                              p: ({ children }) => {
+                                const text = children?.toString() || '';
+                                // Check if paragraph starts with bullet point
+                                if (text.startsWith('•')) {
+                                  return <li className="mb-2 leading-relaxed list-disc ml-6">{children}</li>;
+                                }
+                                return <p className="mb-2">{children}</p>;
+                              },
+                              ul: ({ children }) => <ul className="list-disc ml-6 mt-2 mb-4 space-y-2">{children}</ul>,
+                              ol: ({ children }) => <ol className="list-decimal ml-6 mt-2 mb-4 space-y-2">{children}</ol>,
+                              li: ({ children }) => <li className="ml-2 mb-1 leading-relaxed">{children}</li>,
+                              table: ({ children }) => (
+                                <div className="overflow-x-auto my-4">
+                                  <table className="min-w-full border border-gray-400 dark:border-gray-600 text-sm rounded-md">
+                                    {children}
+                                  </table>
+                                </div>
+                              ),
+                              th: ({ children }) => (
+                                <th className="border border-gray-400 dark:border-gray-600 px-3 py-2 font-semibold bg-gray-200 dark:bg-gray-800 text-left text-gray-900 dark:text-white">
+                                  {children}
+                                </th>
+                              ),
+                              td: ({ children }) => (
+                                <td className="border border-gray-400 dark:border-gray-600 px-3 py-2 text-gray-800 dark:text-gray-200">
+                                  {children}
+                                </td>
+                              ),
+                              strong: ({ children }) => <strong className="font-semibold text-gray-900 dark:text-white">{children}</strong>,
+                              br: () => <br />,
+                              code: ({ children }) => <code className="bg-gray-200 dark:bg-gray-700 px-1 py-0.5 rounded text-sm font-mono">{children}</code>,
+                              blockquote: ({ children }) => <blockquote className="border-l-4 border-gray-300 dark:border-gray-600 pl-4 italic my-2">{children}</blockquote>,
+                            }}
+                          >
+                            {m.content
+                              ?.replace(/\[\d+\]/g, "") // remove [1], [2], etc.
+                              ?.replace(/\n?•\s*•/g, "\n- ") // remove duplicate bullets
+                              ?.replace(/\n?•/g, "\n- ") // ensure each bullet starts on a new line
+                              ?.replace(/([^#\n])(##\s)/g, "$1\n\n$2") // add line break before ## headers
+                              ?.replace(/([^#\n])(###\s)/g, "$1\n\n$2") // add line break before ### headers
+                              ?.replace(/([^#\n])(####\s)/g, "$1\n\n$2") // add line break before #### headers
+                              ?.replace(/([^#\n])(#####\s)/g, "$1\n\n$2") // add line break before ##### headers
+                              ?.replace(/\n\s*\n/g, "\n\n") // clean up extra line breaks
+                              ?.trim()}
+                          </ReactMarkdown>
+                        </div>
+                      ) : (
+                        <div className="whitespace-pre-wrap">{m.content}</div>
+                      )}
                     </div>
                     {m.role === 'user' && (
                       <div className="w-7 h-7 rounded-full bg-gray-800 text-white flex items-center justify-center shrink-0"><User className="w-4 h-4" /></div>
@@ -449,10 +580,6 @@ export default function BhuvisAIPage() {
                     </div>
                   </div>
                 )}
-<<<<<<< HEAD
-=======
-                <div ref={messagesEndRef} />
->>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
               </div>
 
               {/* Quick actions */}
@@ -476,8 +603,9 @@ export default function BhuvisAIPage() {
                       <button aria-label={`Remove ${v}`} onClick={() => setSelectedCities((prev) => prev.filter((x) => x !== v))} className="hover:text-red-600"><X className="w-3 h-3" /></button>
                     </span>
                   ))}
-                  {selectedLocalities.map((v) => (
+                  {selectedLocalities.map((v, idx) => (
                     <span key={`loc-${v}`} className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-yellow-100 text-yellow-900 border border-yellow-200 text-xs">
+                      <span className="w-4 h-4 rounded-full bg-blue-600 text-white text-xs flex items-center justify-center font-bold">#{idx + 1}</span>
                       {v}
                       <button aria-label={`Remove ${v}`} onClick={() => setSelectedLocalities((prev) => prev.filter((x) => x !== v))} className="hover:text-red-600"><X className="w-3 h-3" /></button>
                     </span>
@@ -500,7 +628,6 @@ export default function BhuvisAIPage() {
                       <button aria-label={`Remove ${v}`} onClick={() => setSelectedBudgets((prev) => prev.filter((x) => x !== v))} className="hover:text-red-600"><X className="w-3 h-3" /></button>
                     </span>
                   ))}
-<<<<<<< HEAD
                   {selectedPossession.map((v) => (
                     <span key={`pos-${v}`} className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-yellow-100 text-yellow-900 border border-yellow-200 text-xs">
                       {v}
@@ -519,8 +646,6 @@ export default function BhuvisAIPage() {
                       <button aria-label={`Remove ${v}`} onClick={() => setSelectedFurnishing((prev) => prev.filter((x) => x !== v))} className="hover:text-red-600"><X className="w-3 h-3" /></button>
                     </span>
                   ))}
-=======
->>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
                   <textarea
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
@@ -550,11 +675,7 @@ export default function BhuvisAIPage() {
             <div className="p-4 rounded-2xl border border-primary-200 dark:border-primary-800 bg-white/80 dark:bg-gray-900/60 backdrop-blur mb-4 shadow-soft relative z-[10001]">
               {/* Row 1: four filters */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-3">
-<<<<<<< HEAD
-                <Dropdown label="City" placeholder="Select City" options={cityOptions} values={selectedCities} onToggle={(opt) => {
-                  const newCities = selectedCities.includes(opt) ? selectedCities.filter((v) => v !== opt) : [...selectedCities, opt];
-                  setSelectedCities(newCities);
-                }} />
+                <Dropdown label="City" placeholder="Select City" options={cityOptions} values={selectedCities} onToggle={(opt) => setSelectedCities((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
                 <SearchableAreaDropdown 
                   label="Area" 
                   placeholder="Select Area" 
@@ -562,93 +683,39 @@ export default function BhuvisAIPage() {
                   values={selectedLocalities} 
                   searchTerm={areaSearchTerm}
                   onSearchChange={setAreaSearchTerm}
-                  onToggle={(opt) => {
-                    const newLocalities = selectedLocalities.includes(opt) ? selectedLocalities.filter((v) => v !== opt) : [...selectedLocalities, opt];
-                    setSelectedLocalities(newLocalities);
-                  }} 
+                  onToggle={(opt) => setSelectedLocalities((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} 
                 />
-                <Dropdown label="Property Type" placeholder="Select Type" options={propertyTypeOptions} values={selectedPropertyTypes} onToggle={(opt) => {
-                  const newPropertyTypes = selectedPropertyTypes.includes(opt) ? selectedPropertyTypes.filter((v) => v !== opt) : [...selectedPropertyTypes, opt];
-                  setSelectedPropertyTypes(newPropertyTypes);
-                }} />
-                <Dropdown label="Segment" placeholder="Select Segment" options={availableSegments} values={selectedSegments} onToggle={(opt) => {
-                  const newSegments = selectedSegments.includes(opt) ? selectedSegments.filter((v) => v !== opt) : [...selectedSegments, opt];
-                  setSelectedSegments(newSegments);
-                }} />
-              </div>
-              {/* Row 2: four filters */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <Dropdown label="Budget Range" placeholder="Select Budget" options={budgetOptions} values={selectedBudgets} onToggle={(opt) => {
-                  const newBudgets = selectedBudgets.includes(opt) ? selectedBudgets.filter((v) => v !== opt) : [...selectedBudgets, opt];
-                  setSelectedBudgets(newBudgets);
-                }} />
-                
-                {/* Show Possession for most property types */}
-                {(selectedPropertyTypes.includes('Residential') || selectedPropertyTypes.includes('Commercial')) ? (
-                  <Dropdown label="Possession" placeholder="Select Possession" options={possessionOptions} values={selectedPossession} onToggle={(opt) => {
-                    const newPossession = selectedPossession.includes(opt) ? selectedPossession.filter((v) => v !== opt) : [...selectedPossession, opt];
-                    setSelectedPossession(newPossession);
-                  }} />
-                ) : (
-                  <Dropdown label="Possession" placeholder="Select Possession" options={possessionOptions} values={[]} onToggle={() => {}} />
-                )}
-                
-                {/* Show BHK only for Residential Apartment */}
-                {selectedPropertyTypes.includes('Residential') && selectedSegments.includes('Apartment') ? (
-                  <Dropdown label="BHK" placeholder="Select BHK" options={bhkOptions} values={selectedBHK} onToggle={(opt) => {
-                    const newBHK = selectedBHK.includes(opt) ? selectedBHK.filter((v) => v !== opt) : [...selectedBHK, opt];
-                    setSelectedBHK(newBHK);
-                  }} />
-                ) : (
-                  <Dropdown label="BHK" placeholder="Select BHK" options={bhkOptions} values={[]} onToggle={() => {}} />
-                )}
-                
-                {/* Show Furnishing for Apartment, Villa, and Office */}
-                {(selectedSegments.includes('Apartment') || selectedSegments.includes('Villa') || selectedSegments.includes('Office')) ? (
-                  <Dropdown label="Furnishing" placeholder="Select Furnishing" options={furnishingOptions} values={selectedFurnishing} onToggle={(opt) => {
-                    const newFurnishing = selectedFurnishing.includes(opt) ? selectedFurnishing.filter((v) => v !== opt) : [...selectedFurnishing, opt];
-                    setSelectedFurnishing(newFurnishing);
-                  }} />
-                ) : (
-                  <Dropdown label="Furnishing" placeholder="Select Furnishing" options={furnishingOptions} values={[]} onToggle={() => {}} />
-                )}
-=======
-                <Dropdown label="City" placeholder="Select City" options={cityOptions} values={selectedCities} onToggle={(opt) => setSelectedCities((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
-                <Dropdown label="Locality / Area" placeholder="Select Locality" options={localityOptions} values={selectedLocalities} onToggle={(opt) => setSelectedLocalities((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
                 <Dropdown label="Property Type" placeholder="Select Type" options={propertyTypeOptions} values={selectedPropertyTypes} onToggle={(opt) => setSelectedPropertyTypes((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
-                <Dropdown label="Segment" placeholder="Select Segment" options={segmentOptions} values={selectedSegments} onToggle={(opt) => setSelectedSegments((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
+                <Dropdown label="Segment" placeholder="Select Segment" options={availableSegments} values={selectedSegments} onToggle={(opt) => setSelectedSegments((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
               </div>
               {/* Row 2: four filters */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <Dropdown label="Budget Range" placeholder="Select Budget" options={budgetOptions} values={selectedBudgets} onToggle={(opt) => setSelectedBudgets((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
-                <Dropdown label="Possession" placeholder="Select Possession" options={possessionOptions} values={[]} onToggle={() => {}} />
-                <Dropdown label="BHK" placeholder="Select BHK" options={bhkOptions} values={[]} onToggle={() => {}} />
-                <Dropdown label="Furnishing" placeholder="Select Furnishing" options={furnishingOptions} values={[]} onToggle={() => {}} />
->>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
+                <Dropdown label="Possession" placeholder="Select Possession" options={possessionOptions} values={selectedPossession} onToggle={(opt) => setSelectedPossession((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
+                <Dropdown label="BHK" placeholder="Select BHK" options={bhkOptions} values={selectedBHK} onToggle={(opt) => setSelectedBHK((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
+                <Dropdown label="Furnishing" placeholder="Select Furnishing" options={furnishingOptions} values={selectedFurnishing} onToggle={(opt) => setSelectedFurnishing((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
               </div>
             </div>
 
             {/* Map placed under the grid so it aligns to the right column while filters occupy top rows */}
             <div className="rounded-2xl overflow-hidden border border-primary-200 dark:border-primary-800 bg-white/80 dark:bg-gray-900/60 backdrop-blur aspect-square shadow-soft relative z-0 isolate">
               <div className="h-full">
-<<<<<<< HEAD
-                <MapContainer center={[18.5603, 73.7769]} zoom={12} scrollWheelZoom attributionControl={false} style={{ height: '100%', width: '100%' }}>
+                <MapContainer center={mapCenter} zoom={mapZoom} scrollWheelZoom style={{ height: '100%', width: '100%' }}>
                   <MapInvalidate />
-                  <TileLayer
-                    attribution=""
-=======
-                <MapContainer center={[18.5603, 73.7769]} zoom={12} scrollWheelZoom style={{ height: '100%', width: '100%' }}>
-                  <MapInvalidate />
+                  <MapUpdater center={mapCenter} zoom={mapZoom} markers={markers} />
                   <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
->>>>>>> 7a85de31614111dab2a2256418ad97f00cb547fd
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   />
                   {markers.map((m, idx) => (
-                    <Marker key={idx} position={m.pos} icon={customIcon} eventHandlers={{ click: () => handlePinClick(m) }}>
+                    <Marker key={idx} position={m.pos} icon={getMarkerIcon(idx, markers.length)} eventHandlers={{ click: () => handlePinClick(m) }}>
                       <Tooltip direction="top" offset={[0, -12]} opacity={1} permanent={false}>
                         <div className="text-xs">
-                          <div className="font-semibold flex items-center gap-1"><MapPin className="w-3 h-3" /> {m.label}</div>
+                          <div className="font-semibold flex items-center gap-1">
+                            <MapPin className="w-3 h-3" /> 
+                            {m.label} 
+                            <span className="text-xs bg-gray-200 px-1 rounded">#{idx + 1}</span>
+                          </div>
                           <div>Avg: {m.price}</div>
                           <div>Growth: {m.growth}</div>
                           <div>Demand: {m.demand}</div>

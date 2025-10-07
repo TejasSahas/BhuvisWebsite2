@@ -1,0 +1,672 @@
+{
+  "peth areas": {
+    "lat": 18.511373,
+    "lng": 73.865247,
+    "name": "Peth Areas"
+  },
+  "shivaji nagar": {
+    "lat": 18.530263,
+    "lng": 73.849859,
+    "name": "Shivaji Nagar"
+  },
+  "deccan gymkhana": {
+    "lat": 18.516544,
+    "lng": 73.836602,
+    "name": "Deccan Gymkhana"
+  },
+  "model colony": {
+    "lat": 18.532485,
+    "lng": 73.837495,
+    "name": "Model Colony"
+  },
+  "shaniwar wada": {
+    "lat": 18.519584,
+    "lng": 73.855421,
+    "name": "Shaniwar Wada"
+  },
+  "swargate": {
+    "lat": 18.501832,
+    "lng": 73.863591,
+    "name": "Swargate"
+  },
+  "tilak road": {
+    "lat": 18.506795,
+    "lng": 73.851707,
+    "name": "Tilak Road"
+  },
+  "bhandarkar road": {
+    "lat": 18.518082,
+    "lng": 73.836146,
+    "name": "Bhandarkar Road"
+  },
+  "ganeshkhind road": {
+    "lat": 18.533993,
+    "lng": 73.839947,
+    "name": "Ganeshkhind Road"
+  },
+  "gokhale nagar": {
+    "lat": 18.529152,
+    "lng": 73.827086,
+    "name": "Gokhale Nagar"
+  },
+  "senapati bapat road": {
+    "lat": 18.525208,
+    "lng": 73.829623,
+    "name": "Senapati Bapat Road"
+  },
+  "prabhat road": {
+    "lat": 18.514006,
+    "lng": 73.835347,
+    "name": "Prabhat Road"
+  },
+  "camp": {
+    "lat": 18.513675,
+    "lng": 73.879858,
+    "name": "Camp"
+  },
+  "pulgate": {
+    "lat": 18.50608,
+    "lng": 73.881977,
+    "name": "Pulgate"
+  },
+  "shankar sheth road": {
+    "lat": 18.499969,
+    "lng": 73.863698,
+    "name": "Shankar Sheth Road"
+  },
+  "bajirao road": {
+    "lat": 18.515574,
+    "lng": 73.853784,
+    "name": "Bajirao Road"
+  },
+  "fc road": {
+    "lat": 18.525231,
+    "lng": 73.841501,
+    "name": "FC Road"
+  },
+  "jm road": {
+    "lat": 18.522379,
+    "lng": 73.847778,
+    "name": "JM Road"
+  },
+  "laxmi road": {
+    "lat": 18.514541,
+    "lng": 73.853779,
+    "name": "Laxmi Road"
+  },
+  "sangamwadi": {
+    "lat": 18.533976,
+    "lng": 73.860017,
+    "name": "Sangamwadi"
+  },
+  "khadki": {
+    "lat": 18.562599,
+    "lng": 73.852358,
+    "name": "Khadki"
+  },
+  "range hills": {
+    "lat": 18.549797,
+    "lng": 73.839557,
+    "name": "Range Hills"
+  },
+  "bhosale nagar": {
+    "lat": 18.544205,
+    "lng": 73.835658,
+    "name": "Bhosale Nagar"
+  },
+  "pune university": {
+    "lat": 18.555116,
+    "lng": 73.822893,
+    "name": "Pune University"
+  },
+  "bund garden": {
+    "lat": 18.542093,
+    "lng": 73.8816,
+    "name": "Bund Garden"
+  },
+  "pune railway station": {
+    "lat": 18.528897,
+    "lng": 73.866532,
+    "name": "Pune Railway Station"
+  },
+  "tadiwala road": {
+    "lat": 18.537416,
+    "lng": 73.873194,
+    "name": "Tadiwala Road"
+  },
+  "vishrantwadi": {
+    "lat": 18.572605,
+    "lng": 73.878208,
+    "name": "Vishrantwadi"
+  },
+  "dhanori": {
+    "lat": 18.596759,
+    "lng": 73.896851,
+    "name": "Dhanori"
+  },
+  "lohegaon": {
+    "lat": 18.59447,
+    "lng": 73.927589,
+    "name": "Lohegaon"
+  },
+  "alandi": {
+    "lat": 18.678287,
+    "lng": 73.895034,
+    "name": "Alandi"
+  },
+  "dighi": {
+    "lat": 18.61487,
+    "lng": 73.872987,
+    "name": "Dighi"
+  },
+  "bopkhel": {
+    "lat": 18.594212,
+    "lng": 73.846491,
+    "name": "Bopkhel"
+  },
+  "charholi": {
+    "lat": 18.653724,
+    "lng": 73.907747,
+    "name": "Charholi"
+  },
+  "bhosari": {
+    "lat": 18.632063,
+    "lng": 73.846798,
+    "name": "Bhosari"
+  },
+  "moshi": {
+    "lat": 18.67937,
+    "lng": 73.849181,
+    "name": "Moshi"
+  },
+  "chakan": {
+    "lat": 18.763208,
+    "lng": 73.86132,
+    "name": "Chakan"
+  },
+  "kurali": {
+    "lat": 18.716423,
+    "lng": 73.842401,
+    "name": "Kurali"
+  },
+  "rajgurunagar": {
+    "lat": 18.854321,
+    "lng": 73.887601,
+    "name": "Rajgurunagar"
+  },
+  "manchar": {
+    "lat": 19.004693,
+    "lng": 73.946866,
+    "name": "Manchar"
+  },
+  "yerwada": {
+    "lat": 18.552923,
+    "lng": 73.879711,
+    "name": "Yerwada"
+  },
+  "tingre nagar": {
+    "lat": 18.575865,
+    "lng": 73.893083,
+    "name": "Tingre Nagar"
+  },
+  "509 area": {
+    "lat": 18.573359,
+    "lng": 73.897402,
+    "name": "509 Area"
+  },
+  "viman nagar": {
+    "lat": 18.567855,
+    "lng": 73.914364,
+    "name": "Viman Nagar"
+  },
+  "kharadi": {
+    "lat": 18.553931,
+    "lng": 73.947626,
+    "name": "Kharadi"
+  },
+  "vadgaon sheri": {
+    "lat": 18.549148,
+    "lng": 73.918503,
+    "name": "Vadgaon Sheri"
+  },
+  "hadapsar": {
+    "lat": 18.508934,
+    "lng": 73.92591,
+    "name": "Hadapsar"
+  },
+  "mundhwa": {
+    "lat": 18.533032,
+    "lng": 73.933003,
+    "name": "Mundhwa"
+  },
+  "koregaon park": {
+    "lat": 18.536208,
+    "lng": 73.893975,
+    "name": "Koregaon Park"
+  },
+  "kalyani nagar": {
+    "lat": 18.546231,
+    "lng": 73.903951,
+    "name": "Kalyani Nagar"
+  },
+  "wanwadi": {
+    "lat": 18.492229,
+    "lng": 73.90002,
+    "name": "Wanwadi"
+  },
+  "magarpatta": {
+    "lat": 18.515806,
+    "lng": 73.927164,
+    "name": "Magarpatta"
+  },
+  "shewalewadi": {
+    "lat": 18.490339,
+    "lng": 73.970205,
+    "name": "Shewalewadi"
+  },
+  "manjari": {
+    "lat": 18.524256,
+    "lng": 73.985257,
+    "name": "Manjari"
+  },
+  "bhekrainagar": {
+    "lat": 18.481958,
+    "lng": 73.952147,
+    "name": "Bhekrainagar"
+  },
+  "phursungi": {
+    "lat": 18.472673,
+    "lng": 73.978457,
+    "name": "Phursungi"
+  },
+  "lulla nagar": {
+    "lat": 18.485267,
+    "lng": 73.88362,
+    "name": "Lulla Nagar"
+  },
+  "wagholi": {
+    "lat": 18.580772,
+    "lng": 73.978706,
+    "name": "Wagholi"
+  },
+  "chandan nagar": {
+    "lat": 18.563551,
+    "lng": 73.932555,
+    "name": "Chandan Nagar"
+  },
+  "nagar road": {
+    "lat": 18.565042,
+    "lng": 73.943489,
+    "name": "Nagar Road"
+  },
+  "shikrapur": {
+    "lat": 18.692369,
+    "lng": 74.132313,
+    "name": "Shikrapur"
+  },
+  "lonikand": {
+    "lat": 18.615574,
+    "lng": 74.02834,
+    "name": "Lonikand"
+  },
+  "uruli kanchan": {
+    "lat": 18.487426,
+    "lng": 74.133372,
+    "name": "Uruli Kanchan"
+  },
+  "loni kalbhor": {
+    "lat": 18.487851,
+    "lng": 74.023414,
+    "name": "Loni Kalbhor"
+  },
+  "talegaon dhamdhere": {
+    "lat": 18.67047,
+    "lng": 74.148598,
+    "name": "Talegaon Dhamdhere"
+  },
+  "shirur": {
+    "lat": 18.824977,
+    "lng": 74.377552,
+    "name": "Shirur"
+  },
+  "yavat": {
+    "lat": 18.476695,
+    "lng": 74.26761,
+    "name": "Yavat"
+  },
+  "balaji nagar": {
+    "lat": 18.464632,
+    "lng": 73.860284,
+    "name": "Balaji Nagar"
+  },
+  "katraj": {
+    "lat": 18.452932,
+    "lng": 73.865238,
+    "name": "Katraj"
+  },
+  "sinhagad road": {
+    "lat": 18.453839,
+    "lng": 73.803032,
+    "name": "Sinhagad Road"
+  },
+  "vadgaon budruk": {
+    "lat": 18.465981,
+    "lng": 73.824631,
+    "name": "Vadgaon Budruk"
+  },
+  "dhayari": {
+    "lat": 18.447144,
+    "lng": 73.8102,
+    "name": "Dhayari"
+  },
+  "narhe gaon": {
+    "lat": 18.446473,
+    "lng": 73.826375,
+    "name": "Narhe Gaon"
+  },
+  "ambegaon": {
+    "lat": 18.456677,
+    "lng": 73.830628,
+    "name": "Ambegaon"
+  },
+  "dhankawadi": {
+    "lat": 18.465455,
+    "lng": 73.854682,
+    "name": "Dhankawadi"
+  },
+  "bibwewadi": {
+    "lat": 18.469021,
+    "lng": 73.864094,
+    "name": "Bibwewadi"
+  },
+  "jambhulwadi": {
+    "lat": 18.426849,
+    "lng": 73.839701,
+    "name": "Jambhulwadi"
+  },
+  "khed shivapur": {
+    "lat": 18.339046,
+    "lng": 73.839701,
+    "name": "Khed Shivapur"
+  },
+  "kapurhol": {
+    "lat": 18.231559,
+    "lng": 73.911733,
+    "name": "Kapurhol"
+  },
+  "upper indira nagar": {
+    "lat": 18.463813,
+    "lng": 73.864464,
+    "name": "Upper Indira Nagar"
+  },
+  "kondhwa": {
+    "lat": 18.469509,
+    "lng": 73.888978,
+    "name": "Kondhwa"
+  },
+  "khadakwasla": {
+    "lat": 18.445413,
+    "lng": 73.780145,
+    "name": "Khadakwasla"
+  },
+  "yewalewadi": {
+    "lat": 18.436321,
+    "lng": 73.89635,
+    "name": "Yewalewadi"
+  },
+  "saswad": {
+    "lat": 18.346313,
+    "lng": 74.030183,
+    "name": "Saswad"
+  },
+  "jejuri": {
+    "lat": 18.2781,
+    "lng": 74.161219,
+    "name": "Jejuri"
+  },
+  "satara road": {
+    "lat": 18.119036,
+    "lng": 73.987213,
+    "name": "Satara Road"
+  },
+  "marketyard": {
+    "lat": 18.487654,
+    "lng": 73.86837,
+    "name": "Marketyard"
+  },
+  "kothrud": {
+    "lat": 18.507351,
+    "lng": 73.807654,
+    "name": "Kothrud"
+  },
+  "erandwane": {
+    "lat": 18.508643,
+    "lng": 73.831409,
+    "name": "Erandwane"
+  },
+  "paud road": {
+    "lat": 18.50847,
+    "lng": 73.793381,
+    "name": "Paud Road"
+  },
+  "karve road": {
+    "lat": 18.499903,
+    "lng": 73.813867,
+    "name": "Karve Road"
+  },
+  "karve nagar": {
+    "lat": 18.491488,
+    "lng": 73.821729,
+    "name": "Karve Nagar"
+  },
+  "warje": {
+    "lat": 18.486473,
+    "lng": 73.796834,
+    "name": "Warje"
+  },
+  "uttam nagar": {
+    "lat": 18.461464,
+    "lng": 73.773099,
+    "name": "Uttam Nagar"
+  },
+  "bavdhan": {
+    "lat": 18.513463,
+    "lng": 73.769858,
+    "name": "Bavdhan"
+  },
+  "bhugaon": {
+    "lat": 18.501116,
+    "lng": 73.750767,
+    "name": "Bhugaon"
+  },
+  "pirangut": {
+    "lat": 18.513017,
+    "lng": 73.677927,
+    "name": "Pirangut"
+  },
+  "pashan": {
+    "lat": 18.541427,
+    "lng": 73.792396,
+    "name": "Pashan"
+  },
+  "baner": {
+    "lat": 18.564245,
+    "lng": 73.776851,
+    "name": "Baner"
+  },
+  "aundh": {
+    "lat": 18.560165,
+    "lng": 73.803134,
+    "name": "Aundh"
+  },
+  "sus": {
+    "lat": 18.553403,
+    "lng": 73.753219,
+    "name": "Sus"
+  },
+  "mahalunge": {
+    "lat": 18.57382,
+    "lng": 73.756159,
+    "name": "Mahalunge"
+  },
+  "balewadi": {
+    "lat": 18.578891,
+    "lng": 73.770681,
+    "name": "Balewadi"
+  },
+  "wakad": {
+    "lat": 18.601092,
+    "lng": 73.764125,
+    "name": "Wakad"
+  },
+  "hinjewadi": {
+    "lat": 18.591272,
+    "lng": 73.738909,
+    "name": "Hinjewadi"
+  },
+  "thergaon": {
+    "lat": 18.614265,
+    "lng": 73.775075,
+    "name": "Thergaon"
+  },
+  "rahatani": {
+    "lat": 18.604704,
+    "lng": 73.787129,
+    "name": "Rahatani"
+  },
+  "pimple nilakh": {
+    "lat": 18.579023,
+    "lng": 73.785991,
+    "name": "Pimple Nilakh"
+  },
+  "pimple gurav": {
+    "lat": 18.586596,
+    "lng": 73.813442,
+    "name": "Pimple Gurav"
+  },
+  "pimple saudagar": {
+    "lat": 18.598676,
+    "lng": 73.797835,
+    "name": "Pimple Saudagar"
+  },
+  "sangvi": {
+    "lat": 18.589272,
+    "lng": 73.815807,
+    "name": "Sangvi"
+  },
+  "dapodi": {
+    "lat": 18.585296,
+    "lng": 73.83338,
+    "name": "Dapodi"
+  },
+  "kasarwadi": {
+    "lat": 18.606087,
+    "lng": 73.822792,
+    "name": "Kasarwadi"
+  },
+  "pimpri": {
+    "lat": 18.626324,
+    "lng": 73.805632,
+    "name": "Pimpri"
+  },
+  "nehru nagar": {
+    "lat": 18.63267,
+    "lng": 73.822057,
+    "name": "Nehru Nagar"
+  },
+  "chinchwad": {
+    "lat": 18.626313,
+    "lng": 73.805498,
+    "name": "Chinchwad"
+  },
+  "vallabh nagar": {
+    "lat": 18.618008,
+    "lng": 73.819116,
+    "name": "Vallabh Nagar"
+  },
+  "kalewadi": {
+    "lat": 18.617122,
+    "lng": 73.79026,
+    "name": "Kalewadi"
+  },
+  "tathawade": {
+    "lat": 18.627597,
+    "lng": 73.74549,
+    "name": "Tathawade"
+  },
+  "punawale": {
+    "lat": 18.63094,
+    "lng": 73.737815,
+    "name": "Punawale"
+  },
+  "kiwale": {
+    "lat": 18.661162,
+    "lng": 73.728662,
+    "name": "Kiwale"
+  },
+  "ravet": {
+    "lat": 18.66065,
+    "lng": 73.732159,
+    "name": "Ravet"
+  },
+  "akurdi": {
+    "lat": 18.649867,
+    "lng": 73.78087,
+    "name": "Akurdi"
+  },
+  "walhekarwadi": {
+    "lat": 18.632339,
+    "lng": 73.761024,
+    "name": "Walhekarwadi"
+  },
+  "nigdi": {
+    "lat": 18.649174,
+    "lng": 73.770653,
+    "name": "Nigdi"
+  },
+  "dehu road": {
+    "lat": 18.686028,
+    "lng": 73.747714,
+    "name": "Dehu Road"
+  },
+  "chikhali": {
+    "lat": 18.682472,
+    "lng": 73.81961,
+    "name": "Chikhali"
+  },
+  "talawade": {
+    "lat": 18.686564,
+    "lng": 73.789328,
+    "name": "Talawade"
+  },
+  "dehu": {
+    "lat": 18.716671,
+    "lng": 73.767818,
+    "name": "Dehu"
+  },
+  "talegaon dabhade": {
+    "lat": 18.737576,
+    "lng": 73.674663,
+    "name": "Talegaon Dabhade"
+  },
+  "vadgaon": {
+    "lat": 18.7372,
+    "lng": 73.63896,
+    "name": "Vadgaon"
+  },
+  "lonavala": {
+    "lat": 18.755724,
+    "lng": 73.409076,
+    "name": "Lonavala"
+  },
+  "gahunje": {
+    "lat": 18.669384,
+    "lng": 73.705287,
+    "name": "Gahunje"
+  },
+  "kudalwadi": {
+    "lat": 18.680539,
+    "lng": 73.816593,
+    "name": "Kudalwadi"
+  }
+}
