@@ -178,6 +178,30 @@ export default function BhuvisAIPage() {
 
   const localityOptions = getFilteredLocalities();
 
+  // Conditional filter logic based on hierarchy
+  const shouldShowPossession = () => {
+    // Always show possession for all segments
+    return true;
+  };
+
+  const shouldShowFurnishing = () => {
+    // Show furnishing for: Apartment, Villa, Office
+    // Hide for: Plot, Retail Store, Warehouse, Industrial Shed
+    const segments = selectedSegments;
+    return segments.some(segment => 
+      ['Apartment', 'Villa', 'Office'].includes(segment)
+    );
+  };
+
+  const shouldShowBHK = () => {
+    // Show BHK for: Apartment, Villa
+    // Hide for: Plot, Office, Retail Store, Warehouse, Industrial Shed
+    const segments = selectedSegments;
+    return segments.some(segment => 
+      ['Apartment', 'Villa'].includes(segment)
+    );
+  };
+
   // Get filtered segment options based on selected property types
   const getFilteredSegments = () => {
     if (selectedPropertyTypes.length === 0) return [];
@@ -215,6 +239,19 @@ export default function BhuvisAIPage() {
       setSelectedSegments(validSegments);
     }
   }, [selectedPropertyTypes, availableSegments]);
+
+  // Clear conditional filters when they should no longer be shown
+  useEffect(() => {
+    // Clear BHK if it should not be shown
+    if (!shouldShowBHK() && selectedBHK.length > 0) {
+      setSelectedBHK([]);
+    }
+    
+    // Clear Furnishing if it should not be shown
+    if (!shouldShowFurnishing() && selectedFurnishing.length > 0) {
+      setSelectedFurnishing([]);
+    }
+  }, [selectedSegments]);
 
   // Conversations
   const [conversations, setConversations] = useState([
@@ -375,9 +412,9 @@ export default function BhuvisAIPage() {
     if (selectedPropertyTypes.length > 0) activeFilters.push(`Types: ${selectedPropertyTypes.join(', ')}`);
     if (selectedSegments.length > 0) activeFilters.push(`Segments: ${selectedSegments.join(', ')}`);
     if (selectedBudgets.length > 0) activeFilters.push(`Budgets: ${selectedBudgets.join(', ')}`);
-    if (selectedPossession.length > 0) activeFilters.push(`Possession: ${selectedPossession.join(', ')}`);
-    if (selectedBHK.length > 0) activeFilters.push(`BHK: ${selectedBHK.join(', ')}`);
-    if (selectedFurnishing.length > 0) activeFilters.push(`Furnishing: ${selectedFurnishing.join(', ')}`);
+    if (shouldShowPossession() && selectedPossession.length > 0) activeFilters.push(`Possession: ${selectedPossession.join(', ')}`);
+    if (shouldShowBHK() && selectedBHK.length > 0) activeFilters.push(`BHK: ${selectedBHK.join(', ')}`);
+    if (shouldShowFurnishing() && selectedFurnishing.length > 0) activeFilters.push(`Furnishing: ${selectedFurnishing.join(', ')}`);
     
     // If no content and no filters, don't send
     if (!content && activeFilters.length === 0) return;
@@ -408,9 +445,9 @@ export default function BhuvisAIPage() {
             propertyTypes: selectedPropertyTypes,
             segments: selectedSegments,
             budgets: selectedBudgets,
-            possession: selectedPossession,
-            bhk: selectedBHK,
-            furnishing: selectedFurnishing
+            ...(shouldShowPossession() && { possession: selectedPossession }),
+            ...(shouldShowBHK() && { bhk: selectedBHK }),
+            ...(shouldShowFurnishing() && { furnishing: selectedFurnishing })
           }
         })
       });
@@ -688,12 +725,21 @@ export default function BhuvisAIPage() {
                 <Dropdown label="Property Type" placeholder="Select Type" options={propertyTypeOptions} values={selectedPropertyTypes} onToggle={(opt) => setSelectedPropertyTypes((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
                 <Dropdown label="Segment" placeholder="Select Segment" options={availableSegments} values={selectedSegments} onToggle={(opt) => setSelectedSegments((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
               </div>
-              {/* Row 2: four filters */}
+              {/* Row 2: conditional filters based on hierarchy */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <Dropdown label="Budget Range" placeholder="Select Budget" options={budgetOptions} values={selectedBudgets} onToggle={(opt) => setSelectedBudgets((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
-                <Dropdown label="Possession" placeholder="Select Possession" options={possessionOptions} values={selectedPossession} onToggle={(opt) => setSelectedPossession((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
-                <Dropdown label="BHK" placeholder="Select BHK" options={bhkOptions} values={selectedBHK} onToggle={(opt) => setSelectedBHK((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
-                <Dropdown label="Furnishing" placeholder="Select Furnishing" options={furnishingOptions} values={selectedFurnishing} onToggle={(opt) => setSelectedFurnishing((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
+                
+                {shouldShowPossession() && (
+                  <Dropdown label="Possession" placeholder="Select Possession" options={possessionOptions} values={selectedPossession} onToggle={(opt) => setSelectedPossession((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
+                )}
+                
+                {shouldShowFurnishing() && (
+                  <Dropdown label="Furnishing" placeholder="Select Furnishing" options={furnishingOptions} values={selectedFurnishing} onToggle={(opt) => setSelectedFurnishing((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
+                )}
+                
+                {shouldShowBHK() && (
+                  <Dropdown label="BHK" placeholder="Select BHK" options={bhkOptions} values={selectedBHK} onToggle={(opt) => setSelectedBHK((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
+                )}
               </div>
             </div>
 

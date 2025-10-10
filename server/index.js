@@ -8,7 +8,7 @@ const morgan = require('morgan');
 const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 4000;
 const authRouter = require('./routes/auth');
 const marketTrendsRouter = require('./routes/marketTrends');
 const comparativeRouter = require('./routes/comparative');

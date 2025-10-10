@@ -37,8 +37,8 @@ npm run dev
 ### Step 3: Access the Platform
 
 - **Frontend:** http://localhost:3000
-- **Backend API:** http://localhost:5000
-- **API Health Check:** http://localhost:5000/api/health
+- **Backend API:** http://localhost:4000
+- **API Health Check:** http://localhost:4000/api/health
 
 ## 📊 Platform Features
 
@@ -160,8 +160,8 @@ The platform includes realistic sample data for:
 
 1. **Port already in use:**
    ```bash
-   # Kill processes on ports 3000 and 5000
-   npx kill-port 3000 5000
+   # Kill processes on ports 3000 and 4000
+   npx kill-port 3000 4000
    ```
 
 2. **Node modules issues:**
@@ -173,7 +173,7 @@ The platform includes realistic sample data for:
    ```
 
 3. **API connection issues:**
-   - Ensure backend is running on port 5000
+   - Ensure backend is running on port 4000
    - Check CORS settings in server/index.js
    - Verify proxy setting in client/package.json
 

@@ -57,7 +57,7 @@ echo.
 echo To start the application:
 echo 1. Run: npm run dev
 echo 2. Open: http://localhost:3000
-echo 3. API will be available at: http://localhost:5000
+echo 3. API will be available at: http://localhost:4000
 echo.
 echo Press any key to exit...
 pause >nul 
