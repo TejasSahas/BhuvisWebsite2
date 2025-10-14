@@ -4,7 +4,8 @@ import dotenv from 'dotenv'
 import xlsx from "xlsx";
 import path from "path";
 import { fileURLToPath } from 'url'
-
+const csv = require("csv-parser");
+const fs = require("fs");
 dotenv.config()
 
 const app = express()
@@ -18,6 +19,19 @@ app.use(express.json())
 app.listen(port, () => console.log(`API listening on :${port}`))
 
 // --- API ROUTES ---
+const csvPath = path.join(__dirname,"data", "pune_yellowpages_with_area.csv");
+let data = [];
+try {
+  fs.createReadStream(csvPath)
+    .pipe(csv())
+    .on("data", (row) => data.push(row))
+    .on("end", () => console.log("yellowpages CSV file loaded successfully."))
+    .on("error", (err) =>
+      console.error("Error loading yellowpages CSV file:", err.message)
+    );
+} catch (err) {
+  console.error("Error yellowpages reading CSV file:", err.message);
+}
 
 //API-1: Check connection
 app.get('/api/status', (req, res) => {
@@ -218,4 +232,54 @@ app.get('/api/filters', (req, res) => {
   } catch (err) {
     res.status(500).json({ error: 'Failed to build filters', details: err.message });
   }
+});
+
+// API to get top 4 categories for a business area
+app.get("/api/business-area", (req, res) => {
+  const businessAreaQuery = req.query.business_area;
+
+  if (!businessAreaQuery) {
+    return res
+      .status(400)
+      .json({ error: "Please provide a business_area query parameter" });
+  }
+
+  console.log("Searching for business area:", businessAreaQuery);
+
+  // Filter rows matching the business area
+  const filteredRows = data.filter(
+    (row) =>
+      row["Area"] &&
+      row["Area"].trim().toLowerCase() ===
+        businessAreaQuery.trim().toLowerCase()
+  );
+
+  if (filteredRows.length === 0) {
+    return res
+      .status(404)
+      .json({ message: `Business area '${businessAreaQuery}' not found` });
+  }
+
+  // Count categories
+  const categoriesMap = new Map();
+
+  filteredRows.forEach((row) => {
+    const category = row["Category"]?.trim();
+    if (category) {
+      categoriesMap.set(category, (categoriesMap.get(category) || 0) + 1);
+    }
+  });
+
+  // Top 4 categories and percentages
+  const categories = Array.from(categoriesMap.entries())
+    .map(([name, count]) => ({
+      name,
+      count,
+      percentage: ((count / filteredRows.length) * 100).toFixed(2) + "%",
+    }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 4);
+
+  // return categories + total rows for reference
+  res.json({ categories, totalRows: filteredRows.length });
 });

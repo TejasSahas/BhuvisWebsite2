@@ -95,9 +95,9 @@ const EnterpriseDashboardPage = () => {
               Track portfolios, analyze markets, and make data-driven decisions with advanced tools designed for professionals.
             </p>
             <div className="flex justify-center">
-              <button className="btn-cta shadow-glow-yellow">
+              <Link to="/early-access" className="btn-cta shadow-glow-yellow">
                 <span>Get Early Access</span>
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -170,9 +170,9 @@ const EnterpriseDashboardPage = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="btn-cta shadow-glow-yellow">
+              <Link to="/early-access" className="btn-cta shadow-glow-yellow">
                 <span>Get Early Access</span>
-              </button>
+              </Link>
               <Link to="/buyer-report" className="btn-cta shadow-glow-yellow">
                 <span>Try Buyer Reports</span>
               </Link>
@@ -232,12 +232,12 @@ const EnterpriseDashboardPage = () => {
             Get started today and unlock the full potential of your portfolio.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="btn-cta shadow-glow-yellow">
+            <Link to="/dashboard" className="btn-cta shadow-glow-yellow">
               <span>Access Dashboard</span>
-            </button>
-            <button className="btn-cta shadow-glow-yellow">
+            </Link>
+            <Link to="/bhuvisaipage" className="btn-cta shadow-glow-yellow">
               <span>Try BhuvisAI</span>
-            </button>
+            </Link>
           </div>
         </div>
       </section>

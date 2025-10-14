@@ -137,7 +137,7 @@ const HomePage = () => {
                   <span>Try BhuvisAI</span>
                 </button>
                 <Link 
-                  to="/enterprise-dashboard?type=enterprise" 
+                  to="/dashboard" 
                   className="btn-cta text-base md:text-lg px-8 py-4"
                 >
                   <span>Access Dashboard</span>
@@ -261,7 +261,7 @@ const HomePage = () => {
                   </div>
                   <button
                     className="btn-cta text-lg px-8 py-4 shadow-glow-yellow w-full"
-                    onClick={() => navigate('/enterprise-dashboard')}
+                    onClick={() => navigate('/dashboard')}
                   >
                     <span>Access Dashboard</span>
                   </button>

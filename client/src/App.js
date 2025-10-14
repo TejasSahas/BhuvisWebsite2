@@ -14,6 +14,8 @@ import RegisterPage from './pages/RegisterPage';
 import EnterpriseDashboardPage from './pages/EnterpriseDashboardPage';
 import InvestmentRoadmapPage from './pages/InvestmentRoadmapPage';
 import BhuvisAIPage from './pages/BhuvisAIPage';
+import DashboardPage from './pages/Dashboard';
+import EarlyAccessPage from './pages/EarlyAccessPage';
 
 // ScrollToTop component to handle scroll position on route changes
 function ScrollToTop() {
@@ -86,6 +88,8 @@ function App() {
                <Route path="/enterprise-dashboard" element={<EnterpriseDashboardPage />} />
                <Route path="/investment-roadmap" element={<InvestmentRoadmapPage />} />
                <Route path="/bhuvisaipage" element={<BhuvisAIPage />} />
+               <Route path="/dashboard" element={<DashboardPage />} />
+               <Route path="/early-access" element={<EarlyAccessPage />} />
              </Routes>
           </main>
           <Footer />
