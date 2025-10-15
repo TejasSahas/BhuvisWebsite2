@@ -4,9 +4,14 @@ import dotenv from 'dotenv'
 import xlsx from "xlsx";
 import path from "path";
 import { fileURLToPath } from 'url'
-const csv = require("csv-parser");
-const fs = require("fs");
+import csv from "csv-parser";
+import fs from "fs";
+//const csv = require("csv-parser");
+//const fs = require("fs");
 dotenv.config()
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express()
 const port = process.env.PORT || 4000
@@ -33,14 +38,36 @@ try {
   console.error("Error yellowpages reading CSV file:", err.message);
 }
 
+//airport data
+const excelPath = path.join(__dirname, "Pune_Airport_Distances.xlsx");
+let areaDistanceMap = {};
+
+try {
+  const workbook = xlsx.readFile(excelPath);
+  const sheetName = workbook.SheetNames[0];
+  const rows = xlsx.utils.sheet_to_json(workbook.Sheets[sheetName]);
+
+  rows.forEach((row) => {
+    if (row.Area && row["Driving Distance from Pune Airport (km)"]) {
+      areaDistanceMap[row.Area.trim().toLowerCase()] = parseFloat(
+        row["Driving Distance from Pune Airport (km)"]
+      );
+    }
+  });
+
+  console.log(" Excel loaded successfully.");
+} catch (err) {
+  console.error(" Error loading Excel:", err.message);
+}
+
 //API-1: Check connection
 app.get('/api/status', (req, res) => {
   res.status(200).json({ status: 'ok', message: 'Backend is running!' });
 });
 
-// ESM-compatible __dirname
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+// // ESM-compatible __dirname
+// const __filename = fileURLToPath(import.meta.url)
+// const __dirname = path.dirname(__filename)
 
 // Load Excel/CSV data
 const excelPath2 = path.join(__dirname, "data", "Pune_Coordinates_pincodes.xlsx");
@@ -78,6 +105,46 @@ try {
 } catch (err) {
   console.error("Error loading avg_price_groups.csv:", err.message);
 }
+//API data for rental commercial and residential history
+const commCsvPath = path.join(__dirname,"data", "Pune_rental_commercial_history.csv");
+const resiCsvPath = path.join(__dirname, "data","Pune_rental_residential_history.csv");
+// Data storage
+let commData = [];
+let resiData = [];
+// clean up CSV keys (remove BOM, trim spaces)
+const cleanKeys = (row) => {
+  const cleaned = {};
+  for (const key in row) {
+    cleaned[key.trim().replace(/^\uFEFF/, "")] = row[key];
+  }
+  return cleaned;
+};
+// Load commercial CSV
+fs.createReadStream(commCsvPath)
+  .pipe(csv())
+  .on("data", (row) => commData.push(cleanKeys(row)))
+  .on("end", () => {})
+  .on("error", (err) => console.error("Commercial CSV load error:", err.message));
+// Load residential CSV
+fs.createReadStream(resiCsvPath)
+  .pipe(csv())
+  .on("data", (row) => resiData.push(cleanKeys(row)))
+  .on("end", () => {})
+  .on("error", (err) => console.error("Residential CSV load error:", err.message));
+
+//data for avg rent per sqft
+const rentCsvPath = path.join(__dirname,"data", "average_rent_per_sqft_pune.csv");
+console.log("Looking for CSV at:", rentCsvPath);
+let rentData = [];
+// Load CSV data
+fs.createReadStream(rentCsvPath)
+  .pipe(csv())
+  .on("data", (row) => rentData.push(row))
+  .on("end", () => {
+    console.log(`CSV loaded successfully. Total rows: ${rentData.length}`);
+  })
+  .on("error", (err) => console.error("CSV load error:", err.message));
+
 
 // Root endpoint
 app.get("/", (req, res) => {
@@ -282,4 +349,110 @@ app.get("/api/business-area", (req, res) => {
 
   // return categories + total rows for reference
   res.json({ categories, totalRows: filteredRows.length });
+});
+
+// API to get rental history for commercial and residential 
+app.get("/api/property-data", (req, res) => {
+  const { area, type } = req.query;
+
+  if (!area || !type) {
+    return res.status(400).json({
+      error: "Please provide both 'area' and 'type' query parameters",
+    });
+  }
+
+  const typeQuery = type.trim().toLowerCase();
+
+  let dataset;
+  if (typeQuery === "commercial") dataset = commData;
+  else if (typeQuery === "residential") dataset = resiData;
+  else {
+    return res.status(400).json({ error: "Invalid type. Choose 'commercial' or 'residential'" });
+  }
+
+  // Case-sensitive area match
+  const areaRow = dataset.find((row) => row.Area && row.Area.trim() === area.trim());
+
+  if (!areaRow) {
+    return res.status(404).json({
+      message: `Area '${area}' not found in the selected dataset`,
+    });
+  }
+
+  // Build rental history (exclude Area & Region)
+  const rentalHistory = {};
+  Object.keys(areaRow).forEach((key) => {
+    if (key !== "Area" && key !== "Region") {
+      const val = parseFloat(areaRow[key]);
+      if (!isNaN(val)) rentalHistory[key] = val;
+    }
+  });
+
+  res.json({
+    area: areaRow.Area,
+    PropertyType: typeQuery,
+    quarters_available: Object.keys(rentalHistory).length,
+    rental_history: rentalHistory,
+  });
+});
+
+// API to get average rent per sqft
+app.get("/api/avg-rent", (req, res) => {
+  const { area, propertyType } = req.query;
+
+  if (!area || !propertyType) {
+    return res
+      .status(400)
+      .json({ error: "Please provide both 'area' and 'propertyType' parameters" });
+  }
+
+  const areaQuery = area.trim().toLowerCase();
+  const propertyQuery = propertyType.trim().toLowerCase();
+
+  // Match with correct CSV field names (case-insensitive)
+  const match = rentData.find((row) => {
+    const areaVal = row.Area || row.area;
+    const typeVal = row.PropertyType || row.PropertyType || row.propertyType;
+    return (
+      areaVal?.toLowerCase().includes(areaQuery) &&
+      typeVal?.toLowerCase().includes(propertyQuery)
+    );
+  });
+
+  if (!match) {
+    return res.status(404).json({
+      message: `No data found for '${area}' (${propertyType})`
+    });
+  }
+
+  res.json({
+    area: match.Area,
+    propertyType: match.PropertyType,
+    avgRentPerSqft: match.AvgRentPerSqft,
+  });
+});
+
+// API to get distance from Pune airport
+app.get("/api/distance", (req, res) => {
+  const areaQuery = req.query.area;
+
+  if (!areaQuery) {
+    return res
+      .status(400)
+      .json({ error: "Please provide 'area' query parameter" });
+  }
+
+  const areaKey = areaQuery.trim().toLowerCase();
+  const distance = areaDistanceMap[areaKey];
+
+  if (distance === undefined) {
+    return res
+      .status(404)
+      .json({ message: `Area '${areaQuery}' not found in Excel data` });
+  }
+
+  res.json({
+    area: areaQuery,
+    distance_from_pune_airport_km: distance
+  });
 });
