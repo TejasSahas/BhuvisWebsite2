@@ -597,7 +597,19 @@ export default function BhuvisAIPage() {
                           </ReactMarkdown>
                         </div>
                       ) : (
-                        <div className="whitespace-pre-wrap">{m.content}</div>
+                        <div className="prose max-w-none text-gray-900 dark:text-gray-100 leading-relaxed">
+                          <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            components={{
+                              p: ({ children }) => <p className="mb-2">{children}</p>,
+                              em: ({ children }) => <em className="italic text-gray-700 dark:text-gray-300">{children}</em>,
+                              strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
+                              br: () => <br />,
+                            }}
+                          >
+                            {m.content}
+                          </ReactMarkdown>
+                        </div>
                       )}
                     </div>
                     {m.role === 'user' && (
@@ -722,7 +734,7 @@ export default function BhuvisAIPage() {
                   onSearchChange={setAreaSearchTerm}
                   onToggle={(opt) => setSelectedLocalities((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} 
                 />
-                <Dropdown label="Property Type" placeholder="Select Type" options={propertyTypeOptions} values={selectedPropertyTypes} onToggle={(opt) => setSelectedPropertyTypes((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
+                <Dropdown label="Property Type" placeholder="Select Type" options={propertyTypeOptions} values={selectedPropertyTypes} onToggle={(opt) => setSelectedPropertyTypes([opt])} />
                 <Dropdown label="Segment" placeholder="Select Segment" options={availableSegments} values={selectedSegments} onToggle={(opt) => setSelectedSegments((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
               </div>
               {/* Row 2: conditional filters based on hierarchy */}
