@@ -1,4 +1,6 @@
-# Git Commands to Push Changes to dashboard-apis Branch
+# Git Commands Guide for BHUVIS Dashboard Project
+
+## PART 1: Pushing Changes to dashboard-apis Branch
 
 # 1. Check current branch and status
 git branch
@@ -32,3 +34,120 @@ git push
 
 # 6. Verify the changes were pushed successfully
 git log --oneline -5
+
+
+## PART 2: Merging Branches - Standard Practices and Scenarios
+
+### SCENARIO 1: Standard Merge (Fast-Forward)
+# When your branch is ahead of the target branch with no conflicts
+
+# 1. Ensure you have the latest version of both branches
+git checkout main              # Switch to the target branch
+git pull                       # Update the target branch
+git checkout dashboard-apis    # Switch back to your feature branch
+git pull                       # Update your feature branch
+
+# 2. Merge main into your branch first (integration testing)
+git merge main                 # Merge main into your branch
+# Run tests to ensure everything works
+
+# 3. Merge your branch into main
+git checkout main
+git merge dashboard-apis       # Fast-forward merge if possible
+
+# 4. Push the changes
+git push origin main
+
+
+### SCENARIO 2: Merge with Conflicts
+
+# 1. Attempt the merge
+git checkout main
+git merge dashboard-apis
+
+# 2. If conflicts occur, you'll see a message. Resolve conflicts:
+# a. Check which files have conflicts
+git status
+
+# b. Open each conflicted file and look for conflict markers (<<<<<<< HEAD, =======, >>>>>>>)
+# c. Edit the files to resolve conflicts
+# d. Add the resolved files
+git add <resolved-file-paths>
+
+# e. Complete the merge
+git commit -m "Merge dashboard-apis: resolve conflicts in [file names]"
+
+# f. Push the changes
+git push origin main
+
+
+### SCENARIO 3: Creating a Pull Request (Recommended Industry Practice)
+
+# 1. Push your feature branch
+git push -u origin dashboard-apis
+
+# 2. Go to GitHub/GitLab/BitBucket and create a Pull Request
+# 3. Assign reviewers and add appropriate labels
+# 4. After approval, merge through the web interface or:
+
+# If you prefer command line merging after PR approval:
+git checkout main
+git pull                       # Get latest main including PR approvals
+git merge dashboard-apis       # Should be clean if PR was approved
+git push origin main
+
+
+### SCENARIO 4: Squashing Commits for Clean History
+
+# 1. If you have multiple small commits you want to combine before merging:
+git checkout dashboard-apis
+git rebase -i HEAD~<number-of-commits>
+# An editor will open - change 'pick' to 'squash' or 's' for commits to combine
+# Save and exit, then edit the commit message
+
+# 2. Force push the squashed commits (only if the branch is not shared)
+git push --force-with-lease origin dashboard-apis
+
+# 3. Proceed with merge or PR
+
+
+### SCENARIO 5: Aborting a Problematic Merge
+
+# If you encounter issues during merge and want to start over:
+git merge --abort
+
+# If you've already committed the merge but haven't pushed:
+git reset --hard ORIG_HEAD
+
+
+## PART 3: Best Practices for Git Workflow
+
+### 1. Always Pull Before Pushing or Merging
+# Keep your branches updated with remote changes
+git pull origin <branch-name>
+
+### 2. Use Descriptive Branch Names
+# Format: <type>/<description>
+# Examples: feature/airport-distance, bugfix/api-integration, hotfix/dashboard-crash
+
+### 3. Write Meaningful Commit Messages
+# Format: <area>: <brief description> (50 chars or less)
+# <longer description if needed> (72 chars per line)
+
+### 4. Keep Commits Atomic
+# Each commit should represent a single logical change
+
+### 5. Regularly Rebase Feature Branches
+git checkout dashboard-apis
+git rebase main
+
+### 6. Use Git Hooks for Quality Control
+# Set up pre-commit hooks for linting, formatting, and tests
+
+### 7. Never Rewrite Public History
+# Don't force push to shared branches
+# Don't rebase branches that others are working on
+
+### 8. Delete Branches After Merging
+git branch -d dashboard-apis          # Local branch
+git push origin --delete dashboard-apis  # Remote branch
