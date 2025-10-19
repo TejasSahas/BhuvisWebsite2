@@ -11,19 +11,19 @@ const Dropdown = ({ label, placeholder, options, values, onToggle }) => {
   const [open, setOpen] = useState(false);
   const btnText = values.length ? values.join(', ') : (placeholder || `Select ${label}`);
   return (
-    <div className="flex flex-col gap-1 min-w-[120px] max-w-[180px] w-full mx-auto relative">
+    <div className="flex flex-col gap-0 lg:gap-1 min-w-[90px] lg:min-w-[120px] max-w-[150px] lg:max-w-[180px] w-full mx-auto relative">
       <label className="text-xs font-semibold text-gray-600 dark:text-gray-300">{label}</label>
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="w-full inline-flex items-center justify-between rounded-xl border border-gray-200 dark:border-gray-800 bg-white/70 dark:bg-gray-900/50 backdrop-blur px-3 py-2 text-sm hover:bg-white/80 dark:hover:bg-gray-900/60"
+        className="w-full inline-flex items-center justify-between rounded-md lg:rounded-xl border border-gray-200 dark:border-gray-800 bg-white/70 dark:bg-gray-900/50 backdrop-blur px-1.5 py-1 lg:px-3 lg:py-2 text-xs lg:text-sm hover:bg-white/80 dark:hover:bg-gray-900/60"
       >
         <span className="text-gray-800 dark:text-gray-100 truncate">{btnText}</span>
-        <ChevronDown className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`w-3 h-3 lg:w-4 lg:h-4 transition-transform ${open ? 'rotate-180' : ''}`} />
       </button>
       {open && (
-        <div className="absolute z-[10000] top-full mt-2 w-56 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-lg overflow-hidden">
-          <ul className="max-h-64 overflow-y-auto py-1">
+        <div className="absolute z-[10000] top-full mt-1 lg:mt-2 w-48 lg:w-56 rounded-lg lg:rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-lg overflow-hidden">
+          <ul className="max-h-48 lg:max-h-64 overflow-y-auto py-1">
             {options.map((opt) => {
               const active = values.includes(opt);
               return (
@@ -31,10 +31,10 @@ const Dropdown = ({ label, placeholder, options, values, onToggle }) => {
                   <button
                     type="button"
                     onClick={() => { onToggle(opt); setOpen(false); }}
-                    className={`w-full flex items-center justify-between px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 ${active ? 'text-yellow-800 dark:text-yellow-300' : 'text-gray-800 dark:text-gray-100'}`}
+                    className={`w-full flex items-center justify-between px-2 py-1.5 lg:px-3 lg:py-2 text-xs lg:text-sm hover:bg-gray-100 dark:hover:bg-gray-800 ${active ? 'text-yellow-800 dark:text-yellow-300' : 'text-gray-800 dark:text-gray-100'}`}
                   >
                     <span>{opt}</span>
-                    {active && <Check className="w-4 h-4" />}
+                    {active && <Check className="w-3 h-3 lg:w-4 lg:h-4" />}
                   </button>
                 </li>
               );
@@ -52,49 +52,49 @@ const SearchableAreaDropdown = ({ label, placeholder, options, values, onToggle,
   const btnText = values.length ? values.join(', ') : (placeholder || `Select ${label}`);
   
   return (
-    <div className="flex flex-col gap-1 min-w-[120px] max-w-[180px] w-full mx-auto relative">
+    <div className="flex flex-col gap-0 lg:gap-1 min-w-[90px] lg:min-w-[120px] max-w-[150px] lg:max-w-[180px] w-full mx-auto relative">
       <label className="text-xs font-semibold text-gray-600 dark:text-gray-300">{label}</label>
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="w-full inline-flex items-center justify-between rounded-xl border border-gray-200 dark:border-gray-800 bg-white/70 dark:bg-gray-900/50 backdrop-blur px-3 py-2 text-sm hover:bg-white/80 dark:hover:bg-gray-900/60"
+        className="w-full inline-flex items-center justify-between rounded-md lg:rounded-xl border border-gray-200 dark:border-gray-800 bg-white/70 dark:bg-gray-900/50 backdrop-blur px-1.5 py-1 lg:px-3 lg:py-2 text-xs lg:text-sm hover:bg-white/80 dark:hover:bg-gray-900/60"
       >
         <span className="text-gray-800 dark:text-gray-100 truncate">{btnText}</span>
-        <ChevronDown className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`w-3 h-3 lg:w-4 lg:h-4 transition-transform ${open ? 'rotate-180' : ''}`} />
       </button>
       {open && (
-        <div className="absolute z-[10000] top-full mt-2 w-64 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-lg overflow-hidden">
+        <div className="absolute z-[10000] top-full mt-1 lg:mt-2 w-56 lg:w-64 rounded-lg lg:rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-lg overflow-hidden">
           {/* Search input */}
-          <div className="p-2 border-b border-gray-200 dark:border-gray-700">
+          <div className="p-1 lg:p-2 border-b border-gray-200 dark:border-gray-700">
             <input
               type="text"
               placeholder="Search areas..."
               value={searchTerm}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="w-full px-3 py-2 text-sm rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-1.5 py-1 lg:px-3 lg:py-2 text-xs lg:text-sm rounded-sm lg:rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           
           {/* Options list */}
-          <ul className="max-h-64 overflow-y-auto py-1">
+          <ul className="max-h-48 lg:max-h-64 overflow-y-auto py-1">
             {options.length > 0 ? (
               options.map((opt) => {
-                const active = values.includes(opt);
-                return (
-                  <li key={opt}>
-                    <button
-                      type="button"
-                      onClick={() => { onToggle(opt); setOpen(false); }}
-                      className={`w-full flex items-center justify-between px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 ${active ? 'text-yellow-800 dark:text-yellow-300' : 'text-gray-800 dark:text-gray-100'}`}
-                    >
-                      <span>{opt}</span>
-                      {active && <Check className="w-4 h-4" />}
-                    </button>
-                  </li>
-                );
+              const active = values.includes(opt);
+              return (
+                <li key={opt}>
+                  <button
+                    type="button"
+                    onClick={() => { onToggle(opt); setOpen(false); }}
+                    className={`w-full flex items-center justify-between px-2 py-1.5 lg:px-3 lg:py-2 text-xs lg:text-sm hover:bg-gray-100 dark:hover:bg-gray-800 ${active ? 'text-yellow-800 dark:text-yellow-300' : 'text-gray-800 dark:text-gray-100'}`}
+                  >
+                    <span>{opt}</span>
+                    {active && <Check className="w-3 h-3 lg:w-4 lg:h-4" />}
+                  </button>
+                </li>
+              );
               })
             ) : (
-              <li className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">
+              <li className="px-2 py-1.5 lg:px-3 lg:py-2 text-xs lg:text-sm text-gray-500 dark:text-gray-400">
                 No areas found
               </li>
             )}
@@ -108,7 +108,7 @@ const SearchableAreaDropdown = ({ label, placeholder, options, values, onToggle,
 const QuickAction = ({ label, onClick }) => (
   <button
     onClick={() => onClick(label)}
-    className="px-3 py-1 rounded-full text-xs bg-white/70 dark:bg-gray-900/50 border border-gray-200/60 dark:border-gray-700 hover:bg-white hover:shadow transition"
+    className="px-2 py-0.5 lg:px-3 lg:py-1 rounded-full text-xs bg-white/70 dark:bg-gray-900/50 border border-gray-200/60 dark:border-gray-700 hover:bg-white hover:shadow transition"
   >
     {label}
   </button>
@@ -513,13 +513,50 @@ export default function BhuvisAIPage() {
     <div className="relative min-h-screen bg-gray-50 dark:bg-gray-950 pt-6 lg:pt-8">
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1554469384-e58fac16e23a?w=1200')] bg-cover bg-center opacity-15 pointer-events-none"></div>
       <div className="relative z-10 container-custom py-4 lg:py-6 pb-24">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Left: Chat Section - page scrollable; chat scrolls internally */}
-          <section className="flex flex-col">
-            {/* Chat window */}
-            <div className="rounded-2xl border border-primary-200 dark:border-primary-800 bg-white/80 dark:bg-gray-900/60 backdrop-blur p-4 flex flex-col min-h-[80vh] lg:h-[calc(100vh-6rem)] overflow-hidden shadow-soft">
+        {/* Mobile Layout: Filters -> Chat -> Map */}
+        <div className="flex flex-col lg:hidden gap-4">
+          {/* Mobile: Filters Section - Ultra Compact Layout */}
+          <section className="order-1">
+            <div className="p-1.5 rounded-lg border border-primary-200 dark:border-primary-800 bg-white/80 dark:bg-gray-900/60 backdrop-blur shadow-soft relative z-[10001]">
+              {/* Row 1: four filters - ultra compact */}
+              <div className="grid grid-cols-2 gap-1.5 mb-1.5">
+                <Dropdown label="City" placeholder="Select City" options={cityOptions} values={selectedCities} onToggle={(opt) => setSelectedCities((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
+                <SearchableAreaDropdown 
+                  label="Area" 
+                  placeholder="Select Area" 
+                  options={localityOptions} 
+                  values={selectedLocalities} 
+                  searchTerm={areaSearchTerm}
+                  onSearchChange={setAreaSearchTerm}
+                  onToggle={(opt) => setSelectedLocalities((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} 
+                />
+                <Dropdown label="Property Type" placeholder="Select Type" options={propertyTypeOptions} values={selectedPropertyTypes} onToggle={(opt) => setSelectedPropertyTypes([opt])} />
+                <Dropdown label="Segment" placeholder="Select Segment" options={availableSegments} values={selectedSegments} onToggle={(opt) => setSelectedSegments((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
+              </div>
+              {/* Row 2: conditional filters based on hierarchy - ultra compact */}
+              <div className="grid grid-cols-2 gap-1.5">
+                <Dropdown label="Budget Range" placeholder="Select Budget" options={budgetOptions} values={selectedBudgets} onToggle={(opt) => setSelectedBudgets((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
+                
+                {shouldShowPossession() && (
+                  <Dropdown label="Possession" placeholder="Select Possession" options={possessionOptions} values={selectedPossession} onToggle={(opt) => setSelectedPossession((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
+                )}
+                
+                {shouldShowFurnishing() && (
+                  <Dropdown label="Furnishing" placeholder="Select Furnishing" options={furnishingOptions} values={selectedFurnishing} onToggle={(opt) => setSelectedFurnishing((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
+                )}
+                
+                {shouldShowBHK() && (
+                  <Dropdown label="BHK" placeholder="Select BHK" options={bhkOptions} values={selectedBHK} onToggle={(opt) => setSelectedBHK((prev) => prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt])} />
+                )}
+              </div>
+            </div>
+          </section>
+
+          {/* Mobile: Chat Section */}
+          <section className="order-2 flex flex-col">
+            <div className="rounded-2xl border border-primary-200 dark:border-primary-800 bg-white/80 dark:bg-gray-900/60 backdrop-blur p-3 flex flex-col h-[60vh] overflow-hidden shadow-soft">
               {/* Messages area scrolls inside chat card */}
-              <div ref={chatContainerRef} className="flex-1 overflow-y-auto space-y-4 px-4 pb-4 scroll-smooth relative">
+              <div ref={chatContainerRef} className="flex-1 overflow-y-auto space-y-3 px-3 pb-3 scroll-smooth relative">
                 {/* Subtle fade at top */}
                 <div className="absolute top-0 left-0 right-0 h-4 bg-gradient-to-b from-white/80 to-transparent dark:from-gray-900/80 pointer-events-none z-10"></div>
                 {/* Subtle fade at bottom */}
@@ -607,7 +644,7 @@ export default function BhuvisAIPage() {
                               br: () => <br />,
                             }}
                           >
-                            {m.content}
+                      {m.content}
                           </ReactMarkdown>
                         </div>
                       )}
@@ -631,8 +668,8 @@ export default function BhuvisAIPage() {
                 )}
               </div>
 
-              {/* Quick actions */}
-              <div className="mt-2 flex flex-wrap gap-2">
+              {/* Quick actions - hidden on mobile, visible on desktop */}
+              <div className="hidden lg:flex mt-2 flex-wrap gap-2">
                 {quickActions.map((qa) => (
                   <QuickAction key={qa} label={qa} onClick={(label) => setInput(label)} />
                 ))}
@@ -673,6 +710,248 @@ export default function BhuvisAIPage() {
                   ))}
                   {selectedBudgets.map((v) => (
                     <span key={`bdg-${v}`} className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-yellow-100 text-yellow-900 border border-yellow-200 text-xs">
+                      {v}
+                      <button aria-label={`Remove ${v}`} onClick={() => setSelectedBudgets((prev) => prev.filter((x) => x !== v))} className="hover:text-red-600"><X className="w-3 h-3" /></button>
+                    </span>
+                  ))}
+                  {selectedPossession.map((v) => (
+                    <span key={`pos-${v}`} className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-yellow-100 text-yellow-900 border border-yellow-200 text-xs">
+                      {v}
+                      <button aria-label={`Remove ${v}`} onClick={() => setSelectedPossession((prev) => prev.filter((x) => x !== v))} className="hover:text-red-600"><X className="w-3 h-3" /></button>
+                    </span>
+                  ))}
+                  {selectedBHK.map((v) => (
+                    <span key={`bhk-${v}`} className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-yellow-100 text-yellow-900 border border-yellow-200 text-xs">
+                      {v}
+                      <button aria-label={`Remove ${v}`} onClick={() => setSelectedBHK((prev) => prev.filter((x) => x !== v))} className="hover:text-red-600"><X className="w-3 h-3" /></button>
+                    </span>
+                  ))}
+                  {selectedFurnishing.map((v) => (
+                    <span key={`fur-${v}`} className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-yellow-100 text-yellow-900 border border-yellow-200 text-xs">
+                      {v}
+                      <button aria-label={`Remove ${v}`} onClick={() => setSelectedFurnishing((prev) => prev.filter((x) => x !== v))} className="hover:text-red-600"><X className="w-3 h-3" /></button>
+                    </span>
+                  ))}
+                  <textarea
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    placeholder={`Ask about ${firstLocality}, ${firstCity}...`}
+                    rows={1}
+                    className="flex-1 min-w-[160px] resize-none outline-none bg-transparent text-sm max-h-32 whitespace-pre-wrap break-words"
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); }
+                    }}
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="relative px-4 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition-transform active:scale-95"
+                  aria-label="Send"
+                >
+                  <Send className="w-4 h-4 inline" />
+                  <span className="absolute -right-2 -top-2 text-xs">✈️</span>
+                </button>
+              </form>
+            </div>
+          </section>
+
+          {/* Mobile: Map Section */}
+          <section className="order-3">
+            <div className="rounded-2xl overflow-hidden border border-primary-200 dark:border-primary-800 bg-white/80 dark:bg-gray-900/60 backdrop-blur aspect-square shadow-soft relative z-0 isolate">
+              <div className="h-full">
+                <MapContainer center={mapCenter} zoom={mapZoom} scrollWheelZoom style={{ height: '100%', width: '100%' }}>
+                  <MapInvalidate />
+                  <MapUpdater center={mapCenter} zoom={mapZoom} markers={markers} />
+                  <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  />
+                  {markers.map((m, idx) => (
+                    <Marker key={idx} position={m.pos} icon={getMarkerIcon(idx, markers.length)} eventHandlers={{ click: () => handlePinClick(m) }}>
+                      <Tooltip>
+                        <div className="text-center">
+                          <div className="font-semibold text-blue-600">#{idx + 1} {m.label || m.locality || 'Unknown'}</div>
+                          <div className="text-sm text-gray-600">{m.pos[0]?.toFixed(4) || 'N/A'}, {m.pos[1]?.toFixed(4) || 'N/A'}</div>
+                        </div>
+                      </Tooltip>
+                    </Marker>
+                  ))}
+                </MapContainer>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        {/* Desktop Layout: Chat | Filters + Map */}
+        <div className="hidden lg:grid grid-cols-2 gap-6">
+          {/* Left: Chat Section - page scrollable; chat scrolls internally */}
+          <section className="flex flex-col">
+            {/* Chat window */}
+            <div className="rounded-2xl border border-primary-200 dark:border-primary-800 bg-white/80 dark:bg-gray-900/60 backdrop-blur p-4 flex flex-col min-h-[80vh] lg:h-[calc(100vh-6rem)] overflow-hidden shadow-soft">
+              {/* Messages area scrolls inside chat card */}
+              <div ref={chatContainerRef} className="flex-1 overflow-y-auto space-y-4 px-4 pb-4 scroll-smooth relative">
+                {/* Subtle fade at top */}
+                <div className="absolute top-0 left-0 right-0 h-4 bg-gradient-to-b from-white/80 to-transparent dark:from-gray-900/80 pointer-events-none z-10"></div>
+                {/* Subtle fade at bottom */}
+                <div className="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-white/80 to-transparent dark:from-gray-900/80 pointer-events-none z-10"></div>
+                {messages.map((m, idx) => (
+                  <div key={idx} className={`flex items-start gap-2 ${m.role === 'user' ? 'justify-end' : 'justify-start'} animate-slide-up`}>
+                    {m.role === 'assistant' && (
+                      <div className="w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center shrink-0"><Bot className="w-4 h-4" /></div>
+                    )}
+                    <div className={`rounded-2xl px-4 py-2 max-w-[80%] break-words shadow ${m.role === 'user' ? 'bg-yellow-100 text-gray-900 border border-yellow-200' : 'bg-gray-100 dark:bg-gray-800 border border-gray-200/70 dark:border-gray-700'}`}>
+                      {m.role === 'assistant' ? (
+                        <div className="prose max-w-none text-gray-900 dark:text-gray-100 leading-relaxed overflow-y-auto">
+                          <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            components={{
+                              h2: ({ children }) => (
+                                <h2 className="text-xl font-bold mt-4 mb-3 border-b-2 border-gray-400 dark:border-gray-500 pb-2 text-gray-900 dark:text-white">
+                                  {children}
+                                </h2>
+                              ),
+                              h3: ({ children }) => (
+                                <h3 className="text-lg font-bold mt-4 mb-2 border-b border-gray-300 dark:border-gray-600 pb-1 text-gray-900 dark:text-white">
+                                  {children}
+                                </h3>
+                              ),
+                              h4: ({ children }) => (
+                                <h4 className="text-md font-semibold mt-2 mb-1 ml-2 text-blue-600 dark:text-blue-400">
+                                  {children}
+                                </h4>
+                              ),
+                              p: ({ children }) => {
+                                const text = children?.toString() || '';
+                                // Check if paragraph starts with bullet point
+                                if (text.startsWith('•')) {
+                                  return <li className="mb-2 leading-relaxed list-disc ml-6">{children}</li>;
+                                }
+                                return <p className="mb-2">{children}</p>;
+                              },
+                              ul: ({ children }) => <ul className="mb-3 ml-4 space-y-1">{children}</ul>,
+                              ol: ({ children }) => <ol className="mb-3 ml-4 space-y-1 list-decimal">{children}</ol>,
+                              li: ({ children }) => <li className="mb-1 leading-relaxed">{children}</li>,
+                              table: ({ children }) => (
+                                <div className="overflow-x-auto mb-4">
+                                  <table className="min-w-full border-collapse border border-gray-300 dark:border-gray-600">
+                                    {children}
+                                  </table>
+                                </div>
+                              ),
+                              th: ({ children }) => (
+                                <th className="border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 px-3 py-2 text-left font-semibold text-gray-900 dark:text-gray-100">
+                                  {children}
+                                </th>
+                              ),
+                              td: ({ children }) => (
+                                <td className="border border-gray-300 dark:border-gray-600 px-3 py-2 text-gray-800 dark:text-gray-200">
+                                  {children}
+                                </td>
+                              ),
+                              strong: ({ children }) => <strong className="font-semibold text-gray-900 dark:text-gray-100">{children}</strong>,
+                              br: () => <br />,
+                              code: ({ children }) => (
+                                <code className="bg-gray-200 dark:bg-gray-700 px-1 py-0.5 rounded text-sm font-mono">
+                                  {children}
+                                </code>
+                              ),
+                              blockquote: ({ children }) => (
+                                <blockquote className="border-l-4 border-blue-500 pl-4 italic text-gray-700 dark:text-gray-300 my-2">
+                                  {children}
+                                </blockquote>
+                              ),
+                            }}
+                          >
+                            {m.content
+                              ?.replace(/\[\d+\]/g, "") // Remove [1][2][3] references
+                              ?.replace(/\n{2,}/g, "\n\n") // Normalize spacing
+                              ?.replace(/•\s*•\s*/g, "• ") // Fix double bullet points
+                              ?.replace(/([^•\n])(•\s)/g, "$1\n$2") // Ensure bullet points are on new lines
+                              ?.replace(/([^•\n])(•)/g, "$1\n$2") // Ensure single bullet points are on new lines
+                              ?.replace(/([^#\n])(##\s)/g, "$1\n\n$2") // Ensure ## headers are on new lines
+                              ?.replace(/([^#\n])(###\s)/g, "$1\n\n$2") // Ensure ### headers are on new lines
+                              ?.replace(/([^#\n])(####\s)/g, "$1\n\n$2") // Ensure #### headers are on new lines
+                              ?.replace(/([^#\n])(#####\s)/g, "$1\n\n$2") // Ensure ##### headers are on new lines
+                              ?.trim()}
+                          </ReactMarkdown>
+                        </div>
+                      ) : ( // This is for user messages
+                        <div className="prose max-w-none text-gray-900 dark:text-gray-100 leading-relaxed">
+                          <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            components={{
+                              p: ({ children }) => <p className="mb-2">{children}</p>,
+                              em: ({ children }) => <em className="italic text-gray-700 dark:text-gray-300">{children}</em>,
+                              strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
+                              br: () => <br />,
+                            }}
+                          >
+                            {m.content}
+                          </ReactMarkdown>
+                        </div>
+                      )}
+                    </div>
+                    {m.role === 'user' && (
+                      <div className="w-7 h-7 rounded-full bg-gray-800 text-white flex items-center justify-center shrink-0"><User className="w-4 h-4" /></div>
+                    )}
+                  </div>
+                ))}
+                {isTyping && (
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center"><Bot className="w-4 h-4" /></div>
+                    <div className="px-4 py-2 rounded-2xl bg-gray-100 dark:bg-gray-800 border border-gray-200/70 dark:border-gray-700">
+                      <span className="inline-flex gap-1">
+                        <span className="animate-bounce [animation-delay:-0.3s] inline-block w-2 h-2 rounded-full bg-gray-500"></span>
+                        <span className="animate-bounce [animation-delay:-0.15s] inline-block w-2 h-2 rounded-full bg-gray-500"></span>
+                        <span className="animate-bounce inline-block w-2 h-2 rounded-full bg-gray-500"></span>
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Quick actions - hidden on mobile, visible on desktop */}
+              <div className="hidden lg:flex mt-2 flex-wrap gap-2">
+                {quickActions.map((qa) => (
+                  <QuickAction key={qa} label={qa} onClick={(label) => setInput(label)} />
+                ))}
+              </div>
+
+              {/* Sticky input at bottom of chat card */}
+              <form
+                className="mt-2 flex items-end gap-2 sticky bottom-0 pt-2 bg-gradient-to-t from-white/90 dark:from-gray-900/90 from-60% to-transparent"
+                onSubmit={(e) => { e.preventDefault(); handleSend(); }}
+              >
+                <div className="flex-1 flex flex-wrap items-center gap-2 border border-gray-300 dark:border-gray-700 bg-white/90 dark:bg-gray-900/80 rounded-xl p-2">
+                  <Sparkles className="w-4 h-4 text-yellow-500" />
+                  {/* Bubbles inline inside input */}
+                  {selectedCities.map((v) => (
+                    <span key={`city-${v}`} className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-yellow-100 text-yellow-900 border border-yellow-200 text-xs">
+                      {v}
+                      <button aria-label={`Remove ${v}`} onClick={() => setSelectedCities((prev) => prev.filter((x) => x !== v))} className="hover:text-red-600"><X className="w-3 h-3" /></button>
+                    </span>
+                  ))}
+                  {selectedLocalities.map((v, idx) => (
+                    <span key={`loc-${v}`} className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-yellow-100 text-yellow-900 border border-yellow-200 text-xs">
+                      <span className="w-4 h-4 rounded-full bg-blue-600 text-white text-xs flex items-center justify-center font-bold">#{idx + 1}</span>
+                      {v}
+                      <button aria-label={`Remove ${v}`} onClick={() => setSelectedLocalities((prev) => prev.filter((x) => x !== v))} className="hover:text-red-600"><X className="w-3 h-3" /></button>
+                    </span>
+                  ))}
+                  {selectedPropertyTypes.map((v) => (
+                    <span key={`pt-${v}`} className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-yellow-100 text-yellow-900 border border-yellow-200 text-xs">
+                      {v}
+                      <button aria-label={`Remove ${v}`} onClick={() => setSelectedPropertyTypes((prev) => prev.filter((x) => x !== v))} className="hover:text-red-600"><X className="w-3 h-3" /></button>
+                    </span>
+                  ))}
+                  {selectedSegments.map((v) => (
+                    <span key={`seg-${v}`} className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-yellow-100 text-yellow-900 border border-yellow-200 text-xs">
+                      {v}
+                      <button aria-label={`Remove ${v}`} onClick={() => setSelectedSegments((prev) => prev.filter((x) => x !== v))} className="hover:text-red-600"><X className="w-3 h-3" /></button>
+                    </span>
+                  ))}
+                  {selectedBudgets.map((v) => (
+                    <span key={`bud-${v}`} className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-yellow-100 text-yellow-900 border border-yellow-200 text-xs">
                       {v}
                       <button aria-label={`Remove ${v}`} onClick={() => setSelectedBudgets((prev) => prev.filter((x) => x !== v))} className="hover:text-red-600"><X className="w-3 h-3" /></button>
                     </span>
@@ -769,14 +1048,8 @@ export default function BhuvisAIPage() {
                     <Marker key={idx} position={m.pos} icon={getMarkerIcon(idx, markers.length)} eventHandlers={{ click: () => handlePinClick(m) }}>
                       <Tooltip direction="top" offset={[0, -12]} opacity={1} permanent={false}>
                         <div className="text-xs">
-                          <div className="font-semibold flex items-center gap-1">
-                            <MapPin className="w-3 h-3" /> 
-                            {m.label} 
-                            <span className="text-xs bg-gray-200 px-1 rounded">#{idx + 1}</span>
-                          </div>
-                          <div>Avg: {m.price}</div>
-                          <div>Growth: {m.growth}</div>
-                          <div>Demand: {m.demand}</div>
+                          <div className="font-semibold text-blue-600">#{idx + 1} {m.label || m.locality || 'Unknown'}</div>
+                          <div className="text-gray-600">{m.pos[0]?.toFixed(4) || 'N/A'}, {m.pos[1]?.toFixed(4) || 'N/A'}</div>
                         </div>
                       </Tooltip>
                     </Marker>
