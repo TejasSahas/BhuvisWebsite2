@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, TrendingUp } from 'lucide-react';
+import { Home, TrendingUp, Calculator, Info } from 'lucide-react';
 
 const RentWidget = ({ avgRent, loading }) => {
   if (loading) {
@@ -24,6 +24,9 @@ const RentWidget = ({ avgRent, loading }) => {
 
   // Use actual data if available, otherwise use defaults
   const rentData = avgRent || defaultRent;
+  
+  // Check if the data is calculated (not from API)
+  const isCalculated = avgRent?.isCalculated === true;
 
   return (
     <div className="card p-4 h-auto max-h-[350px]">
@@ -33,6 +36,15 @@ const RentWidget = ({ avgRent, loading }) => {
           <Home className="w-4 h-4 text-teal-600 dark:text-teal-400" />
         </div>
       </div>
+      
+      {/* Show notice if data is calculated */}
+      {isCalculated && (
+        <div className="mb-3 flex items-center gap-2 text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 p-1.5 rounded-md">
+          <Calculator className="w-3 h-3" />
+          <span>Estimated value (API data unavailable)</span>
+        </div>
+      )}
+      
       <div className="mb-2">
         <div className="text-3xl font-bold text-gray-900 dark:text-white">
           ₹{rentData.AvgRentPerSqft?.toLocaleString() || 'N/A'}/sqft
@@ -48,6 +60,14 @@ const RentWidget = ({ avgRent, loading }) => {
       <p className="text-sm text-gray-600 dark:text-gray-400">
         Average monthly rent per square foot for {rentData.PropertyType} properties in {rentData.Area}
       </p>
+      
+      {/* Show explanation for N/A values */}
+      {rentData.AvgRentPerSqft === 'N/A' && (
+        <div className="mt-2 flex items-center gap-2 text-xs text-blue-600 dark:text-blue-400">
+          <Info className="w-3 h-3" />
+          <span>Data not available for this area/property type</span>
+        </div>
+      )}
     </div>
   );
 };

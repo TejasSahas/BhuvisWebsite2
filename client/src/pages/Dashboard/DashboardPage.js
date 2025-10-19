@@ -7,7 +7,8 @@ import {
   DollarSign, 
   AlertCircle,
   RefreshCw,
-  Home
+  Home,
+  Plane
 } from 'lucide-react';
 import axios from 'axios';
 
@@ -19,6 +20,8 @@ import RentalYieldWidget from './components/RentalYieldWidget';
 import LocationWidget from './components/LocationWidget';
 import BusinessCategoryCard from './components/BusinessCategoryCard';
 import RentWidget from './components/RentWidget';
+import PriceAppreciationGraph from './components/PriceAppreciationGraph';
+import AirportDistanceWidget from './components/AirportDistanceWidget';
 
 const DashboardPage = () => {
   // State for filters
@@ -31,6 +34,7 @@ const DashboardPage = () => {
   const [rentalYield, setRentalYield] = useState(null);
   const [avgPrice, setAvgPrice] = useState(null);
   const [avgRent, setAvgRent] = useState(null);
+  const [airportDistance, setAirportDistance] = useState(null);
   const [filterResults, setFilterResults] = useState([]);
   const [businessCategoryData, setBusinessCategoryData] = useState(null);
   const [isDefaultBusinessData, setIsDefaultBusinessData] = useState(true);
@@ -77,6 +81,15 @@ const DashboardPage = () => {
         });
         setCoordinates(coordResponse.data);
         
+        // Fetch airport distance
+        try {
+          const distanceResponse = await axios.get(`/api/distance?area=${selectedArea}`);
+          setAirportDistance(distanceResponse.data);
+        } catch (err) {
+          console.error('Error fetching airport distance:', err);
+          setAirportDistance(null);
+        }
+        
         // Fetch rental yield
         const rentalResponse = await axios.post('/api/rental-yield', {
           area: selectedArea,
@@ -91,22 +104,41 @@ const DashboardPage = () => {
         });
         setAvgPrice(priceResponse.data);
         
-        // Calculate average rent based on price data
-        // In a real implementation, this would be a separate API call
-        // For now, we'll derive it from the price data
-        if (priceResponse.data && priceResponse.data.AvgPricePerSqft) {
-          // Typically, monthly rent is around 0.3-0.5% of property value
-          // We'll use a factor based on property type
-          const rentFactor = selectedType === 'commercial' ? 0.007 : 0.004;
-          const avgRentPerSqft = Math.round(priceResponse.data.AvgPricePerSqft * rentFactor);
-          
-          setAvgRent({
-            Area: priceResponse.data.Area,
-            PropertyType: priceResponse.data.PropertyType,
-            AvgRentPerSqft: avgRentPerSqft
+        // Fetch average rent data from API
+        try {
+          const rentResponse = await axios.get('/api/avg-rent', {
+            params: {
+              area: selectedArea,
+              propertyType: selectedType
+            }
           });
-        } else {
-          setAvgRent(null);
+          
+          if (rentResponse.data) {
+            setAvgRent({
+              Area: rentResponse.data.area,
+              PropertyType: rentResponse.data.propertyType,
+              AvgRentPerSqft: rentResponse.data.avgRentPerSqft
+            });
+          } else {
+            setAvgRent(null);
+          }
+        } catch (err) {
+          console.error('Error fetching average rent data:', err);
+          
+          // Fallback: Calculate average rent based on price data if API fails
+          if (priceResponse.data && priceResponse.data.AvgPricePerSqft) {
+            const rentFactor = selectedType === 'commercial' ? 0.007 : 0.004;
+            const avgRentPerSqft = Math.round(priceResponse.data.AvgPricePerSqft * rentFactor);
+            
+            setAvgRent({
+              Area: priceResponse.data.Area,
+              PropertyType: priceResponse.data.PropertyType,
+              AvgRentPerSqft: avgRentPerSqft,
+              isCalculated: true // Flag to indicate this is a calculated value
+            });
+          } else {
+            setAvgRent(null);
+          }
         }
         
         // Fetch filter results
@@ -121,35 +153,23 @@ const DashboardPage = () => {
           const businessResponse = await axios.get(`/api/business-area?business_area=${selectedArea}`);
           
           if (businessResponse.data && businessResponse.data.categories) {
-            // Transform the data format - multiply ROI values by 100 if needed
-            const transformedData = {
-              categories: businessResponse.data.categories.map(item => {
-                // Extract percentage value (remove % if it's a string)
-                let percentValue;
-                
-                // Handle percentage field
-                if (item.percentage !== undefined) {
-                  percentValue = typeof item.percentage === 'string' 
-                    ? parseFloat(item.percentage) 
-                    : item.percentage;
-                }
-                // Handle ROI field if present
-                else if (item.roi !== undefined) {
-                  percentValue = typeof item.roi === 'string'
-                    ? parseFloat(item.roi) * 100
-                    : item.roi * 100;
-                }
-                else {
-                  percentValue = 0;
-                }
-                
-                // If the API returns ROI values instead of percentages, multiply by 100
-                if (percentValue > 0 && percentValue < 1) {
-                  percentValue = percentValue * 100;
-                }
-                
-                // Round to 1 decimal place for consistency
-                percentValue = Math.round(percentValue * 10) / 10;
+              // Transform the data based on the actual API response format
+              const transformedData = {
+                categories: businessResponse.data.categories.map(item => {
+                  // Extract percentage value from string (remove % character)
+                  let percentValue;
+                  
+                  if (item.percentage !== undefined) {
+                    // The API returns percentage as "XX.XX%" string
+                    percentValue = typeof item.percentage === 'string' 
+                      ? parseFloat(item.percentage.replace('%', ''))
+                      : item.percentage;
+                  } else {
+                    percentValue = 0;
+                  }
+                  
+                  // Round to 1 decimal place for consistency
+                  percentValue = Math.round(percentValue * 10) / 10;
                 
                 return {
                   ...item,
@@ -161,29 +181,15 @@ const DashboardPage = () => {
             setBusinessCategoryData(transformedData);
             setIsDefaultBusinessData(false);
           } else {
-            // Use default data if API response doesn't have the expected format
-            setBusinessCategoryData({
-              categories: [
-                { name: 'IT/Software', percentage: 45 },
-                { name: 'Retail', percentage: 28 },
-                { name: 'Healthcare', percentage: 15 },
-                { name: 'Others', percentage: 12 }
-              ]
-            });
-            setIsDefaultBusinessData(true);
+            // Set to null if API response doesn't have the expected format
+            setBusinessCategoryData(null);
+            setIsDefaultBusinessData(false);
           }
         } catch (err) {
           console.error('Error fetching business category data:', err);
-          // Use default data on error
-          setBusinessCategoryData({
-            categories: [
-              { name: 'IT/Software', percentage: 45 },
-              { name: 'Retail', percentage: 28 },
-              { name: 'Healthcare', percentage: 15 },
-              { name: 'Others', percentage: 12 }
-            ]
-          });
-          setIsDefaultBusinessData(true);
+          // Set to null on error
+          setBusinessCategoryData(null);
+          setIsDefaultBusinessData(false);
         }
       } catch (err) {
         console.error('Error fetching dashboard data:', err);
@@ -221,6 +227,15 @@ const DashboardPage = () => {
           });
           setCoordinates(coordResponse.data);
           
+          // Fetch airport distance
+          try {
+            const distanceResponse = await axios.get(`/api/distance?area=${selectedArea}`);
+            setAirportDistance(distanceResponse.data);
+          } catch (err) {
+            console.error('Error fetching airport distance:', err);
+            setAirportDistance(null);
+          }
+          
           const rentalResponse = await axios.post('/api/rental-yield', {
             area: selectedArea,
             type: selectedType
@@ -233,18 +248,41 @@ const DashboardPage = () => {
           });
           setAvgPrice(priceResponse.data);
           
-          // Calculate average rent based on price data
-          if (priceResponse.data && priceResponse.data.AvgPricePerSqft) {
-            const rentFactor = selectedType === 'commercial' ? 0.007 : 0.004;
-            const avgRentPerSqft = Math.round(priceResponse.data.AvgPricePerSqft * rentFactor);
-            
-            setAvgRent({
-              Area: priceResponse.data.Area,
-              PropertyType: priceResponse.data.PropertyType,
-              AvgRentPerSqft: avgRentPerSqft
+          // Fetch average rent data from API
+          try {
+            const rentResponse = await axios.get('/api/avg-rent', {
+              params: {
+                area: selectedArea,
+                propertyType: selectedType
+              }
             });
-          } else {
-            setAvgRent(null);
+            
+            if (rentResponse.data) {
+              setAvgRent({
+                Area: rentResponse.data.area,
+                PropertyType: rentResponse.data.propertyType,
+                AvgRentPerSqft: rentResponse.data.avgRentPerSqft
+              });
+            } else {
+              setAvgRent(null);
+            }
+          } catch (err) {
+            console.error('Error fetching average rent data:', err);
+            
+            // Fallback: Calculate average rent based on price data if API fails
+            if (priceResponse.data && priceResponse.data.AvgPricePerSqft) {
+              const rentFactor = selectedType === 'commercial' ? 0.007 : 0.004;
+              const avgRentPerSqft = Math.round(priceResponse.data.AvgPricePerSqft * rentFactor);
+              
+              setAvgRent({
+                Area: priceResponse.data.Area,
+                PropertyType: priceResponse.data.PropertyType,
+                AvgRentPerSqft: avgRentPerSqft,
+                isCalculated: true // Flag to indicate this is a calculated value
+              });
+            } else {
+              setAvgRent(null);
+            }
           }
           
           const filterResponse = await axios.post('/api/filter-results', {
@@ -258,31 +296,19 @@ const DashboardPage = () => {
             const businessResponse = await axios.get(`/api/business-area?business_area=${selectedArea}`);
             
             if (businessResponse.data && businessResponse.data.categories) {
-              // Transform the data format - multiply ROI values by 100 if needed
+              // Transform the data based on the actual API response format
               const transformedData = {
                 categories: businessResponse.data.categories.map(item => {
-                  // Extract percentage value (remove % if it's a string)
+                  // Extract percentage value from string (remove % character)
                   let percentValue;
-                
-                  // Handle percentage field
-                  if (item.percentage !== undefined) {
-                    percentValue = typeof item.percentage === 'string' 
-                      ? parseFloat(item.percentage) 
-                      : item.percentage;
-                  }
-                  // Handle ROI field if present
-                  else if (item.roi !== undefined) {
-                    percentValue = typeof item.roi === 'string'
-                      ? parseFloat(item.roi) * 100
-                      : item.roi * 100;
-                  }
-                  else {
-                    percentValue = 0;
-                  }
                   
-                  // If the API returns ROI values instead of percentages, multiply by 100
-                  if (percentValue > 0 && percentValue < 1) {
-                    percentValue = percentValue * 100;
+                  if (item.percentage !== undefined) {
+                    // The API returns percentage as "XX.XX%" string
+                    percentValue = typeof item.percentage === 'string' 
+                      ? parseFloat(item.percentage.replace('%', ''))
+                      : item.percentage;
+                  } else {
+                    percentValue = 0;
                   }
                   
                   // Round to 1 decimal place for consistency
@@ -298,29 +324,15 @@ const DashboardPage = () => {
               setBusinessCategoryData(transformedData);
               setIsDefaultBusinessData(false);
             } else {
-              // Use default data if API response doesn't have the expected format
-              setBusinessCategoryData({
-                categories: [
-                  { name: 'IT/Software', percentage: 45 },
-                  { name: 'Retail', percentage: 28 },
-                  { name: 'Healthcare', percentage: 15 },
-                  { name: 'Others', percentage: 12 }
-                ]
-              });
-              setIsDefaultBusinessData(true);
+              // Set to null if API response doesn't have the expected format
+              setBusinessCategoryData(null);
+              setIsDefaultBusinessData(false);
             }
           } catch (err) {
             console.error('Error fetching business category data:', err);
-            // Use default data on error
-            setBusinessCategoryData({
-              categories: [
-                { name: 'IT/Software', percentage: 45 },
-                { name: 'Retail', percentage: 28 },
-                { name: 'Healthcare', percentage: 15 },
-                { name: 'Others', percentage: 12 }
-              ]
-            });
-            setIsDefaultBusinessData(true);
+            // Set to null on error
+            setBusinessCategoryData(null);
+            setIsDefaultBusinessData(false);
           }
         } catch (err) {
           console.error('Error refreshing dashboard data:', err);
@@ -347,14 +359,14 @@ const DashboardPage = () => {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Dashboard Header */}
       <section className="relative gradient-hero text-white overflow-hidden pt-16">
-        <div className="absolute inset-0 bg-black/30"></div>
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1554469384-e58fac16e23a?w=1200')] bg-cover bg-center opacity-15"></div>
-        <div className="relative container-custom py-6 md:py-8">
+        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1554469384-e58fac16e23a?w=1200')] bg-cover bg-center opacity-20"></div>
+        <div className="relative container-custom py-8 md:py-12">
           <div className="text-center max-w-4xl mx-auto">
-            <h1 className="hero-title text-white drop-shadow-2xl mb-6">
+            <h1 className="hero-title text-3xl md:text-4xl lg:text-5xl font-bold text-white drop-shadow-2xl mb-6">
               Pune Property Dashboard
             </h1>
-            <p className="text-xl lg:text-2xl text-gray-100 leading-relaxed mb-6">
+            <p className="text-xl lg:text-2xl text-gray-100 leading-relaxed mb-6 max-w-3xl mx-auto">
               Comprehensive real estate analytics and insights for the Pune region
             </p>
           </div>
@@ -362,10 +374,10 @@ const DashboardPage = () => {
       </section>
 
       {/* Filter Section */}
-      <section className="py-4 md:py-6 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+      <section className="py-5 md:py-6 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10 shadow-sm">
         <div className="container-custom">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-5">
+            <div className="flex flex-col md:flex-row items-center gap-5 w-full md:w-auto">
               <AreaSelector 
                 areas={areas} 
                 selectedArea={selectedArea} 
@@ -376,10 +388,10 @@ const DashboardPage = () => {
                 onChange={handleTypeChange} 
               />
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 mt-4 md:mt-0">
               <button 
                 onClick={handleRefresh} 
-                className="btn-secondary flex items-center gap-2"
+                className="btn-secondary flex items-center gap-2 px-6 py-2.5 rounded-lg transition-all hover:shadow-md"
                 disabled={loading}
               >
                 <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
@@ -399,51 +411,74 @@ const DashboardPage = () => {
       </section>
 
       {/* Main Dashboard Content */}
-      <section className="py-4 md:py-6 bg-gray-50 dark:bg-gray-900">
+      <section className="py-6 md:py-8 bg-gray-50 dark:bg-gray-900">
         <div className="container-custom">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            {/* Left Column - Map and Location */}
-            <div className="lg:col-span-1">
-              <LocationWidget 
-                coordinates={coordinates} 
+          {/* KPI Cards Row */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
+            <div className="transform hover:scale-102 transition-transform duration-200 hover:shadow-md">
+              <PriceWidget 
+                avgPrice={avgPrice} 
                 loading={loading} 
               />
             </div>
-            
-            {/* Right Column - KPIs and Charts */}
-            <div className="lg:col-span-2">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <PriceWidget 
-                  avgPrice={avgPrice} 
-                  loading={loading} 
-                />
-                <RentalYieldWidget 
-                  rentalYield={rentalYield} 
-                  propertyType={selectedType}
-                  loading={loading} 
-                />
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <RentWidget 
-                  avgRent={avgRent} 
-                  loading={loading} 
-                />
-                <div className="hidden md:block"></div>
-              </div>
-              
-              {/* Business Category Analysis Card */}
-              <BusinessCategoryCard 
-                businessData={businessCategoryData}
-                loading={loading}
-                isDefault={isDefaultBusinessData}
+            <div className="transform hover:scale-102 transition-transform duration-200 hover:shadow-md">
+              <RentalYieldWidget 
+                rentalYield={rentalYield} 
+                propertyType={selectedType}
+                loading={loading} 
               />
+            </div>
+            <div className="transform hover:scale-102 transition-transform duration-200 hover:shadow-md">
+              <RentWidget 
+                avgRent={avgRent} 
+                loading={loading} 
+              />
+            </div>
+            <div className="transform hover:scale-102 transition-transform duration-200 hover:shadow-md">
+              <AirportDistanceWidget 
+                distance={airportDistance}
+                loading={loading}
+                error={false}
+              />
+            </div>
+          </div>
+          
+          {/* Map, Price Appreciation, and Business Category in one row */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
+            {/* Left Column - Map and Location */}
+            <div className="lg:col-span-6 order-2 lg:order-1">
+              <div className="h-[700px] md:h-[800px] lg:h-[900px] xl:h-[1000px]"> {/* Further increased responsive height */}
+                <LocationWidget 
+                  coordinates={coordinates} 
+                  loading={loading} 
+                />
+              </div>
+            </div>
+            
+            {/* Right Column - Price Appreciation Graph and Business Category */}
+            <div className="lg:col-span-6 order-1 lg:order-2 flex flex-col gap-0">
+              <div>
+                <PriceAppreciationGraph 
+                  selectedArea={selectedArea}
+                  selectedType={selectedType}
+                  loading={loading}
+                />
+              </div>
+              
+              <div className="mt-0">
+                <BusinessCategoryCard 
+                  businessData={businessCategoryData}
+                  loading={loading}
+                  isDefault={isDefaultBusinessData}
+                />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Diagnostics Panel (for any unused API data) */}
+      {/* Diagnostics Panel (for any unused API data) - Commented out as requested */}
+      {/* 
       <section className="py-4 md:py-6 bg-white dark:bg-gray-800">
         <div className="container-custom">
           <div className="mb-4">
@@ -456,69 +491,18 @@ const DashboardPage = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Coordinates Data */}
             <div className="card p-4">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                 Coordinates API Response
               </h3>
               <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-auto max-h-60 text-xs">
-                {JSON.stringify(coordinates, null, 2) || 'No data available'}
-              </pre>
-            </div>
-            
-            {/* Rental Yield Data */}
-            <div className="card p-4">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                Rental Yield API Response
-              </h3>
-              <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-auto max-h-60 text-xs">
-                {JSON.stringify(rentalYield, null, 2) || 'No data available'}
-              </pre>
-            </div>
-            
-            {/* Average Price Data */}
-            <div className="card p-4">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                Average Price API Response
-              </h3>
-              <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-auto max-h-60 text-xs">
-                {JSON.stringify(avgPrice, null, 2) || 'No data available'}
-              </pre>
-            </div>
-            
-            {/* Average Rent Data */}
-            <div className="card p-4">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                Average Rent Data (Derived)
-              </h3>
-              <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-auto max-h-60 text-xs">
-                {JSON.stringify(avgRent, null, 2) || 'No data available'}
-              </pre>
-            </div>
-            
-            {/* Filter Results Data */}
-            <div className="card p-4">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                Filter Results API Response
-              </h3>
-              <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-auto max-h-60 text-xs">
-                {JSON.stringify(filterResults.slice(0, 5), null, 2) || 'No data available'}
-                {filterResults.length > 5 && '... (truncated)'}
-              </pre>
-            </div>
-            
-            {/* Business Category Data */}
-            <div className="card p-4">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                Business Category API Response
-              </h3>
-              <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-auto max-h-60 text-xs">
-                {JSON.stringify(businessCategoryData, null, 2) || 'No data available'}
+                Data here
               </pre>
             </div>
           </div>
         </div>
       </section>
+      */}
     </div>
   );
 };

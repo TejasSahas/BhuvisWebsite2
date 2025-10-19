@@ -1,20 +1,9 @@
 import React from 'react';
-import { BarChart3, Info } from 'lucide-react';
+import { BarChart3, Info, AlertCircle } from 'lucide-react';
 
 const BusinessCategoryCard = ({ businessData, loading, isDefault }) => {
-  // Default data for initial render or when API fails
-  const defaultCategories = [
-    { name: 'IT/Software', percentage: 45 },
-    { name: 'Retail', percentage: 28 },
-    { name: 'Healthcare', percentage: 15 },
-    { name: 'Others', percentage: 12 }
-  ];
-
-  // Use provided data or default if not available
-  const categories = businessData?.categories || defaultCategories;
-  
   // Process categories to ensure they have the correct format
-  const processedCategories = categories.map(item => {
+  const processedCategories = businessData?.categories?.map(item => {
     // Handle different data formats - API might return percentage as string with '%' or as a number
     let percentValue;
     
@@ -22,23 +11,10 @@ const BusinessCategoryCard = ({ businessData, loading, isDefault }) => {
     if (item.percentage !== undefined) {
       // Extract numeric value if it's a string with '%'
       percentValue = typeof item.percentage === 'string' 
-        ? parseFloat(item.percentage) 
+        ? parseFloat(item.percentage.replace('%', '')) 
         : item.percentage;
-    } 
-    // If ROI is available instead, multiply by 100
-    else if (item.roi !== undefined) {
-      percentValue = typeof item.roi === 'string'
-        ? parseFloat(item.roi) * 100
-        : item.roi * 100;
-    }
-    // Fallback
-    else {
+    } else {
       percentValue = 0;
-    }
-    
-    // Transform ROI values (values less than 1 are likely ROI values that need to be multiplied)
-    if (percentValue > 0 && percentValue < 1) {
-      percentValue = percentValue * 100;
     }
     
     // Round to 1 decimal place for consistency
@@ -83,29 +59,38 @@ const BusinessCategoryCard = ({ businessData, loading, isDefault }) => {
         </div>
       </div>
       
-      {isDefault && (
-        <div className="mb-3 flex items-center gap-2 text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 p-1.5 rounded-md">
-          <Info className="w-3 h-3" />
-          <span>Showing default data</span>
+      {/* Show message if no data is available */}
+      {!businessData && (
+        <div className="flex flex-col items-center justify-center py-8 text-center">
+          <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mb-3">
+            <AlertCircle className="w-6 h-6 text-red-600 dark:text-red-400" />
+          </div>
+          <h4 className="text-base font-medium text-gray-900 dark:text-white mb-1">No Data Available</h4>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Failed to fetch business category data for this area.
+          </p>
         </div>
       )}
       
-      <div className="space-y-3">
-        {processedCategories.map((item, index) => (
-          <div key={index} className="space-y-1">
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-700 dark:text-gray-300">{item.category}</span>
-              <span className="text-sm font-medium text-gray-900 dark:text-white">{item.percentage.toFixed(1)}%</span>
+      {/* Show data if available */}
+      {businessData && (
+        <div className="space-y-3">
+          {processedCategories.map((item, index) => (
+            <div key={index} className="space-y-1">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-700 dark:text-gray-300">{item.category}</span>
+                <span className="text-sm font-medium text-gray-900 dark:text-white">{item.percentage.toFixed(1)}%</span>
+              </div>
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+                <div 
+                  className="bg-blue-500 h-1.5 rounded-full" 
+                  style={{ width: `${item.percentage}%` }}
+                ></div>
+              </div>
             </div>
-            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
-              <div 
-                className="bg-blue-500 h-1.5 rounded-full" 
-                style={{ width: `${item.percentage}%` }}
-              ></div>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
