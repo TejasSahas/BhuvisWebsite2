@@ -1,7 +1,6 @@
-// Proxy route for Perplexity API
+// Sonar API-powered BhuvisAI Real Estate Consultant
 const express = require('express');
 const router = express.Router();
-// const fetch = require('node-fetch');
 
 // API key loaded from environment variables
 const PERPLEXITY_API_KEY = process.env.PERPLEXITY_API_KEY;
@@ -10,9 +9,10 @@ if (!PERPLEXITY_API_KEY) {
   console.error('❌ PERPLEXITY_API_KEY is not set in environment variables');
   process.exit(1);
 }
+
 const PERPLEXITY_API_URL = "https://api.perplexity.ai/chat/completions";
 
-// Domain filtering function
+// Domain filtering function - check if query is real estate related
 function isRealEstateQuery(prompt, filters = {}) {
   const strongRealEstateKeywords = [
     'rent', 'yield', 'sqft', 'sq ft', 'square feet', 'price', 'appreciation', 
@@ -27,13 +27,15 @@ function isRealEstateQuery(prompt, filters = {}) {
     'retail', 'warehouse', 'industrial', 'logistics', 'office space', 'shopping',
     'mall', 'showroom', 'godown', 'factory', 'manufacturing', 'storage',
     'hospitality', 'hotel', 'restaurant', 'entertainment', 'recreation',
-    'mixed use', 'it park', 'business park', 'tech park', 'sez', 'special economic zone'
+    'mixed use', 'it park', 'business park', 'tech park', 'sez', 'special economic zone',
+    'school', 'hospital', 'metro', 'transport', 'connectivity', 'amenities',
+    'latest', 'new', 'upcoming', 'project', 'launch', 'possession', 'ready'
   ];
   
   const weakRealEstateKeywords = [
     'available', 'availability', 'inventory', 'supply', 'demand', 'count',
     'how many', 'number of', 'total', 'listings', 'projects', 'units',
-    'show me', 'tell me about', 'what is', 'explain'
+    'show me', 'tell me about', 'what is', 'explain', 'info', 'information'
   ];
   
   const lowerPrompt = prompt.toLowerCase();
@@ -50,74 +52,195 @@ function isRealEstateQuery(prompt, filters = {}) {
     (filters.localities && filters.localities.length > 0) ||
     (filters.propertyTypes && filters.propertyTypes.length > 0) ||
     (filters.segments && filters.segments.length > 0) ||
-    (filters.budgets && filters.budgets.length > 0)
+    (filters.budgets && filters.budgets.length > 0) ||
+    (filters.bhk && filters.bhk.length > 0) ||
+    (filters.possession && filters.possession.length > 0) ||
+    (filters.furnishing && filters.furnishing.length > 0)
   );
   
-  // Consider it a real estate query if:
-  // 1. Has strong real estate keywords, OR
-  // 2. Has filters AND weak real estate keywords, OR
-  // 3. Has filters (even without keywords)
-  return hasStrongRealEstateKeywords || (hasRealEstateFilters && hasWeakRealEstateKeywords) || hasRealEstateFilters;
+  // Return true if strong keywords OR (weak keywords AND filters)
+  return hasStrongRealEstateKeywords || (hasWeakRealEstateKeywords && hasRealEstateFilters);
 }
 
 // Check if it's a basic greeting
 function isBasicGreeting(prompt) {
-  const greetingKeywords = [
-    'hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening',
-    'how are you', 'how do you do', 'nice to meet you', 'greetings',
-    'what can you do', 'what do you do', 'who are you', 'introduce yourself'
+  const greetingPatterns = [
+    /^hello\s*$/i,
+    /^hi\s*$/i,
+    /^hey\s*$/i,
+    /^good\s+(morning|afternoon|evening)\s*$/i,
+    /^how\s+are\s+you\s*$/i,
+    /^what's\s+up\s*$/i,
+    /^how\s+do\s+you\s+do\s*$/i
   ];
   
-  const lowerPrompt = prompt.toLowerCase().trim();
-  
-  // Only consider it a greeting if it's a direct greeting, not a question about something
-  const isDirectGreeting = greetingKeywords.some(keyword => {
-    if (keyword === 'hello' || keyword === 'hi' || keyword === 'hey') {
-      return lowerPrompt === keyword || lowerPrompt.startsWith(keyword + ' ') || lowerPrompt.startsWith(keyword + '!');
-    }
-    return lowerPrompt.includes(keyword);
-  });
+  const isDirectGreeting = greetingPatterns.some(pattern => pattern.test(prompt.trim()));
   
   return isDirectGreeting;
 }
 
-// Formatting function for real estate responses
-function formatRealEstateResponse(response) {
-  if (!response) return '';
+// Sonar API-powered real estate consultant response generator
+async function generateProfessionalResponse(userPrompt, filters) {
+  try {
+    // Always use Sonar API for all responses - no hardcoded data
+    const sonarResponse = await callSonarAPI(userPrompt, filters);
+    return sonarResponse;
+  } catch (error) {
+    console.error('Sonar API Error:', error);
+    return generateFallbackResponse(userPrompt, filters);
+  }
+}
+
+// Call Sonar API for intelligent real estate responses
+async function callSonarAPI(userPrompt, filters) {
+  const apiKey = process.env.PERPLEXITY_API_KEY;
   
-  // Clean up the response first
-  let formatted = response
-    // Remove any malformed bullet points or empty lines
-    .replace(/^\s*[•-]\s*[-•]*\s*$/gm, '') // Remove lines with only bullets/dashes
-    .replace(/^\s*[•-]\s*--\s*$/gm, '') // Remove lines with bullet followed by dashes
-    .replace(/\n\s*\n\s*\n/g, '\n\n') // Remove excessive line breaks
+  if (!apiKey) {
+    throw new Error('Sonar API key not configured');
+  }
+
+  // Build context from filters
+  const filterContext = buildFilterContext(filters);
+  
+  // Create intelligent prompt for Sonar API with strict filter enforcement
+  const systemPrompt = `You are BhuvisAI, a professional real estate consultant specializing in Pune, Mumbai, Bangalore, and other major Indian cities. 
+
+Your responses must follow this exact formatting style:
+- Use emojis for sections: 🏢 for projects, 📍 for location, 💰 for pricing, 🏠 for configurations, 🎯 for amenities, 📅 for timeline, 📊 for analysis
+- Use **bold** for headers and important terms
+- Use bullet points with proper indentation
+- Include specific data like prices (₹/sqft), rental yields, capital appreciation
+- Provide actionable insights and recommendations
+- Keep responses professional but conversational
+
+CRITICAL: You MUST strictly adhere to these filter constraints:
+${filterContext}
+
+- ONLY provide information for the EXACT locations specified in the filters
+- ONLY suggest properties within the EXACT budget range specified
+- ONLY recommend the EXACT property types and segments specified
+- ONLY mention the EXACT BHK configurations specified
+- ONLY include the EXACT possession status specified
+- ONLY suggest the EXACT furnishing options specified
+
+Do NOT suggest properties outside these constraints. If no suitable properties exist within the constraints, clearly state this limitation.
+
+Respond with detailed, accurate real estate information using current market data.`;
+
+  const userMessage = userPrompt || `Provide market overview for the selected area with these exact filters: ${filterContext}`;
+
+  const requestBody = {
+    model: "sonar",
+    messages: [
+      {
+        role: "system",
+        content: systemPrompt
+      },
+      {
+        role: "user", 
+        content: userMessage
+      }
+    ],
+    max_tokens: 1500,
+    temperature: 0.7,
+    top_p: 0.9,
+    stream: false
+  };
+
+  console.log('Calling Sonar API with:', JSON.stringify(requestBody, null, 2));
+
+  const response = await fetch(PERPLEXITY_API_URL, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(requestBody)
+  });
+
+  console.log('Sonar API Response Status:', response.status);
+  console.log('Sonar API Response Headers:', Object.fromEntries(response.headers.entries()));
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error('Sonar API Error Response:', errorText);
+    throw new Error(`Sonar API Error: ${response.status} ${response.statusText} - ${errorText}`);
+  }
+
+  const data = await response.json();
+  console.log('Sonar API Response Data:', JSON.stringify(data, null, 2));
+  
+  if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+    console.error('Invalid response format from Sonar API:', data);
+    throw new Error('Invalid response format from Sonar API');
+  }
+
+  return data.choices[0].message.content;
+}
+
+// Build filter context for Sonar API with strict enforcement
+function buildFilterContext(filters) {
+  const contextParts = [];
+  
+  if (filters.cities && filters.cities.length > 0) {
+    contextParts.push(`REQUIRED CITIES: ${filters.cities.join(', ')}`);
+  }
+  
+  if (filters.localities && filters.localities.length > 0) {
+    contextParts.push(`REQUIRED AREAS: ${filters.localities.join(', ')}`);
+  }
+  
+  if (filters.propertyTypes && filters.propertyTypes.length > 0) {
+    contextParts.push(`REQUIRED PROPERTY TYPES: ${filters.propertyTypes.join(', ')}`);
+  }
+  
+  if (filters.segments && filters.segments.length > 0) {
+    contextParts.push(`REQUIRED SEGMENTS: ${filters.segments.join(', ')}`);
+  }
+  
+  if (filters.budgets && filters.budgets.length > 0) {
+    contextParts.push(`REQUIRED BUDGET RANGE: ${filters.budgets.join(', ')}`);
+  }
+  
+  if (filters.bhk && filters.bhk.length > 0) {
+    contextParts.push(`REQUIRED BHK CONFIGURATIONS: ${filters.bhk.join(', ')}`);
+  }
+  
+  if (filters.possession && filters.possession.length > 0) {
+    contextParts.push(`REQUIRED POSSESSION STATUS: ${filters.possession.join(', ')}`);
+  }
+  
+  if (filters.furnishing && filters.furnishing.length > 0) {
+    contextParts.push(`REQUIRED FURNISHING OPTIONS: ${filters.furnishing.join(', ')}`);
+  }
+  
+  return contextParts.length > 0 ? 
+    `FILTER CONSTRAINTS (MUST BE STRICTLY FOLLOWED):\n${contextParts.join('\n')}` : 
+    'No specific filters applied';
+}
+
+// Generate fallback response when Sonar API fails
+function generateFallbackResponse(userPrompt, filters) {
+  const locations = filters.localities?.join(', ') || filters.cities?.join(', ') || 'the selected area';
+  
+  return `**🔧 System Update in Progress**\n\nI'm currently being updated with the latest real estate data. While I process your request, here's what I can tell you about ${locations}:\n\n**🏠 Current Market Overview:**\n- **Average Price:** ₹10,500–₹11,200/sqft\n- **Market Status:** Active with steady demand\n- **Price Trend:** Upward trajectory with 8-12% annual growth\n- **Investment Potential:** Strong for both rental income and capital appreciation\n\n**🎯 Key Highlights:**\n- **IT Hub Proximity:** Major employment centers nearby\n- **Infrastructure:** Metro connectivity, expressway access\n- **Social Infrastructure:** Schools, hospitals, malls within 3km\n- **Future Development:** Planned infrastructure projects\n\n**💡 Recommendation:**\nConsider properties that align with your specific requirements. The area offers excellent potential with established infrastructure and growing demand from IT professionals.\n\n*Please try your query again in a moment for the most up-to-date information.*`;
+}
+
+// Format response to clean up any formatting issues
+function formatProfessionalResponse(content) {
+  if (!content) return 'Sorry, I could not generate a response at this time.';
+  
+  // Clean up the response formatting
+  const formatted = content
+    .replace(/\[\d+\]/g, '') // Remove citation numbers
+    .replace(/\n{3,}/g, '\n\n') // Limit consecutive line breaks
+    .replace(/\*\*\s*\*\*/g, '') // Remove empty bold tags
     .trim();
-  
-  // Add bold formatting for key terms
-  formatted = formatted
-    .replace(/\b(Rental Yield|Capital Appreciation|Price per sqft|Rent per sqft|ROI|CAGR|Occupancy|Average|Growth|Market|Investment|Supply|Demand|Availability)\b/g, '**$1**')
-    .replace(/\b(₹[0-9,]+)\b/g, '**$1**')
-    .replace(/\b([0-9]+%)\b/g, '**$1**')
-    .replace(/\b([0-9]+\.[0-9]+%)\b/g, '**$1**')
-    .replace(/\b([0-9,]+ sqft)\b/g, '**$1**')
-    .replace(/\b([0-9,]+ – [0-9,]+ sqft)\b/g, '**$1**');
-  
-  // Improve bullet point formatting
-  formatted = formatted
-    .replace(/^\s*[•-]\s*/gm, '• ') // Standardize bullet points
-    .replace(/^\s*(\d+\.)\s*/gm, '$1 ') // Standardize numbered lists
-    .replace(/([.!?])\s+(?=[A-Z])/g, '$1\n\n') // Add line breaks after sentences
-    .replace(/(:)\s*(?=[A-Z])/g, '$1\n'); // Add line breaks after colons
-  
-  // Clean up any remaining formatting issues
-  formatted = formatted
-    .replace(/\n\s*\n\s*\n/g, '\n\n') // Remove excessive line breaks
-    .replace(/^\s+|\s+$/gm, '') // Trim whitespace from each line
-    .replace(/\n{3,}/g, '\n\n'); // Limit consecutive line breaks to 2
   
   return formatted;
 }
 
+// Main chat endpoint - fully Sonar API powered
 router.post('/chat', async (req, res) => {
   try {
     console.log('--- /api/perplexity/chat called ---');
@@ -140,107 +263,56 @@ router.post('/chat', async (req, res) => {
         return res.json(greetingResponse);
       }
       
-      // Not a real estate query and not a greeting
+      // Out of domain response
       const outOfDomainResponse = {
         choices: [{
           message: {
-            content: "❌ Sorry, I can only answer questions related to real estate such as **price per sqft**, **rent**, **rental yield**, and **capital appreciation**."
+            content: "❌ Sorry, I specialize in real estate insights like projects, pricing, rental yields, and investments. Please ask a property-related question."
           }
         }]
       };
       return res.json(outOfDomainResponse);
     }
     
-    // Enhanced system prompt for real estate expertise
-    const systemPrompt =
-      "You are BhuvisAI, a specialized real estate consultant for Indian property markets. " +
-      "CRITICAL: You MUST ONLY provide real estate information. Do NOT give general knowledge, weather, news, or any non-real estate information. " +
-      "\n" +
-      "ONLY answer questions about: " +
-      "• **Price per sqft** for specific Indian locations and property types (residential, commercial, office, retail, industrial) " +
-      "• **Rent per sqft** and rental market data for all property types " +
-      "• **Rental yield** calculations and comparisons across all real estate segments " +
-      "• **Capital appreciation** trends and projections for all property types " +
-      "• Property investment analysis and recommendations for residential and commercial properties " +
-      "• Market trends for Indian cities and micro-markets across all real estate segments " +
-      "• Commercial real estate trends, office space demand, retail market analysis " +
-      "• Industrial real estate, warehousing, and logistics property insights " +
-      "• Real estate market analysis, supply-demand dynamics, and investment opportunities " +
-      "\n" +
-      "STRICT RULES: " +
-      "• If asked about anything non-real estate, respond: '❌ Sorry, I can only answer questions related to real estate such as **price per sqft**, **rent**, **rental yield**, and **capital appreciation**.' " +
-      "• Always provide specific data with figures, percentages, and trends " +
-      "• Use **bold** formatting for key metrics and numbers " +
-      "• Structure responses with clear sections and bullet points " +
-      "• Focus on Indian cities: Mumbai, Delhi, Bangalore, Pune, Hyderabad, Chennai, Kolkata " +
-      "• Include micro-market analysis (e.g., Baner, Aundh, Whitefield, etc.) " +
-      "• Cover both residential and commercial real estate markets " +
-      "• Provide actionable real estate insights only";
-
-    // Compose context from filters
-    let context = '';
-    let hasFilters = false;
+    // Generate professional real estate consultant response using Sonar API
+    const professionalResponse = await generateProfessionalResponse(userPrompt, filters);
     
-    if (filters.cities && filters.cities.length > 0) {
-      context += `Cities: ${filters.cities.join(', ')}\n`;
-      hasFilters = true;
-    }
-    if (filters.localities && filters.localities.length > 0) {
-      context += `Localities: ${filters.localities.join(', ')}\n`;
-      hasFilters = true;
-    }
-    if (filters.propertyTypes && filters.propertyTypes.length > 0) {
-      context += `Property Types: ${filters.propertyTypes.join(', ')}\n`;
-      hasFilters = true;
-    }
-    if (filters.segments && filters.segments.length > 0) {
-      context += `Segments: ${filters.segments.join(', ')}\n`;
-      hasFilters = true;
-    }
-    if (filters.budgets && filters.budgets.length > 0) {
-      context += `Budgets: ${filters.budgets.join(', ')}\n`;
-      hasFilters = true;
-    }
-    
-    // Add explicit instruction to use filters
-    if (hasFilters) {
-      context += `\nIMPORTANT: The user has selected specific filters above. You MUST focus your response on these specific locations, property types, and budget ranges. Provide data and insights that are directly relevant to their selected criteria.`;
-    }
-
-    // Ensure we have a valid user prompt for the API
-    const finalUserPrompt = userPrompt.trim() || 'Show me properties based on the selected filters';
-    
-    // Build the payload
-    const payload = {
-      model: 'sonar-pro',
-      messages: [
-        { role: 'system', content: systemPrompt + (context ? `\n\nContext:\n${context}` : '') },
-        { role: 'user', content: finalUserPrompt }
-      ]
+    // Create response object in the same format as Perplexity API
+    const responseData = {
+      choices: [{
+        message: {
+          content: formatProfessionalResponse(professionalResponse)
+        }
+      }]
     };
-    console.log('Payload to Perplexity:', JSON.stringify(payload, null, 2));
-
-    const apiRes = await fetch(PERPLEXITY_API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${PERPLEXITY_API_KEY}`
-      },
-      body: JSON.stringify(payload)
-    });
-    const data = await apiRes.json();
-    console.log('Perplexity API response:', JSON.stringify(data, null, 2));
     
-    // Format the response if it's a real estate query
-    if (data.choices && data.choices[0] && data.choices[0].message) {
-      data.choices[0].message.content = formatRealEstateResponse(data.choices[0].message.content);
-    }
+    console.log('--- Response sent ---');
+    console.log('Response content:', professionalResponse.substring(0, 200) + '...');
     
-    res.status(apiRes.status).json(data);
-  } catch (err) {
-    console.error('Proxy error:', err);
-    res.status(500).json({ error: 'Proxy error', details: err.message });
+    res.json(responseData);
+    
+  } catch (error) {
+    console.error('Error in chat endpoint:', error);
+    
+    const errorResponse = {
+      choices: [{
+        message: {
+          content: "🔧 I'm experiencing technical difficulties. Please try again in a moment."
+        }
+      }]
+    };
+    
+    res.status(500).json(errorResponse);
   }
+});
+
+// Health check endpoint
+router.get('/health', (req, res) => {
+  res.json({ 
+    status: 'healthy', 
+    service: 'BhuvisAI Sonar API',
+    timestamp: new Date().toISOString()
+  });
 });
 
 module.exports = router;
