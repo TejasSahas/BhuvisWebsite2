@@ -8,8 +8,23 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const path = require('path');
 
+
 // Import configuration
 const config = require('./config/config');
+
+// MongoDB connection
+const mongoose = require('mongoose');
+
+// Connect to MongoDB before anything else
+mongoose.connect(process.env.MONGO_URI || config.db.url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => console.log('✅ Connected to MongoDB'))
+  .catch((err) => {
+    console.error('❌ MongoDB connection error:', err);
+    process.exit(1);
+  });
 
 // Import routes
 const dashboardRoutes = require('./routes/dashboard');
