@@ -355,7 +355,7 @@ const ComparativeAnalysisPage = () => {
        </section>
 
        {/* Advanced Analytics CTA */}
-       <section className="py-4 md:py-6 bg-gradient-to-r from-primary-600 to-teal-600 text-white">
+       <section className="py-4 md:py-6 gradient-hero text-white relative overflow-hidden">
          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
            <h2 className="text-3xl md:text-4xl font-bold mb-4">
              Get Advanced Comparative Intelligence
@@ -369,7 +369,7 @@ const ComparativeAnalysisPage = () => {
              <div className="bg-white/10 rounded-xl p-6">
                <h3 className="text-xl font-bold mb-3">Multi-City Analysis</h3>
                <p className="text-primary-100 mb-4">Compare up to 5 cities simultaneously with advanced metrics</p>
-              <Link to="/buyer-report" className="inline-flex items-center space-x-2 text-base px-6 py-3 rounded-lg font-bold shadow-lg transition-all duration-200 bg-yellow-400 hover:bg-yellow-500 text-primary-900 border-2 border-yellow-400 focus:ring-4 focus:ring-yellow-200 mt-1">
+              <Link to="/buyer-report" className="btn-cta shadow-glow-yellow inline-flex items-center justify-center gap-2 mt-1">
                 Get Buyer Report
               </Link>
              </div>
@@ -377,7 +377,7 @@ const ComparativeAnalysisPage = () => {
              <div className="bg-white/10 rounded-xl p-6">
                <h3 className="text-xl font-bold mb-3">Risk Assessment</h3>
                <p className="text-primary-100 mb-4">Comprehensive risk analysis with mitigation strategies</p>
-              <Link to="/enterprise-dashboard" className="inline-flex items-center space-x-2 text-base px-6 py-3 rounded-lg font-bold shadow-lg transition-all duration-200 bg-yellow-400 hover:bg-yellow-500 text-primary-900 border-2 border-yellow-400 focus:ring-4 focus:ring-yellow-200 mt-1">
+              <Link to="/enterprise-dashboard" className="btn-cta shadow-glow-yellow inline-flex items-center justify-center gap-2 mt-1">
                 Access Dashboard
               </Link>
              </div>
@@ -385,7 +385,7 @@ const ComparativeAnalysisPage = () => {
              <div className="bg-white/10 rounded-xl p-6">
                <h3 className="text-xl font-bold mb-3">Investment Roadmap</h3>
                <p className="text-primary-100 mb-4">5-year investment strategy with timeline and milestones</p>
-               <Link to="/investment-roadmap" className="inline-flex items-center space-x-2 text-base px-6 py-3 rounded-lg font-bold shadow-lg transition-all duration-200 bg-yellow-400 hover:bg-yellow-500 text-primary-900 border-2 border-yellow-400 focus:ring-4 focus:ring-yellow-200 mt-1">
+               <Link to="/investment-roadmap" className="btn-cta shadow-glow-yellow inline-flex items-center justify-center gap-2 mt-1">
                  Request Roadmap
                </Link>
              </div>

@@ -133,14 +133,14 @@ const ProjectDetailsPage = () => {
             <div className="lg:col-span-2 space-y-6">
               {/* Key Metrics */}
               <button 
-                className="inline-flex items-center space-x-2 text-base px-6 py-3 rounded-lg font-bold shadow-lg transition-all duration-200 bg-yellow-400 hover:bg-yellow-500 text-primary-900 border-2 border-yellow-400 focus:ring-4 focus:ring-yellow-200 mt-1"
+                className="btn-cta shadow-glow-yellow inline-flex items-center justify-center gap-2 mt-1"
                 onClick={() => window.location.href='/buyer-report'}
               >
                 Get Buyer Report
               </button>
               <p className="text-sm text-gray-600 dark:text-gray-400">Get Latest Price Details</p>
               <button 
-                className="inline-flex items-center space-x-2 text-lg px-8 py-4 rounded-lg font-bold shadow-lg transition-all duration-200 bg-yellow-400 hover:bg-yellow-500 text-primary-900 border-2 border-yellow-400 focus:ring-4 focus:ring-yellow-200"
+                className="btn-cta shadow-glow-yellow inline-flex items-center justify-center gap-2"
                 onClick={() => window.location.href='/buyer-report'}
               >
                 Get Buyer Report
@@ -183,7 +183,7 @@ const ProjectDetailsPage = () => {
                 <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
                   Want to know about price trends?
                 </h3>
-                <button className="inline-flex items-center space-x-2 text-lg px-8 py-4 rounded-lg font-bold shadow-lg transition-all duration-200 bg-yellow-400 hover:bg-yellow-500 text-primary-900 border-2 border-yellow-400 focus:ring-4 focus:ring-yellow-200">
+                <button className="btn-cta shadow-glow-yellow inline-flex items-center justify-center gap-2">
                   {/* Pricing/stat info or neutral message here */}
                 </button>
               </div>
@@ -251,7 +251,7 @@ const ProjectDetailsPage = () => {
                   <div className="flex justify-between">
                     <span className="text-gray-600 dark:text-gray-400">Launch Price</span>
                     <span className="font-medium text-gray-900 dark:text-white">
-                      <button className="btn-secondary bg-transparent border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white text-sm px-3 py-1 font-semibold border rounded">
+                      <button className="btn-secondary bg-transparent border-yellow-400 text-yellow-600 dark:text-yellow-400 hover:bg-yellow-400 hover:text-primary-900 text-sm px-3 py-1 font-semibold border rounded shadow-glow-yellow">
                         Request Launch Price
                       </button>
                     </span>
@@ -344,7 +344,7 @@ const ProjectDetailsPage = () => {
                       <p className="text-sm text-gray-600 dark:text-gray-400">0.5 km away</p>
                     </div>
                     <div className="text-right">
-                      <button className="btn-secondary bg-transparent border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white text-sm px-3 py-1 font-semibold border rounded">
+                      <button className="btn-secondary bg-transparent border-yellow-400 text-yellow-600 dark:text-yellow-400 hover:bg-yellow-400 hover:text-primary-900 text-sm px-3 py-1 font-semibold border rounded shadow-glow-yellow">
                         Compare Pricing
                       </button>
                     </div>
@@ -356,7 +356,7 @@ const ProjectDetailsPage = () => {
                       <p className="text-sm text-gray-600 dark:text-gray-400">1.2 km away</p>
                     </div>
                     <div className="text-right">
-                      <button className="btn-secondary bg-transparent border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white text-sm px-3 py-1 font-semibold border rounded">
+                      <button className="btn-secondary bg-transparent border-yellow-400 text-yellow-600 dark:text-yellow-400 hover:bg-yellow-400 hover:text-primary-900 text-sm px-3 py-1 font-semibold border rounded shadow-glow-yellow">
                         Compare Pricing
                       </button>
                     </div>
@@ -369,8 +369,9 @@ const ProjectDetailsPage = () => {
       </section>
 
       {/* Project Intelligence CTA */}
-      <section className="py-4 md:py-6 bg-gradient-to-r from-primary-600 to-teal-600 text-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="py-4 md:py-6 gradient-hero text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/30"></div>
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
            <h2 className="text-3xl md:text-4xl font-bold mb-4">
              Get Complete Project Intelligence
            </h2>
@@ -384,7 +385,7 @@ const ProjectDetailsPage = () => {
                <h3 className="text-2xl font-bold mb-3">Project Deep Dive</h3>
                <p className="text-primary-100 mb-4">Comprehensive analysis with 5-year projections and risk assessment</p>
                <button 
-                 className="inline-flex items-center space-x-2 text-base px-6 py-3 rounded-lg font-bold shadow-lg transition-all duration-200 bg-yellow-400 hover:bg-yellow-500 text-primary-900 border-2 border-yellow-400 focus:ring-4 focus:ring-yellow-200 mt-1"
+                 className="btn-cta shadow-glow-yellow inline-flex items-center justify-center gap-2 mt-1"
                  onClick={() => window.location.href='/buyer-report'}
                >
                  Get Buyer Report

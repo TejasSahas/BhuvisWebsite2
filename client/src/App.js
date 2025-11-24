@@ -15,7 +15,12 @@ import EnterpriseDashboardPage from './pages/EnterpriseDashboardPage';
 import InvestmentRoadmapPage from './pages/InvestmentRoadmapPage';
 import BhuvisAIPage from './pages/BhuvisAIPage';
 import DashboardPage from './pages/Dashboard';
-import EarlyAccessPage from './pages/EarlyAccessPage';
+import ServicesPage from './pages/ServicesPage';
+import ScheduleFreeSessionPage from './pages/ScheduleFreeSessionPage';
+import RequestCallPage from './pages/RequestCallPage';
+import CustomDashboardEnquiryPage from './pages/CustomDashboardEnquiryPage';
+import NewsletterSubscriptionPage from './pages/NewsletterSubscriptionPage';
+import ThankYouPage from './pages/ThankYouPage';
 
 // ScrollToTop component to handle scroll position on route changes
 function ScrollToTop() {
@@ -89,7 +94,12 @@ function App() {
                <Route path="/investment-roadmap" element={<InvestmentRoadmapPage />} />
                <Route path="/bhuvisaipage" element={<BhuvisAIPage />} />
                <Route path="/dashboard" element={<DashboardPage />} />
-               <Route path="/early-access" element={<EarlyAccessPage />} />
+               <Route path="/services" element={<ServicesPage />} />
+               <Route path="/schedule-free-session" element={<ScheduleFreeSessionPage />} />
+               <Route path="/request-call" element={<RequestCallPage />} />
+               <Route path="/custom-dashboard-enquiry" element={<CustomDashboardEnquiryPage />} />
+               <Route path="/newsletter-subscribe" element={<NewsletterSubscriptionPage />} />
+               <Route path="/thank-you" element={<ThankYouPage />} />
              </Routes>
           </main>
           <Footer />

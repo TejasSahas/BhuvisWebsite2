@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CTAButton from "./CTAButton";
 
-export default function AuthForm({ mode = "login" }) {
+export default function AuthForm({ mode = "login", onSuccess }) {
   const isRegister = mode === "register";
   const navigate = useNavigate();
 
@@ -53,8 +53,13 @@ export default function AuthForm({ mode = "login" }) {
 
       // Example: store token & redirect. Adjust to your app's auth flow.
       if (data.token) localStorage.setItem("token", data.token);
-      // Navigate to dashboard (change route as needed)
-      navigate("/access-enterprise");
+      
+      // Call onSuccess callback if provided, otherwise navigate
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        navigate("/access-enterprise");
+      }
     } catch (err) {
       setError(err.message || "Something went wrong");
     } finally {

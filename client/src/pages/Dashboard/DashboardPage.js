@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { 
   BarChart3, 
   TrendingUp, 
@@ -8,7 +9,8 @@ import {
   AlertCircle,
   RefreshCw,
   Home,
-  Plane
+  Plane,
+  ArrowRight
 } from 'lucide-react';
 import axios from 'axios';
 
@@ -373,6 +375,19 @@ const DashboardPage = () => {
         </div>
       </section>
 
+      {/* Dashboard Information Section */}
+      <section className="py-4 md:py-6 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+        <div className="container-custom">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-primary-50 dark:bg-primary-900/20 p-4 md:p-5 rounded-lg border border-primary-200 dark:border-primary-700">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                This dashboard displays real-time property data, price trends, rental yields, and location analytics for the <strong>Pune region</strong>. We can create <strong>custom dashboards tailored to your requirements</strong> for any city or region. Currently collecting data from different regions across India—we can tailor data compilation according to your specific needs.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Filter Section */}
       <section className="py-5 md:py-6 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10 shadow-sm">
         <div className="container-custom">
@@ -413,6 +428,15 @@ const DashboardPage = () => {
       {/* Main Dashboard Content */}
       <section className="py-6 md:py-8 bg-gray-50 dark:bg-gray-900">
         <div className="container-custom">
+          <div className="mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              Dashboard Overview
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400">
+              Explore property prices, rental yields, location insights, and market trends. Use the filters below to analyze specific areas and property types.
+            </p>
+          </div>
+          
           {/* KPI Cards Row */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
             <div className="transform hover:scale-102 transition-transform duration-200 hover:shadow-md">
@@ -477,32 +501,26 @@ const DashboardPage = () => {
         </div>
       </section>
 
-      {/* Diagnostics Panel (for any unused API data) - Commented out as requested */}
-      {/* 
-      <section className="py-4 md:py-6 bg-white dark:bg-gray-800">
-        <div className="container-custom">
-          <div className="mb-4">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Diagnostics Panel
-            </h2>
-            <p className="text-gray-600 dark:text-gray-400">
-              Raw data from API endpoints for development and debugging
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="card p-4">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                Coordinates API Response
-              </h3>
-              <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-auto max-h-60 text-xs">
-                Data here
-              </pre>
-            </div>
-          </div>
+      {/* CTA Section */}
+      <section className="py-8 md:py-12 gradient-hero text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/30"></div>
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200')] bg-cover bg-center opacity-15"></div>
+        <div className="relative container-custom text-center">
+          <h2 className="text-3xl lg:text-4xl font-bold text-white drop-shadow-2xl mb-4">
+            Want More Advanced Features?
+          </h2>
+          <p className="text-xl lg:text-2xl text-gray-100 max-w-3xl mx-auto leading-relaxed mb-6">
+            Get early access to our enterprise dashboard with comprehensive data services, custom analytics, and advanced tools.
+          </p>
+          <Link
+            to="/enterprise-dashboard"
+            className="btn-cta shadow-glow-yellow inline-flex items-center justify-center gap-2"
+          >
+            <span>Get Early Access</span>
+            <ArrowRight className="w-5 h-5" />
+          </Link>
         </div>
       </section>
-      */}
     </div>
   );
 };

@@ -9,5 +9,28 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+// Only initialize Firebase if all required config values are present
+const isFirebaseConfigured = 
+  firebaseConfig.apiKey && 
+  firebaseConfig.authDomain && 
+  firebaseConfig.projectId && 
+  firebaseConfig.appId;
+
+let app = null;
+let auth = null;
+
+if (isFirebaseConfigured) {
+  try {
+    app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+  } catch (error) {
+    console.warn('Firebase initialization failed:', error);
+    app = null;
+    auth = null;
+  }
+} else {
+  console.warn('Firebase is not configured. Google sign-in will be disabled. Add REACT_APP_FIREBASE_* environment variables to enable it.');
+}
+
+export { auth };
+export const isFirebaseAvailable = () => auth !== null;

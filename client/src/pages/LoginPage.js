@@ -41,21 +41,20 @@ const LoginPage = () => {
           alt="Real estate analytics dashboard"
           className="w-full h-full object-cover absolute inset-0 opacity-60"
         />
-        <div className="relative z-10 p-12 text-center">
-          <div className="flex flex-col items-center mb-6">
-            <div className="w-12 h-12 bg-gradient-to-br from-primary-600 to-teal-600 rounded-lg flex items-center justify-center shadow-lg">
-              <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 21V7a2 2 0 012-2h2a2 2 0 012 2v14M9 21V7a2 2 0 012-2h2a2 2 0 012 2v14M15 21V7a2 2 0 012-2h2a2 2 0 012 2v14"/></svg>
+        <div className="relative z-10 p-8 text-center">
+          <div className="flex flex-col items-center mb-4">
+            <div className="w-10 h-10 bg-gradient-to-br from-primary-600 to-teal-600 rounded-lg flex items-center justify-center shadow-lg">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 21V7a2 2 0 012-2h2a2 2 0 012 2v14M9 21V7a2 2 0 012-2h2a2 2 0 012 2v14M15 21V7a2 2 0 012-2h2a2 2 0 012 2v14"/></svg>
             </div>
-            <span className="text-2xl font-bold font-display mt-2 text-white drop-shadow">BhuvisX</span>
+            <span className="text-xl font-bold font-display mt-2 text-white drop-shadow">BhuvisX</span>
           </div>
-          <h2 className="text-4xl font-bold text-white mb-4 drop-shadow-lg">Welcome to BhuvisX</h2>
-          <p className="text-lg text-primary-100 mb-6 drop-shadow">
-            Unlock data-driven real estate insights, market trends, and investment opportunities. Join our community of investors, consultants, builders, and agents making smarter decisions every day.
+          <h2 className="text-3xl font-bold text-white mb-3 drop-shadow-lg">Welcome to BhuvisX</h2>
+          <p className="text-base text-primary-100 mb-4 drop-shadow">
+            Unlock data-driven real estate insights and investment opportunities.
           </p>
-          <ul className="text-left text-white/90 text-base space-y-2 mx-auto max-w-xs">
-            <li className="flex items-center gap-2"><span className="inline-block w-2 h-2 bg-saffron-400 rounded-full"></span> Secure & Private Login</li>
+          <ul className="text-left text-white/90 text-sm space-y-1.5 mx-auto max-w-xs">
+            <li className="flex items-center gap-2"><span className="inline-block w-2 h-2 bg-saffron-400 rounded-full"></span> Secure & Private</li>
             <li className="flex items-center gap-2"><span className="inline-block w-2 h-2 bg-saffron-400 rounded-full"></span> Personalized Dashboard</li>
-            <li className="flex items-center gap-2"><span className="inline-block w-2 h-2 bg-saffron-400 rounded-full"></span> Role-based Access</li>
             <li className="flex items-center gap-2"><span className="inline-block w-2 h-2 bg-saffron-400 rounded-full"></span> Real-time Analytics</li>
           </ul>
         </div>

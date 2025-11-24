@@ -31,34 +31,17 @@ import {
 const MarketTrendsPage = () => {
   // New: Market Trends Introduction (clean, modern, on-theme)
   const trendsIntro = (
-    <section className="relative bg-gradient-to-br from-primary-900 via-primary-800 to-teal-800 text-white overflow-hidden border-b border-gray-200 dark:border-gray-700 py-6 md:py-8">
-      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1554469384-e58fac16e23a?w=1200')] bg-cover bg-center opacity-20"></div>
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center gap-6 z-10">
-        <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-2 drop-shadow-lg">Indian Real Estate: Data-Driven Evolution</h2>
-        <p className="text-lg md:text-2xl text-primary-100 max-w-3xl mb-4 drop-shadow">
-          The Indian real estate market is transforming rapidly, shaped by technology, regulatory reforms, and new investment patterns. BhuvisX delivers the latest trends, forecasts, and actionable intelligence for every segment.
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-          <div className="bg-primary-800/80 rounded-xl shadow p-6 flex flex-col items-center">
-            <h3 className="text-lg font-semibold text-saffron-400 mb-2">Why Market Intelligence?</h3>
-            <ul className="list-disc pl-4 text-primary-100 space-y-1 text-left">
-              <li>Track demand-supply and price movements in real time</li>
-              <li>Spot high-growth corridors and investment hotspots</li>
-              <li>Leverage predictive analytics for smarter strategies</li>
-            </ul>
-          </div>
-          <div className="bg-primary-900/80 rounded-xl shadow p-6 flex flex-col items-center">
-            <h3 className="text-lg font-semibold text-saffron-400 mb-2">Our Approach</h3>
-            <p className="text-primary-100">Proprietary data, AI models, and expert research for trusted insights—whether you’re an investor, developer, or policymaker.</p>
-          </div>
-          <div className="bg-primary-800/80 rounded-xl shadow p-6 flex flex-col items-center">
-            <h3 className="text-lg font-semibold text-saffron-400 mb-2">Key Trends 2025</h3>
-            <ul className="list-disc pl-4 text-primary-100 space-y-1 text-left">
-              <li>Micro-market price appreciation outpaces national average</li>
-              <li>Commercial leasing rebounds in top 7 cities</li>
-              <li>Affordable housing demand surges in Tier-2 cities</li>
-            </ul>
-          </div>
+    <section className="relative gradient-hero text-white overflow-hidden pt-20 pb-12 min-h-[320px] md:min-h-[380px] flex items-center">
+      <div className="absolute inset-0 bg-black/30"></div>
+      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1554469384-e58fac16e23a?w=1200')] bg-cover bg-center opacity-15"></div>
+      <div className="relative container-custom w-full">
+        <div className="text-center max-w-3xl mx-auto">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white drop-shadow-2xl mb-4">
+            Market Trends & Insights
+          </h1>
+          <p className="text-lg lg:text-xl text-gray-100 leading-relaxed">
+            The Indian real estate market is transforming rapidly, shaped by technology, regulatory reforms, and new investment patterns. BhuvisX delivers the latest trends, forecasts, and actionable intelligence for every segment.
+          </p>
         </div>
       </div>
     </section>
@@ -77,7 +60,7 @@ const MarketTrendsPage = () => {
             <div className="w-full flex justify-center md:justify-start">
               <Link
                 to="/enterprise-dashboard"
-                className="inline-flex items-center space-x-2 text-lg px-8 py-4 rounded-lg font-bold shadow-lg transition-all duration-200 bg-yellow-400 hover:bg-yellow-500 text-primary-900 border-2 border-yellow-400 focus:ring-4 focus:ring-amber-200"
+                className="btn-cta shadow-glow-yellow inline-flex items-center justify-center gap-2"
                 style={{ boxShadow: '0 4px 24px 0 rgba(251,191,36,0.10)' }}
               >
                 Access Dashboard
@@ -517,7 +500,7 @@ const MarketTrendsPage = () => {
             </h3>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="space-y-4">
-                <div className="p-6 bg-gradient-to-br from-primary-50 to-teal-50 dark:from-primary-900/20 dark:to-teal-900/20 rounded-xl border border-primary-200 dark:border-primary-700">
+                <div className="p-6 bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 rounded-xl border border-primary-200 dark:border-primary-700">
                   <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">2025 Market Outlook</h4>
                   <ul className="space-y-2 text-gray-600 dark:text-gray-300">
                     <li className="flex items-start gap-2">
@@ -557,29 +540,29 @@ const MarketTrendsPage = () => {
                 </div>
               </div>
               <div className="space-y-4">
-                <div className="p-6 bg-gradient-to-br from-teal-50 to-cyan-50 dark:from-teal-900/20 dark:to-cyan-900/20 rounded-xl border border-teal-200 dark:border-teal-700">
+                <div className="p-6 bg-gradient-to-br from-saffron-50 to-saffron-100 dark:from-saffron-900/20 dark:to-saffron-800/20 rounded-xl border border-saffron-200 dark:border-saffron-700">
                   <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Key Market Drivers</h4>
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center">
+                      <div className="w-8 h-8 bg-saffron-500 rounded-full flex items-center justify-center">
                         <span className="text-white text-sm font-bold">1</span>
                       </div>
                       <span className="text-gray-700 dark:text-gray-300">Infrastructure development and connectivity</span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center">
+                      <div className="w-8 h-8 bg-saffron-500 rounded-full flex items-center justify-center">
                         <span className="text-white text-sm font-bold">2</span>
                       </div>
                       <span className="text-gray-700 dark:text-gray-300">IT/ITES sector expansion</span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center">
+                      <div className="w-8 h-8 bg-saffron-500 rounded-full flex items-center justify-center">
                         <span className="text-white text-sm font-bold">3</span>
                       </div>
                       <span className="text-gray-700 dark:text-gray-300">Government policy reforms</span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center">
+                      <div className="w-8 h-8 bg-saffron-500 rounded-full flex items-center justify-center">
                         <span className="text-white text-sm font-bold">4</span>
                       </div>
                       <span className="text-gray-700 dark:text-gray-300">Foreign direct investment</span>
@@ -614,8 +597,9 @@ const MarketTrendsPage = () => {
        </section>
 
        {/* Premium Intelligence CTA */}
-       <section className="py-4 md:py-6 bg-gradient-to-r from-primary-600 to-teal-600 text-white">
-         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+       <section className="py-4 md:py-6 gradient-hero text-white relative overflow-hidden">
+         <div className="absolute inset-0 bg-black/30"></div>
+         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
            <h2 className="text-3xl md:text-4xl font-bold mb-4">
              Get Exclusive Market Intelligence
            </h2>
@@ -628,7 +612,7 @@ const MarketTrendsPage = () => {
              <div className="bg-white/10 rounded-xl p-6">
                <h3 className="text-2xl font-bold mb-3">AI-Powered Predictions</h3>
                <p className="text-primary-100 mb-4">Get 12-month market forecasts with 95% accuracy using our proprietary AI models</p>
-              <Link to="/buyer-report" className="inline-flex items-center space-x-2 text-base px-6 py-3 rounded-lg font-bold shadow-lg transition-all duration-200 bg-yellow-400 hover:bg-yellow-500 text-primary-900 border-2 border-yellow-400 focus:ring-4 focus:ring-yellow-200">
+              <Link to="/buyer-report" className="btn-cta shadow-glow-yellow inline-flex items-center justify-center gap-2">
                 Get Buyer Report
               </Link>
              </div>
@@ -636,7 +620,7 @@ const MarketTrendsPage = () => {
              <div className="bg-white/10 rounded-xl p-6">
                <h3 className="text-2xl font-bold mb-3">Portfolio Optimization</h3>
                <p className="text-primary-100 mb-4">Personalized investment recommendations based on your risk profile and goals</p>
-              <Link to="/enterprise-dashboard" className="inline-flex items-center space-x-2 text-base px-6 py-3 rounded-lg font-bold shadow-lg transition-all duration-200 bg-yellow-400 hover:bg-yellow-500 text-primary-900 border-2 border-yellow-400 focus:ring-4 focus:ring-yellow-200">
+              <Link to="/enterprise-dashboard" className="btn-cta shadow-glow-yellow inline-flex items-center justify-center gap-2">
                 Access Dashboard
               </Link>
              </div>

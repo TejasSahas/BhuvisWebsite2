@@ -16,22 +16,24 @@ import { Link } from 'react-router-dom';
 const NewsPage = () => {
   // New: News & Insights Introduction
   const newsIntro = (
-    <section className="relative gradient-hero text-white overflow-hidden pt-16">
+    <section className="relative gradient-hero text-white overflow-hidden pt-20 pb-12 min-h-[320px] md:min-h-[380px] flex items-center">
       <div className="absolute inset-0 bg-black/30"></div>
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1554469384-e58fac16e23a?w=1200')] bg-cover bg-center opacity-15"></div>
-      <div className="relative container-custom py-6 md:py-8">
-        <div className="text-center max-w-4xl mx-auto">
-          <h1 className="hero-title text-white drop-shadow-2xl mb-6">
+      <div className="relative container-custom w-full">
+        <div className="text-center max-w-3xl mx-auto">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white drop-shadow-2xl mb-4">
             News & Research Hub
           </h1>
-          <p className="text-xl lg:text-2xl text-gray-100 leading-relaxed mb-6">
-            Stay ahead with curated news, policy updates, and expert insights from the Indian real estate sector. 
-            <span className="font-bold text-white">BhuvisX</span> delivers the most relevant market intelligence to help you make informed decisions.
+          <p className="text-lg lg:text-xl text-gray-100 leading-relaxed mb-6">
+            Stay ahead with curated news, policy updates, and expert insights from the Indian real estate sector.
           </p>
           <div className="flex justify-center">
-            <button className="btn-cta shadow-glow-yellow">
+            <Link
+              to="/newsletter-subscribe"
+              className="btn-cta shadow-glow-yellow inline-flex items-center justify-center gap-2"
+            >
               <span>Subscribe to Newsletter</span>
-            </button>
+            </Link>
           </div>
         </div>
       </div>

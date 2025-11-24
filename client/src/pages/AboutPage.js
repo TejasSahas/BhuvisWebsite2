@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { 
@@ -13,25 +13,33 @@ import {
   FileText,
   ExternalLink,
   CheckCircle,
-  AlertTriangle
+  AlertTriangle,
+  Phone,
+  Calendar,
+  Briefcase,
+  ClipboardList,
+  ArrowRight
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import MeetingBookingModal from '../components/MeetingBookingModal';
 
 const AboutPage = () => {
   const navigate = useNavigate();
+  const [showMeetingModal, setShowMeetingModal] = useState(false);
+  const [showCallModal, setShowCallModal] = useState(false);
   
   // Unified: Indian Real Estate Landscape & Analytics
   const realEstateIntro = (
-    <section className="relative gradient-hero text-white overflow-hidden pt-16">
+    <section className="relative gradient-hero text-white overflow-hidden pt-20 pb-12 min-h-[320px] md:min-h-[380px] flex items-center">
       <div className="absolute inset-0 bg-black/30"></div>
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1554469384-e58fac16e23a?w=1200')] bg-cover bg-center opacity-15"></div>
-      <div className="relative container-custom py-6 md:py-8">
-        <div className="text-center max-w-4xl mx-auto">
-          <h1 className="hero-title text-white drop-shadow-2xl mb-6">
+      <div className="relative container-custom w-full">
+        <div className="text-center max-w-3xl mx-auto">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white drop-shadow-2xl mb-4">
             About BhuvisX
           </h1>
-          <p className="text-xl lg:text-2xl text-gray-100 leading-relaxed mb-6">
-            <span className="font-bold text-white">BhuvisX</span> empowers investors, developers, and homebuyers with transparent, data-driven insights and actionable intelligence for the Indian real estate market. Our platform helps you navigate a rapidly evolving landscape shaped by urbanization, technology, and policy reforms—so you can make confident, informed decisions.
+          <p className="text-lg lg:text-xl text-gray-100 leading-relaxed">
+            <span className="font-bold text-white">BhuvisX</span> provides expert advisory services and comprehensive data solutions for real estate companies, investors, and buyers. We combine transparent, data-driven insights with expert advisory to help you navigate India's real estate market with confidence.
           </p>
         </div>
       </div>
@@ -158,8 +166,7 @@ const AboutPage = () => {
                 </h3>
               </div>
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                To provide the most accurate and insightful real estate analytics, 
-                empowering our clients to make informed and profitable investment decisions.
+                To provide expert advisory services and comprehensive data solutions that empower real estate companies, investors, and buyers to make informed, strategic decisions. We deliver personalized guidance, custom data compilation, and actionable insights tailored to each client's unique needs.
               </p>
             </div>
             <div className="card p-6">
@@ -170,7 +177,7 @@ const AboutPage = () => {
                 </h3>
               </div>
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                To democratize access to high-quality real estate intelligence, empowering all stakeholders across India with actionable, transparent, and timely data.
+                To be India's leading provider of real estate advisory services and data solutions, making expert guidance and comprehensive market intelligence accessible to real estate companies, investors, and buyers across the country.
               </p>
             </div>
           </div>
@@ -251,6 +258,105 @@ const AboutPage = () => {
         </div>
       </section>
 
+      {/* Our Services Section */}
+      <section className="py-4 md:py-6 bg-gray-50 dark:bg-gray-900">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-6">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+              Our Services
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              We provide comprehensive advisory and data services for real estate companies, investors, and buyers
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Advisory Services */}
+            <div className="card p-6 border-l-4 border-primary-500">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl flex items-center justify-center">
+                  <Briefcase className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  Advisory Services
+                </h3>
+              </div>
+              <p className="text-gray-700 dark:text-gray-300 mb-4">
+                Expert guidance for investors and buyers looking to make informed real estate decisions.
+              </p>
+              <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-primary-600 mt-0.5 flex-shrink-0" />
+                  <span>Investment advisory and strategy consultation</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-primary-600 mt-0.5 flex-shrink-0" />
+                  <span>Property evaluation and analysis for buyers</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-primary-600 mt-0.5 flex-shrink-0" />
+                  <span>Customized property reports and recommendations</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-primary-600 mt-0.5 flex-shrink-0" />
+                  <span>Market trend analysis and ROI projections</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-primary-600 mt-0.5 flex-shrink-0" />
+                  <span>Risk assessment and investment planning</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Data Services */}
+            <div className="card p-6 border-l-4 border-saffron-500">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-saffron-400 to-saffron-500 rounded-xl flex items-center justify-center">
+                  <Database className="w-6 h-6 text-primary-900" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  Data Services
+                </h3>
+              </div>
+              <p className="text-gray-700 dark:text-gray-300 mb-4">
+                Comprehensive data compilation and analytics for real estate companies building their databases.
+              </p>
+              <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-saffron-600 mt-0.5 flex-shrink-0" />
+                  <span>Custom data collection and compilation</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-saffron-600 mt-0.5 flex-shrink-0" />
+                  <span>Market intelligence and analytics</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-saffron-600 mt-0.5 flex-shrink-0" />
+                  <span>Micro-market and neighborhood data</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-saffron-600 mt-0.5 flex-shrink-0" />
+                  <span>Price trends and rental yield analysis</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-saffron-600 mt-0.5 flex-shrink-0" />
+                  <span>Documentation support and data management</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-8 text-center">
+            <Link
+              to="/services"
+              className="btn-cta shadow-glow-yellow inline-flex items-center gap-2"
+            >
+              <span>Explore Our Services</span>
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* Disclaimer */}
       <section className="py-4 md:py-6 bg-white dark:bg-gray-800">
@@ -301,34 +407,41 @@ const AboutPage = () => {
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200')] bg-cover bg-center opacity-15"></div>
         <div className="relative container-custom text-center">
           <h2 className="hero-title text-white drop-shadow-2xl mb-6">
-            Ready to Transform Your Real Estate Business?
+            Ready to Get Started?
           </h2>
           <p className="text-xl lg:text-2xl text-gray-100 max-w-4xl mx-auto leading-relaxed mb-6">
-            Join leading real estate professionals who trust BhuvisX for their data-driven decisions. 
-            Get started today and unlock the full potential of your portfolio.
+            Explore our comprehensive advisory and data services, or schedule a consultation call to discuss your specific requirements.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button 
-              className="btn-cta shadow-glow-yellow"
-              onClick={() => {
-                navigate('/enterprise-dashboard');
-                window.scrollTo(0, 0);
-              }}
+            <Link
+              to="/services"
+              className="btn-cta shadow-glow-yellow flex items-center justify-center gap-2"
             >
-              <span>Access Dashboard</span>
-            </button>
+              <span>View All Services</span>
+              <ArrowRight className="w-5 h-5" />
+            </Link>
             <button 
-              className="btn-cta shadow-glow-yellow"
-              onClick={() => {
-                navigate('/bhuvisaipage');
-                window.scrollTo(0, 0);
-              }}
+              className="btn-cta border-2 border-yellow-400/80 bg-yellow-400/20 hover:bg-yellow-400/30 backdrop-blur-sm text-white hover:text-primary-900 flex items-center justify-center gap-2 shadow-glow-yellow"
+              onClick={() => setShowCallModal(true)}
             >
-              <span>Try BhuvisAI</span>
+              <Phone className="w-5 h-5" />
+              <span>Schedule a Call</span>
             </button>
           </div>
         </div>
       </section>
+
+      {/* Meeting Booking Modals */}
+      <MeetingBookingModal 
+        isOpen={showMeetingModal} 
+        onClose={() => setShowMeetingModal(false)}
+        variant="meeting"
+      />
+      <MeetingBookingModal 
+        isOpen={showCallModal} 
+        onClose={() => setShowCallModal(false)}
+        variant="call"
+      />
     </div>
   );
 };

@@ -12,13 +12,24 @@ import {
   BarChart3,
   Newspaper,
   Target,
-  Shield
+  Shield,
+  Phone,
+  Calendar,
+  Users,
+  Database,
+  Briefcase,
+  CheckCircle,
+  Mail,
+  BarChart
 } from 'lucide-react';
 import axios from 'axios';
+import MeetingBookingModal from '../components/MeetingBookingModal';
 
 const HomePage = () => {
   const [marketData, setMarketData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showMeetingModal, setShowMeetingModal] = useState(false);
+  const [showCallModal, setShowCallModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -122,25 +133,26 @@ const HomePage = () => {
             <div className="flex-1 flex flex-col justify-center items-start space-y-5 max-w-2xl">
               <div className="space-y-2">
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white drop-shadow-2xl leading-tight">
-                  {marketData?.heroTagline || "Intelligence-Driven Real Estate Investment Platform"}
+                  Real Estate Advisory & Data Services
                 </h1>
                 <p className="text-lg md:text-xl text-gray-100 leading-relaxed max-w-xl">
-                  <span className="font-bold text-white">BhuvisX</span> delivers cutting-edge market intelligence, predictive analytics, and investment insights for the Indian real estate market. Make strategic decisions with AI-powered research and expert analysis.
+                  <span className="font-bold text-white">BhuvisX</span> provides expert advisory services and comprehensive data solutions for real estate companies, investors, and buyers. Get personalized guidance, custom data compilation, and strategic insights to make informed investment and purchasing decisions.
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-3 w-full">
-                <button
-                  type="button"
-                  className="btn-cta text-base md:text-lg px-8 py-4 shadow-glow-yellow"
-                  onClick={() => navigate('/bhuvisaipage')}
+                <Link
+                  to="/schedule-free-session"
+                  className="btn-cta text-base md:text-lg px-8 py-4 shadow-glow-yellow flex items-center justify-center gap-2"
                 >
-                  <span>Try BhuvisAI</span>
-                </button>
-                <Link 
-                  to="/dashboard" 
-                  className="btn-cta text-base md:text-lg px-8 py-4"
+                  <Calendar className="w-5 h-5" />
+                  <span>Schedule Free Session</span>
+                </Link>
+                <Link
+                  to="/request-call"
+                  className="btn-cta text-base md:text-lg px-8 py-4 flex items-center justify-center gap-2"
                 >
-                  <span>Access Dashboard</span>
+                  <Phone className="w-5 h-5" />
+                  <span>Request for a Call</span>
                 </Link>
               </div>
             </div>
@@ -190,10 +202,10 @@ const HomePage = () => {
               <div className="flex-1 space-y-3">
                 <div className="space-y-2">
                   <h2 className="section-title text-3xl lg:text-4xl text-gray-900 dark:text-white">
-                    🎯 Now Available: Pune Region Data
+                    🎯 Data Services: Pune Region Available
                   </h2>
                   <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-                    We now have comprehensive data coverage for the Pune region, including detailed micro-market analysis and neighborhood insights. Data for other cities and regions can be arranged on demand, and we're continuously expanding our database.
+                    Our data services include comprehensive coverage for the Pune region with detailed micro-market analysis and neighborhood insights. We provide custom data compilation services for real estate companies looking to build comprehensive databases. Data for other cities and regions can be arranged on demand through our advisory services.
                   </p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -218,15 +230,15 @@ const HomePage = () => {
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Coverage Areas:</h3>
                     <ul className="space-y-1">
                       <li className="flex items-center gap-3 text-gray-800 dark:text-gray-200">
-                        <span className="inline-block w-2 h-2 rounded-full bg-teal-500"></span>
+                        <span className="inline-block w-2 h-2 rounded-full bg-saffron-500"></span>
                         Baner, Aundh, Wakad
                       </li>
                       <li className="flex items-center gap-3 text-gray-800 dark:text-gray-200">
-                        <span className="inline-block w-2 h-2 rounded-full bg-teal-500"></span>
+                        <span className="inline-block w-2 h-2 rounded-full bg-saffron-500"></span>
                         Koregaon Park, FC Road
                       </li>
                       <li className="flex items-center gap-3 text-gray-800 dark:text-gray-200">
-                        <span className="inline-block w-2 h-2 rounded-full bg-teal-500"></span>
+                        <span className="inline-block w-2 h-2 rounded-full bg-saffron-500"></span>
                         Hinjewadi, Magarpatta
                       </li>
                     </ul>
@@ -241,7 +253,7 @@ const HomePage = () => {
               {/* Right: Stats Card */}
               <div className="flex-1 flex items-center justify-center">
                 <div className="card-glass border-2 border-primary-600/30 p-8 flex flex-col items-center text-center max-w-sm">
-                  <div className="w-20 h-20 bg-gradient-to-br from-primary-500 to-teal-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                  <div className="w-20 h-20 bg-gradient-to-br from-primary-500 to-primary-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
                     <MapPin className="w-10 h-10 text-white" />
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Pune Coverage</h3>
@@ -252,19 +264,20 @@ const HomePage = () => {
                     </div>
                     <div className="flex justify-between">
                       <span>Data Points:</span>
-                      <span className="font-semibold text-teal-600 dark:text-teal-400">10,000+</span>
+                      <span className="font-semibold text-saffron-600 dark:text-saffron-400">10,000+</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Update Frequency:</span>
                       <span className="font-semibold text-saffron-600 dark:text-saffron-400">Daily</span>
                     </div>
                   </div>
-                  <button
-                    className="btn-cta text-lg px-8 py-4 shadow-glow-yellow w-full"
-                    onClick={() => navigate('/dashboard')}
+                  <Link
+                    to="/services"
+                    className="btn-cta text-lg px-8 py-4 shadow-glow-yellow w-full flex items-center justify-center gap-2"
                   >
-                    <span>Access Dashboard</span>
-                  </button>
+                    <span>Explore Our Services</span>
+                    <ArrowRight className="w-5 h-5" />
+                  </Link>
                 </div>
               </div>
             </div>
@@ -280,10 +293,10 @@ const HomePage = () => {
               <div className="flex-1 space-y-3">
                 <div className="space-y-2">
                   <h2 className="section-title text-3xl lg:text-4xl text-gray-900 dark:text-white">
-                    Get AI-powered Recommendations for Free
+                    Advisory Services: AI-Powered Recommendations
                   </h2>
                   <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-                    BhuvisAI helps you find the best properties and investment opportunities with advanced AI. Instantly get:
+                    Our advisory services include BhuvisAI, which helps investors and buyers find the best properties and investment opportunities. Through our advisory consultations, you get:
                   </p>
                 </div>
                 <ul className="space-y-2">
@@ -300,17 +313,27 @@ const HomePage = () => {
                     Micro-market and neighborhood analysis
                   </li>
                 </ul>
-                <button
-                  className="btn-cta text-lg px-8 py-4 shadow-glow-yellow"
-                  onClick={() => navigate('/bhuvisaipage')}
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link
+                  to="/services"
+                  className="btn-cta text-lg px-8 py-4 shadow-glow-yellow inline-flex items-center gap-2"
                 >
-                  <span>Try BhuvisAI Now</span>
-                </button>
+                  <span>Learn About Our Services</span>
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+                <Link
+                  to="/custom-dashboard-enquiry"
+                  className="btn-cta text-lg px-8 py-4 border-2 border-yellow-400 bg-transparent text-yellow-600 dark:text-yellow-400 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 inline-flex items-center gap-2 shadow-glow-yellow"
+                >
+                  <BarChart className="w-5 h-5" />
+                  <span>Custom Dashboard</span>
+                </Link>
+              </div>
               </div>
               {/* Right: AI Icon Card */}
               <div className="flex-1 flex items-center justify-center">
                 <div className="card-glass border-2 border-primary-600/30 p-8 flex flex-col items-center text-center max-w-sm">
-                  <div className="w-20 h-20 bg-gradient-to-br from-primary-500 to-teal-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                  <div className="w-20 h-20 bg-gradient-to-br from-primary-500 to-primary-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
                     <svg width="40" height="40" fill="none" viewBox="0 0 64 64" className="text-white">
                       <circle cx="32" cy="32" r="24" fill="currentColor"/>
                       <path d="M32 20v24M20 32h24" stroke="#FDE68A" strokeWidth="3" strokeLinecap="round"/>
@@ -360,7 +383,7 @@ const HomePage = () => {
                 </div>
                 <div className="stat-card p-4 text-center h-20 flex flex-col justify-center">
                   <div className="text-sm text-gray-600 dark:text-gray-400">Avg Rent/sqft</div>
-                  <div className="text-xl font-bold text-teal-600 dark:text-teal-400">₹72</div>
+                  <div className="text-xl font-bold text-saffron-600 dark:text-saffron-400">₹72</div>
                 </div>
                 <div className="stat-card p-4 text-center h-20 flex flex-col justify-center">
                   <div className="text-sm text-gray-600 dark:text-gray-400">Rental Yield</div>
@@ -372,10 +395,10 @@ const HomePage = () => {
             <div className="order-1 lg:order-2 flex flex-col items-start justify-center space-y-4">
               <div className="space-y-2">
                 <h2 className="section-title text-3xl lg:text-4xl text-gray-900 dark:text-white">
-                  Ground-level Insights for Smarter Investments
+                  Advisory Services: Ground-level Insights for Smarter Investments
                 </h2>
                 <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-                  Explore real-time data from Pune's most dynamic streets. Get hyperlocal price trends, rental yields, and neighborhood analytics to make confident investment decisions. Our interactive map and stats bring you closer to the ground reality.
+                  Our advisory team provides ground-level insights from Pune's most dynamic markets. Through our advisory services, we deliver hyperlocal price trends, rental yields, and neighborhood analytics to help investors and buyers make confident decisions. Our data services compile comprehensive market intelligence for real estate companies.
                 </p>
               </div>
               
@@ -389,7 +412,7 @@ const HomePage = () => {
                   </div>
                   <div className="stat-card p-4 h-20 flex flex-col justify-center">
                     <div className="text-sm text-gray-600 dark:text-gray-400">Rental Demand</div>
-                    <div className="text-xl font-bold text-teal-600 dark:text-teal-400">High</div>
+                    <div className="text-xl font-bold text-saffron-600 dark:text-saffron-400">High</div>
                   </div>
                   <div className="stat-card p-4 h-20 flex flex-col justify-center">
                     <div className="text-sm text-gray-600 dark:text-gray-400">New Launches</div>
@@ -414,10 +437,10 @@ const HomePage = () => {
             <div className="order-2 xl:order-1 space-y-3 sm:space-y-4 w-full">
               <div className="space-y-2 sm:space-y-3">
                 <h2 className="section-title text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-gray-900 dark:text-white">
-                  Get a Customized Property Report
+                  Advisory Services: Customized Property Reports
                 </h2>
                 <p className="text-base sm:text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-                  Want a deep-dive analysis for a specific property, project, or micro-market? Our customized reports deliver tailored insights, price trends, rental yields, and growth forecasts—curated by our expert team and powered by BhuvisX AI.
+                  Our advisory services include customized property reports for investors and buyers evaluating specific properties, projects, or micro-markets. We deliver tailored insights, price trends, rental yields, and growth forecasts—curated by our expert advisory team and powered by BhuvisX AI. Perfect for making informed investment or end-use purchase decisions.
                 </p>
               </div>
               <ul className="space-y-1 sm:space-y-2 text-sm sm:text-base text-gray-800 dark:text-gray-200">
@@ -452,7 +475,7 @@ const HomePage = () => {
                   </div>
                   <div className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 card">
                     <div className="w-6 h-6 sm:w-8 sm:h-8 bg-teal-100 dark:bg-teal-900 rounded-full flex items-center justify-center flex-shrink-0">
-                      <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-teal-600" />
+                      <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-saffron-600" />
                     </div>
                     <div>
                       <div className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white">Growth Forecast</div>
@@ -501,18 +524,120 @@ const HomePage = () => {
   {/* Commercial Buyer Attraction Section */}
   {/* Commercial Buyer Attraction Section removed as requested */}
 
-      {/* Features Section */}
-      <section className="py-4 md:py-6 bg-gray-50 dark:bg-gray-900">
+      {/* Services Overview Section */}
+      <section className="py-8 md:py-12 bg-gray-50 dark:bg-gray-900">
         <div className="container-custom">
-          <div className="text-center mb-6">
-            <h2 className="section-title text-3xl lg:text-4xl text-gray-900 dark:text-white">
-              Comprehensive Analytics Platform
+          <div className="text-center mb-12">
+            <h2 className="section-title text-3xl lg:text-4xl text-gray-900 dark:text-white mb-4">
+              Our Services
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Everything you need to make informed real estate investment decisions
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8">
+              Comprehensive advisory and data services designed to help you make informed real estate decisions
             </p>
           </div>
 
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            {/* Advisory Services Card */}
+            <div className="card p-8 group hover:shadow-2xl transition-all duration-300 border-l-4 border-primary-500">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Briefcase className="w-8 h-8 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Advisory Services</h3>
+                  <p className="text-gray-600 dark:text-gray-400">Expert guidance for investors & buyers</p>
+                </div>
+              </div>
+              <p className="text-gray-700 dark:text-gray-300 mb-6">
+                Our advisory team provides personalized guidance for investors seeking profitable opportunities and buyers looking for the perfect property. We offer investment strategy, property evaluation, risk assessment, and comprehensive market analysis.
+              </p>
+              <ul className="space-y-2 mb-6">
+                <li className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                  <CheckCircle className="w-5 h-5 text-primary-600 flex-shrink-0" />
+                  <span>Investment Advisory & Strategy</span>
+                </li>
+                <li className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                  <CheckCircle className="w-5 h-5 text-primary-600 flex-shrink-0" />
+                  <span>Property Evaluation & Analysis</span>
+                </li>
+                <li className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                  <CheckCircle className="w-5 h-5 text-primary-600 flex-shrink-0" />
+                  <span>Customized Property Reports</span>
+                </li>
+                <li className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                  <CheckCircle className="w-5 h-5 text-primary-600 flex-shrink-0" />
+                  <span>Market Analysis & Insights</span>
+                </li>
+              </ul>
+              <Link
+                to="/services"
+                className="btn-cta shadow-glow-yellow inline-flex items-center gap-2"
+              >
+                <span>Explore Advisory Services</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            {/* Data Services Card */}
+            <div className="card p-8 group hover:shadow-2xl transition-all duration-300 border-l-4 border-saffron-500">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-saffron-400 to-saffron-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Database className="w-8 h-8 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Data Services</h3>
+                  <p className="text-gray-600 dark:text-gray-400">Comprehensive data for real estate companies</p>
+                </div>
+              </div>
+              <p className="text-gray-700 dark:text-gray-300 mb-6">
+                We help real estate companies build comprehensive databases through custom data compilation, market intelligence, and analytics. Our services include property listings, price trends, micro-market data, and documentation support.
+              </p>
+              <ul className="space-y-2 mb-6">
+                <li className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                  <CheckCircle className="w-5 h-5 text-saffron-600 flex-shrink-0" />
+                  <span>Custom Data Compilation</span>
+                </li>
+                <li className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                  <CheckCircle className="w-5 h-5 text-saffron-600 flex-shrink-0" />
+                  <span>Market Intelligence & Analytics</span>
+                </li>
+                <li className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                  <CheckCircle className="w-5 h-5 text-saffron-600 flex-shrink-0" />
+                  <span>Micro-Market & Location Data</span>
+                </li>
+                <li className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                  <CheckCircle className="w-5 h-5 text-saffron-600 flex-shrink-0" />
+                  <span>Documentation & Data Management</span>
+                </li>
+              </ul>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link
+                  to="/services"
+                  className="btn-cta shadow-glow-yellow inline-flex items-center gap-2"
+                >
+                  <span>Explore Data Services</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link
+                  to="/custom-dashboard-enquiry"
+                  className="btn-cta shadow-glow-yellow inline-flex items-center gap-2"
+                >
+                  <BarChart className="w-4 h-4" />
+                  <span>Custom Dashboard</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Product Features */}
+          <div className="text-center mb-8">
+            <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+              Our Platform Tools
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
+              Access our analytics platform and AI-powered tools
+            </p>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {features.map((feature, index) => {
               const Icon = feature.icon;
@@ -522,7 +647,7 @@ const HomePage = () => {
                   to={feature.link}
                   className="feature-card group"
                 >
-                  <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-teal-500 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                  <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
                     <Icon className="w-8 h-8 text-white" />
                   </div>
                   <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 text-center">
@@ -560,82 +685,75 @@ const HomePage = () => {
             <div className="flex flex-col items-start justify-center space-y-4">
               <div className="space-y-2">
                 <h2 className="section-title text-3xl lg:text-4xl text-gray-900 dark:text-white">
-                  For Every Real Estate Professional
+                  Our Services: Who We Help
                 </h2>
                 <p className="text-lg text-gray-700 dark:text-gray-300">
-                  Tailored solutions for every stakeholder in the real estate ecosystem
+                  We provide advisory services and data solutions tailored for real estate companies, investors, and buyers
                 </p>
               </div>
               <div className="grid grid-cols-1 gap-3 w-full">
                 <div className="card p-5 border-l-4 border-yellow-400">
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Individual Investors</h3>
-                  <p className="text-gray-700 dark:text-gray-300">Discover the best opportunities for personal wealth growth, with data-driven insights and risk analysis tailored to your goals.</p>
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Real Estate Companies</h3>
+                  <p className="text-gray-700 dark:text-gray-300">Our data services help you compile comprehensive databases, market intelligence, and analytics. We provide custom data collection, documentation support, and market insights tailored to your business needs.</p>
                 </div>
                 <div className="card p-5 border-l-4 border-yellow-400">
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Investor Groups</h3>
-                  <p className="text-gray-700 dark:text-gray-300">Collaborate and strategize with advanced analytics, portfolio tools, and group benchmarking for collective success.</p>
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Investors</h3>
+                  <p className="text-gray-700 dark:text-gray-300">Our advisory services provide investment guidance, property analysis, ROI projections, and market trend insights. Get personalized recommendations for investment opportunities with risk assessment and growth forecasts.</p>
                 </div>
                 <div className="card p-5 border-l-4 border-yellow-400">
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Realtors & Brokers</h3>
-                  <p className="text-gray-700 dark:text-gray-300">Empower your clients with transparent data, market trends, and custom reports to close deals faster and build trust.</p>
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Buyers (End Use)</h3>
+                  <p className="text-gray-700 dark:text-gray-300">Our advisory services help you find the right property for your needs. We provide neighborhood analysis, property comparisons, lifestyle insights, and expert recommendations to make confident purchase decisions.</p>
                 </div>
                 <div className="card p-5 border-l-4 border-yellow-400">
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Home Buyers</h3>
-                  <p className="text-gray-700 dark:text-gray-300">Make confident decisions with neighborhood comparisons, lifestyle analysis, and expert-backed recommendations.</p>
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Real Estate Consultants & Agents</h3>
+                  <p className="text-gray-700 dark:text-gray-300">Access our data services and advisory tools to empower your clients with transparent market data, trends, and custom reports. Enhance your consulting services with our comprehensive analytics platform.</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
-      {/* Premium CTA Section */}
-      <section className="py-4 md:py-6 gradient-hero text-white relative overflow-hidden">
+      {/* CTA Section */}
+      <section className="py-6 md:py-8 gradient-hero text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-black/30"></div>
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200')] bg-cover bg-center opacity-15"></div>
         <div className="relative container-custom text-center">
-          <div className="space-y-4 mb-6">
-            <h2 className="hero-title text-white drop-shadow-2xl">
-              Ready to Transform Your Real Estate Business?
-            </h2>
-            <p className="text-xl lg:text-2xl text-gray-100 max-w-4xl mx-auto leading-relaxed">
-              Join leading real estate professionals who trust BhuvisX for their data-driven decisions. 
-              Get started today and unlock the full potential of your portfolio.
-            </p>
-          </div>
-          
-          {/* Key Features */}
-          <div className="mb-8">
-            <ul className="flex flex-wrap justify-center gap-6 text-gray-100 text-sm">
-              <li className="flex items-center gap-2">
-                <span className="inline-block w-2 h-2 rounded-full bg-yellow-400"></span>
-                AI-Powered Market Analysis
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="inline-block w-2 h-2 rounded-full bg-yellow-400"></span>
-                Real-time Data & Insights
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="inline-block w-2 h-2 rounded-full bg-yellow-400"></span>
-                Investment Recommendations
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="inline-block w-2 h-2 rounded-full bg-yellow-400"></span>
-                Portfolio Optimization
-              </li>
-            </ul>
-          </div>
-
-          {/* CTAs */}
+          <h2 className="text-3xl lg:text-4xl font-bold text-white drop-shadow-2xl mb-4">
+            Ready to Get Started?
+          </h2>
+          <p className="text-lg lg:text-xl text-gray-100 leading-relaxed mb-6 max-w-2xl mx-auto">
+            Schedule a consultation to discuss your requirements
+          </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="btn-cta shadow-glow-yellow">
-              <span>Access Dashboard</span>
-            </button>
-            <button className="btn-cta shadow-glow-yellow">
-              <span>Try BhuvisAI</span>
-            </button>
+            <Link
+              to="/schedule-free-session"
+              className="btn-cta shadow-glow-yellow flex items-center justify-center gap-2"
+            >
+              <Calendar className="w-5 h-5" />
+              <span>Schedule Free Session</span>
+            </Link>
+            <Link
+              to="/services"
+              className="btn-cta shadow-glow-yellow flex items-center justify-center gap-2"
+            >
+              <span>Explore Services</span>
+              <ArrowRight className="w-5 h-5" />
+            </Link>
           </div>
         </div>
       </section>
+
+      {/* Meeting Booking Modals */}
+      <MeetingBookingModal 
+        isOpen={showMeetingModal} 
+        onClose={() => setShowMeetingModal(false)}
+        variant="meeting"
+      />
+      <MeetingBookingModal 
+        isOpen={showCallModal} 
+        onClose={() => setShowCallModal(false)}
+        variant="call"
+      />
     </div>
   );
 };

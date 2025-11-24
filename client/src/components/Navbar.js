@@ -21,7 +21,8 @@ const Navbar = () => {
 
   const navItems = [
     { name: 'Home', path: '/', icon: Home },
-  { name: 'BhuvisAI', path: '/bhuvisaipage', icon: TrendingUp },
+    { name: 'Services', path: '/services', icon: Building2 },
+    { name: 'BhuvisAI', path: '/bhuvisaipage', icon: TrendingUp },
     { name: 'Dashboard', path: '/enterprise-dashboard', icon: BarChart3 },
     { name: 'News & Research', path: '/news', icon: Newspaper },
     { name: 'About', path: '/about', icon: Info },
@@ -35,7 +36,7 @@ const Navbar = () => {
       <div className="container-custom">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3 group">
+          <Link to="/" className="flex items-center space-x-3 group mr-8">
             <div className="w-10 h-10 bg-gradient-to-br from-primary-600 to-teal-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-glow transition-all duration-300 group-hover:scale-105">
               <Building2 className="w-6 h-6 text-white" />
             </div>
@@ -45,7 +46,7 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
+          <div className="hidden md:flex items-center space-x-3 flex-1 pl-8">
             {navItems.map((item) => {
               const Icon = item.icon;
               return (

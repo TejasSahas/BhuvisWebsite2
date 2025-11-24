@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { auth } from '../firebase';
+import { auth, isFirebaseAvailable } from '../firebase';
 import { useNavigate } from 'react-router-dom';
 
 import AuthForm from "../components/AuthForm";
@@ -42,6 +42,11 @@ const RegisterPage = () => {
 
   // Google registration handler
   const handleGoogleRegister = async () => {
+    if (!isFirebaseAvailable()) {
+      setError('Google sign-in is not configured. Please use email registration instead.');
+      return;
+    }
+    
     setError('');
     setSuccess('');
     try {
@@ -139,12 +144,14 @@ const RegisterPage = () => {
               <span>Register</span>
             </button>
           </form>
-          <div className="flex flex-col gap-4 mt-6 w-full">
-            <button type="button" onClick={handleGoogleRegister} className="w-full py-3 bg-white/90 text-primary-700 border border-primary-200 dark:border-primary-700 font-semibold rounded-xl shadow-md transition-all duration-200 hover:bg-primary-50 flex items-center justify-center gap-2">
-              <svg className="w-5 h-5" viewBox="0 0 48 48"><g><circle fill="#fff" cx="24" cy="24" r="20"/><path fill="#4285F4" d="M34.6 24.2c0-.7-.1-1.4-.2-2H24v4.1h6c-.3 1.6-1.7 4.6-6 4.6-3.6 0-6.6-3-6.6-6.6s3-6.6 6.6-6.6c2.1 0 3.5.9 4.3 1.7l3-2.9C29.7 18.1 27.2 17 24 17c-5.2 0-9.5 4.3-9.5 9.5s4.3 9.5 9.5 9.5c5.5 0 9.1-3.9 9.1-9.4z"/><path fill="#34A853" d="M24 38c3.2 0 5.9-1.1 7.8-2.9l-3.8-3c-1 .7-2.3 1.2-4 1.2-3.1 0-5.7-2.1-6.6-5h-4v3.1C15.9 35.7 19.6 38 24 38z"/><path fill="#FBBC05" d="M17.4 27.3c-.2-.7-.4-1.5-.4-2.3s.1-1.6.4-2.3v-3.1h-4c-.8 1.6-1.3 3.3-1.3 5.4s.5 3.8 1.3 5.4l4-3.1z"/><path fill="#EA4335" d="M24 17c2.2 0 4.1.7 5.6 2l4.2-4.2C31.9 12.7 28.7 11 24 11c-4.4 0-8.1 2.3-10.1 5.7l4 3.1c.9-2.9 3.5-5 6.6-5z"/></g></svg>
-              Register with Google
-            </button>
-          </div>
+          {isFirebaseAvailable() && (
+            <div className="flex flex-col gap-4 mt-6 w-full">
+              <button type="button" onClick={handleGoogleRegister} className="w-full py-3 bg-white/90 text-primary-700 border border-primary-200 dark:border-primary-700 font-semibold rounded-xl shadow-md transition-all duration-200 hover:bg-primary-50 flex items-center justify-center gap-2">
+                <svg className="w-5 h-5" viewBox="0 0 48 48"><g><circle fill="#fff" cx="24" cy="24" r="20"/><path fill="#4285F4" d="M34.6 24.2c0-.7-.1-1.4-.2-2H24v4.1h6c-.3 1.6-1.7 4.6-6 4.6-3.6 0-6.6-3-6.6-6.6s3-6.6 6.6-6.6c2.1 0 3.5.9 4.3 1.7l3-2.9C29.7 18.1 27.2 17 24 17c-5.2 0-9.5 4.3-9.5 9.5s4.3 9.5 9.5 9.5c5.5 0 9.1-3.9 9.1-9.4z"/><path fill="#34A853" d="M24 38c3.2 0 5.9-1.1 7.8-2.9l-3.8-3c-1 .7-2.3 1.2-4 1.2-3.1 0-5.7-2.1-6.6-5h-4v3.1C15.9 35.7 19.6 38 24 38z"/><path fill="#FBBC05" d="M17.4 27.3c-.2-.7-.4-1.5-.4-2.3s.1-1.6.4-2.3v-3.1h-4c-.8 1.6-1.3 3.3-1.3 5.4s.5 3.8 1.3 5.4l4-3.1z"/><path fill="#EA4335" d="M24 17c2.2 0 4.1.7 5.6 2l4.2-4.2C31.9 12.7 28.7 11 24 11c-4.4 0-8.1 2.3-10.1 5.7l4 3.1c.9-2.9 3.5-5 6.6-5z"/></g></svg>
+                Register with Google
+              </button>
+            </div>
+          )}
 
           <div className="mt-6 text-center text-gray-500 dark:text-gray-400 text-sm">
             <span>Already have an account? <a href="/login" className="text-primary-600 hover:underline">Login</a></span>
