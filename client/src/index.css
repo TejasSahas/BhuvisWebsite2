@@ -149,3 +149,47 @@
 .recharts-legend-item-text {
   @apply text-gray-700 dark:text-gray-300;
 } 
+
+/* Calendly inline wrapper styles */
+.calendly-card {
+  background: linear-gradient(180deg, rgba(13,18,26,0.7), rgba(10,14,18,0.6));
+  padding: 28px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(3,5,10,0.6);
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+.calendly-card-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.calendly-wrapper {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;          /* hide outer rounding overflow so iframe is clipped */
+  background: #0b1220;       /* matches dark theme behind the iframe */
+}
+
+/* Force the internal iframe to behave (InlineWidget renders an iframe inside a div) */
+.calendly-wrapper iframe {
+  border: 0 !important;
+  width: 100% !important;
+  height: 680px !important;   /* tweak for your preferred height */
+  min-height: 520px;
+  display: block;
+  background: #ffffff;
+}
+
+/* Mobile tweaks */
+@media (max-width: 640px) {
+  .calendly-wrapper iframe {
+    height: 820px !important;  /* more vertical space on mobile so internal scroll reduced */
+  }
+  .calendly-card {
+    padding: 18px;
+    border-radius: 12px;
+  }
+}

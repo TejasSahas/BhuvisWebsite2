@@ -1,103 +1,152 @@
-import React, { useState, useEffect } from 'react';
+// /client/src/pages/RequestCallPage.jsx
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Phone, ArrowRight } from 'lucide-react';
-import AuthForm from '../components/AuthForm';
-import TimeSheetBooking from '../components/TimeSheetBooking';
+import { Phone } from 'lucide-react';
+import { InlineWidget } from 'react-calendly';
+import axios from 'axios';
+
+/**
+ * CompactCalendlyTwoSide (shared UI)
+ * - same compact single-card layout used by ScheduleFreeSessionPage
+ * - left info panel + right calendly iframe
+ * - dynamic iframe height to avoid inner scrollbars
+ */
+const CompactCalendlyTwoSide = ({ calendlyUrl, title = "Request Free Call", duration = "10 min", onBooked }) => {
+  const containerRef = useRef(null);
+  const [iframeHeight, setIframeHeight] = useState(520);
+
+  useEffect(() => {
+    function calcHeight() {
+      const vh = window.innerHeight;
+      // headerEstimate: change if your site header is taller/shorter
+      const headerEstimate = 140;
+      const available = Math.max(420, Math.min(740, vh - headerEstimate));
+      setIframeHeight(Math.max(420, available - 60));
+    }
+    calcHeight();
+    window.addEventListener('resize', calcHeight);
+    return () => window.removeEventListener('resize', calcHeight);
+  }, []);
+
+  // Listen for Calendly postMessage and call onBooked
+  useEffect(() => {
+    function onMessage(e) {
+      if (!e?.data) return;
+      let data = e.data;
+      try {
+        if (typeof data === 'string') data = JSON.parse(data);
+      } catch {
+        return;
+      }
+      if (data?.event === 'calendly.event_scheduled' && typeof onBooked === 'function') {
+        onBooked(data);
+      }
+    }
+    window.addEventListener('message', onMessage);
+    return () => window.removeEventListener('message', onMessage);
+  }, [onBooked]);
+
+  return (
+    <div ref={containerRef} className="w-full max-w-4xl mx-auto">
+      <div className="flex flex-col md:flex-row items-stretch bg-white/5 dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden">
+        {/* LEFT: info */}
+        <div className="md:w-1/3 w-full p-4 md:p-6 flex flex-col gap-3 bg-white/95 md:bg-transparent md:border-r md:border-white/5">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center">
+              <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 11H17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <div>
+              <h3 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white">{title}</h3>
+              <div className="text-xs text-gray-500">{duration}</div>
+            </div>
+          </div>
+
+          <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
+            Quick requirement gathering call. Meeting link will be emailed after booking.
+          </p>
+
+          <div className="mt-auto text-sm">
+            <div className="text-xs text-gray-500">Time zone</div>
+            <div className="text-sm text-gray-800 dark:text-gray-200">India Standard Time (IST)</div>
+          </div>
+
+          <div className="pt-3">
+            <a href="#cookie" className="text-xs text-gray-500 hover:underline">Cookie settings</a>
+          </div>
+        </div>
+
+        {/* RIGHT: Calendly iframe */}
+        <div className="md:flex-1 w-full p-3 md:p-4 bg-transparent">
+          <div className="rounded-lg overflow-hidden border border-white/5 shadow-sm">
+            <InlineWidget
+              url={calendlyUrl}
+              pageSettings={{
+                hideEventTypeDetails: true,
+                hideLandingPageDetails: true
+              }}
+              styles={{ height: `${iframeHeight}px`, width: '100%' }}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const RequestCallPage = () => {
   const navigate = useNavigate();
-  const [step, setStep] = useState(1); // 1: Login, 2: Time Sheet, 3: Thank You
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  useEffect(() => {
-    // Check if user is already logged in
-    const token = localStorage.getItem('token');
-    if (token) {
-      setIsAuthenticated(true);
-      setStep(2);
-    }
-  }, []);
+  // We removed the login step: page immediately shows the booking UI
+  // If you want to require login, re-add auth logic.
+  const calendlyUrl = process.env.REACT_APP_CALENDLY_10MIN || '';
 
-  const handleLoginSuccess = () => {
-    setIsAuthenticated(true);
-    setStep(2);
-  };
-
-  const handleTimeSlotSelect = (slot) => {
-    // Submit the call request
-    setTimeout(() => {
+  // Handler when Calendly booking occurs
+  const handleCalendlyBooked = async (payload) => {
+    try {
+      const apiBase = process.env.REACT_APP_API_BASE_URL || '';
+      await axios.post(`${apiBase}/api/bookings/from-calendly`, { calendly: payload });
+    } catch (err) {
+      console.error('Failed to save booking', err);
+      // proceed anyway — Calendly will have scheduled the event
+    } finally {
       navigate('/thank-you', { state: { type: 'call' } });
-    }, 1000);
+    }
   };
+
+  // Global fallback listener (optional redundancy)
+  useEffect(() => {
+    function onMessage(e) {
+      if (!e?.data) return;
+      let data = e.data;
+      try {
+        if (typeof data === 'string') data = JSON.parse(data);
+      } catch {
+        return;
+      }
+      if (data?.event === 'calendly.event_scheduled') {
+        handleCalendlyBooked(data);
+      }
+    }
+    window.addEventListener('message', onMessage);
+    return () => window.removeEventListener('message', onMessage);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4">
       <div className="max-w-4xl mx-auto">
-        {/* Progress Indicator */}
-        <div className="mb-8">
-          <div className="flex items-center justify-center space-x-4">
-            <div className={`flex items-center ${step >= 1 ? 'text-primary-600' : 'text-gray-400'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 1 ? 'bg-primary-600 text-white' : 'bg-gray-200 dark:bg-gray-700'}`}>
-                1
-              </div>
-              <span className="ml-2 font-medium">Login</span>
-            </div>
-            <div className={`w-16 h-1 ${step >= 2 ? 'bg-primary-600' : 'bg-gray-200 dark:bg-gray-700'}`}></div>
-            <div className={`flex items-center ${step >= 2 ? 'text-primary-600' : 'text-gray-400'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 2 ? 'bg-primary-600 text-white' : 'bg-gray-200 dark:bg-gray-700'}`}>
-                2
-              </div>
-              <span className="ml-2 font-medium">Schedule Call</span>
-            </div>
-            <div className={`w-16 h-1 ${step >= 3 ? 'bg-primary-600' : 'bg-gray-200 dark:bg-gray-700'}`}></div>
-            <div className={`flex items-center ${step >= 3 ? 'text-primary-600' : 'text-gray-400'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= 3 ? 'bg-primary-600 text-white' : 'bg-gray-200 dark:bg-gray-700'}`}>
-                3
-              </div>
-              <span className="ml-2 font-medium">Complete</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Content */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 md:p-12">
-          {step === 1 && (
-            <div>
-              <div className="text-center mb-8">
-                <Phone className="w-16 h-16 text-primary-600 mx-auto mb-4" />
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                  Request for a Call
-                </h1>
-                <p className="text-lg text-gray-600 dark:text-gray-400">
-                  Login to schedule a 10-minute requirement gathering call with our team
-                </p>
-              </div>
-              <div className="max-w-md mx-auto">
-                <AuthForm mode="login" onSuccess={handleLoginSuccess} />
-              </div>
-            </div>
-          )}
 
-          {step === 2 && (
-            <div>
-              <div className="text-center mb-8">
-                <Phone className="w-16 h-16 text-primary-600 mx-auto mb-4" />
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                  Schedule Your 10-Minute Call
-                </h1>
-                <p className="text-lg text-gray-600 dark:text-gray-400">
-                  Select a convenient time for your requirement gathering call
-                </p>
-              </div>
-              <div className="max-w-2xl mx-auto">
-                <TimeSheetBooking
-                  onTimeSlotSelect={handleTimeSlotSelect}
-                  duration={10}
-                  title="Select Time for Requirement Gathering Call"
-                />
-              </div>
-            </div>
-          )}
+          {/* Calendly booking UI (same compact UI used on Schedule page) */}
+          <div className="max-w-2xl mx-auto">
+            <CompactCalendlyTwoSide
+              calendlyUrl={calendlyUrl}
+              title="Request Free Call"
+              duration="10 min"
+              onBooked={handleCalendlyBooked}
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -105,5 +154,3 @@ const RequestCallPage = () => {
 };
 
 export default RequestCallPage;
-
-

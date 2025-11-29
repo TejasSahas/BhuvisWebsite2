@@ -47,6 +47,9 @@ const dataService = require('./services/dataService');
 const app = express();
 const PORT = config.server.port;
 
+const calendlyBookings = require("./routes/calendlyBookings");
+app.use("/api/bookings", calendlyBookings);
+
 // Apply middleware
 app.use(helmet());
 app.use(cors(config.cors));
