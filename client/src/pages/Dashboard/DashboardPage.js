@@ -93,18 +93,35 @@ const DashboardPage = () => {
         }
         
         // Fetch rental yield
-        const rentalResponse = await axios.post('/api/rental-yield', {
-          area: selectedArea,
-          type: selectedType
-        });
-        setRentalYield(rentalResponse.data);
+        let rentalResponse = null;
+        try {
+          rentalResponse = await axios.post('/api/rental-yield', {
+            area: selectedArea,
+            type: selectedType
+          });
+          setRentalYield(rentalResponse.data);
+        } catch (err) {
+          console.error('Error fetching rental yield:', err.response?.data || err.message);
+          setRentalYield(null);
+          // Don't set error state here, just log it
+        }
         
         // Fetch average price
-        const priceResponse = await axios.post('/api/avg-price', {
-          area: selectedArea,
-          type: selectedType
-        });
-        setAvgPrice(priceResponse.data);
+        let priceResponse = null;
+        try {
+          priceResponse = await axios.post('/api/avg-price', {
+            area: selectedArea,
+            type: selectedType
+          });
+          setAvgPrice(priceResponse.data);
+        } catch (err) {
+          console.error('Error fetching average price:', err.response?.data || err.message);
+          setAvgPrice(null);
+          // Show user-friendly error message
+          if (err.response?.status === 404) {
+            setError(`No ${selectedType} property data found for ${selectedArea}. Please try a different area or property type.`);
+          }
+        }
         
         // Fetch average rent data from API
         try {
@@ -144,11 +161,16 @@ const DashboardPage = () => {
         }
         
         // Fetch filter results
-        const filterResponse = await axios.post('/api/filter-results', {
-          area: selectedArea,
-          type: selectedType
-        });
-        setFilterResults(filterResponse.data.results || []);
+        try {
+          const filterResponse = await axios.post('/api/filter-results', {
+            area: selectedArea,
+            type: selectedType
+          });
+          setFilterResults(filterResponse.data.results || []);
+        } catch (err) {
+          console.error('Error fetching filter results:', err.response?.data || err.message);
+          setFilterResults([]);
+        }
         
         // Fetch business category data using the area
         try {
@@ -238,17 +260,34 @@ const DashboardPage = () => {
             setAirportDistance(null);
           }
           
-          const rentalResponse = await axios.post('/api/rental-yield', {
-            area: selectedArea,
-            type: selectedType
-          });
-          setRentalYield(rentalResponse.data);
+          // Fetch rental yield
+          let rentalResponse = null;
+          try {
+            rentalResponse = await axios.post('/api/rental-yield', {
+              area: selectedArea,
+              type: selectedType
+            });
+            setRentalYield(rentalResponse.data);
+          } catch (err) {
+            console.error('Error fetching rental yield:', err.response?.data || err.message);
+            setRentalYield(null);
+          }
           
-          const priceResponse = await axios.post('/api/avg-price', {
-            area: selectedArea,
-            type: selectedType
-          });
-          setAvgPrice(priceResponse.data);
+          // Fetch average price
+          let priceResponse = null;
+          try {
+            priceResponse = await axios.post('/api/avg-price', {
+              area: selectedArea,
+              type: selectedType
+            });
+            setAvgPrice(priceResponse.data);
+          } catch (err) {
+            console.error('Error fetching average price:', err.response?.data || err.message);
+            setAvgPrice(null);
+            if (err.response?.status === 404) {
+              setError(`No ${selectedType} property data found for ${selectedArea}. Please try a different area or property type.`);
+            }
+          }
           
           // Fetch average rent data from API
           try {
@@ -287,11 +326,17 @@ const DashboardPage = () => {
             }
           }
           
-          const filterResponse = await axios.post('/api/filter-results', {
-            area: selectedArea,
-            type: selectedType
-          });
-          setFilterResults(filterResponse.data.results || []);
+          // Fetch filter results
+          try {
+            const filterResponse = await axios.post('/api/filter-results', {
+              area: selectedArea,
+              type: selectedType
+            });
+            setFilterResults(filterResponse.data.results || []);
+          } catch (err) {
+            console.error('Error fetching filter results:', err.response?.data || err.message);
+            setFilterResults([]);
+          }
           
           // Refresh business category data
           try {

@@ -370,12 +370,12 @@ const NewsPage = () => {
              Get started today and unlock the full potential of your portfolio.
            </p>
            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-             <button className="btn-cta shadow-glow-yellow">
+             <Link to="/dashboard" className="btn-cta shadow-glow-yellow inline-flex items-center justify-center gap-2">
                <span>Access Dashboard</span>
-             </button>
-             <button className="btn-cta shadow-glow-yellow">
+             </Link>
+             <Link to="/bhuvisaipage" className="btn-cta shadow-glow-yellow inline-flex items-center justify-center gap-2">
                <span>Try BhuvisAI</span>
-             </button>
+             </Link>
            </div>
          </div>
        </section>
