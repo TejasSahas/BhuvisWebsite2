@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Eye, EyeOff } from 'lucide-react';
 import AuthForm from "../components/AuthForm";
 
 
@@ -7,6 +8,7 @@ import AuthForm from "../components/AuthForm";
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState('Investor');
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -23,12 +25,16 @@ const LoginPage = () => {
       const data = await response.json();
       if (response.ok) {
         localStorage.setItem('token', data.token);
+        if (data.user) {
+          localStorage.setItem('user', JSON.stringify(data.user));
+        }
         navigate('/');
       } else {
-        setError(data.message || 'Login failed');
+        setError(data.message || 'Login failed. Please check your credentials.');
       }
     } catch (err) {
-      setError('Server error. Please try again later.');
+      console.error('Login error:', err);
+      setError('Unable to connect to server. Please check your internet connection and try again.');
     }
   };
 
@@ -79,7 +85,27 @@ const LoginPage = () => {
             </div>
             <div className="flex flex-col">
               <label className="block text-gray-700 dark:text-gray-300 mb-1 font-medium">Password</label>
-              <input type="password" required value={password} onChange={e => setPassword(e.target.value)} className="w-full px-4 py-2 border border-primary-200 dark:border-primary-700 rounded-xl focus:ring-2 focus:ring-primary-400 dark:bg-gray-800 dark:text-white transition" />
+              <div className="relative">
+                <input 
+                  type={showPassword ? "text" : "password"} 
+                  required 
+                  value={password} 
+                  onChange={e => setPassword(e.target.value)} 
+                  className="w-full px-4 py-2 pr-12 border border-primary-200 dark:border-primary-700 rounded-xl focus:ring-2 focus:ring-primary-400 dark:bg-gray-800 dark:text-white transition" 
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
+                </button>
+              </div>
             </div>
             <div className="flex flex-col">
               <label className="block text-gray-700 dark:text-gray-300 mb-1 font-medium">Role</label>
