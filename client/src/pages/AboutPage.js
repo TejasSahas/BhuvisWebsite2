@@ -420,13 +420,6 @@ const AboutPage = () => {
               <span>View All Services</span>
               <ArrowRight className="w-5 h-5" />
             </Link>
-            <button 
-              className="btn-cta border-2 border-yellow-400/80 bg-yellow-400/20 hover:bg-yellow-400/30 backdrop-blur-sm text-white hover:text-primary-900 flex items-center justify-center gap-2 shadow-glow-yellow"
-              onClick={() => setShowCallModal(true)}
-            >
-              <Phone className="w-5 h-5" />
-              <span>Schedule a Call</span>
-            </button>
           </div>
         </div>
       </section>

@@ -100,13 +100,6 @@ const EnterpriseDashboardPage = () => {
               Comprehensive real estate analytics and data services for companies. Access custom data compilation, market intelligence, and advanced analytics tools.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button 
-                className="btn-cta shadow-glow-yellow flex items-center justify-center gap-2"
-                onClick={() => setShowCallModal(true)}
-              >
-                <Phone className="w-5 h-5" />
-                <span>Schedule a Call</span>
-              </button>
               <Link
                 to="/dashboard"
                 className="btn-cta shadow-glow-yellow flex items-center justify-center gap-2"

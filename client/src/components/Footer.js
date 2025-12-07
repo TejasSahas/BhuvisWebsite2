@@ -1,9 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Building2, ExternalLink, Shield, TrendingUp, Mail } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const location = useLocation();
+  
+  // Hide newsletter section on login and news pages only
+  const hideNewsletter = location.pathname === '/login' || location.pathname === '/news';
 
   return (
     <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-300 border-t border-gray-700">
@@ -120,25 +124,27 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Newsletter Section */}
-        <div className="border-t border-gray-700/50 mt-12 pt-8 mb-8">
-          <div className="max-w-2xl mx-auto text-center">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <Mail className="w-6 h-6 text-primary-400" />
-              <h3 className="text-2xl font-bold text-white">Stay Updated with Our Newsletter</h3>
+        {/* Newsletter Section - Hidden on login and news pages */}
+        {!hideNewsletter && (
+          <div className="border-t border-gray-700/50 mt-12 pt-8 mb-8">
+            <div className="max-w-2xl mx-auto text-center">
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <Mail className="w-6 h-6 text-primary-400" />
+                <h3 className="text-2xl font-bold text-white">Stay Updated with Our Newsletter</h3>
+              </div>
+              <p className="text-gray-400 mb-6">
+                Get the latest market insights, investment opportunities, and real estate news delivered to your inbox.
+              </p>
+              <Link
+                to="/newsletter-subscribe"
+                className="btn-cta shadow-glow-yellow inline-flex items-center justify-center gap-2"
+              >
+                <Mail className="w-5 h-5" />
+                <span>Subscribe to Newsletter</span>
+              </Link>
             </div>
-            <p className="text-gray-400 mb-6">
-              Get the latest market insights, investment opportunities, and real estate news delivered to your inbox.
-            </p>
-            <Link
-              to="/newsletter-subscribe"
-              className="btn-cta shadow-glow-yellow inline-flex items-center justify-center gap-2"
-            >
-              <Mail className="w-5 h-5" />
-              <span>Subscribe to Newsletter</span>
-            </Link>
           </div>
-        </div>
+        )}
 
         {/* Bottom Section */}
         <div className="border-t border-gray-700/50 pt-8">

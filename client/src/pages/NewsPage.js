@@ -27,14 +27,6 @@ const NewsPage = () => {
           <p className="text-lg lg:text-xl text-gray-100 leading-relaxed mb-6">
             Stay ahead with curated news, policy updates, and expert insights from the Indian real estate sector.
           </p>
-          <div className="flex justify-center">
-            <Link
-              to="/newsletter-subscribe"
-              className="btn-cta shadow-glow-yellow inline-flex items-center justify-center gap-2"
-            >
-              <span>Subscribe to Newsletter</span>
-            </Link>
-          </div>
         </div>
       </div>
     </section>
