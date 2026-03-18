@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { DarkModeProvider } from './contexts/DarkModeContext';
+import { AuthProvider } from './contexts/AuthContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
@@ -19,6 +20,7 @@ import ServicesPage from './pages/ServicesPage';
 import ScheduleFreeSessionPage from './pages/ScheduleFreeSessionPage';
 import RequestCallPage from './pages/RequestCallPage';
 import CustomDashboardEnquiryPage from './pages/CustomDashboardEnquiryPage';
+import EnquiryPage from './pages/EnquiryPage';
 import NewsletterSubscriptionPage from './pages/NewsletterSubscriptionPage';
 import ThankYouPage from './pages/ThankYouPage';
 import LeadAutomationPage from './pages/LeadAutomationPage';
@@ -27,24 +29,42 @@ import DataConsultingPage from './pages/DataConsultingPage';
 import BrokerJodoPage from './pages/BrokerJodoPage';
 import EarlyAccessPage from './pages/EarlyAccessPage';
 
+// Prevent browser from restoring scroll on navigation (so ScrollToTop wins)
+function ScrollRestorationDisabler() {
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.history?.scrollRestoration) {
+      window.history.scrollRestoration = 'manual';
+    }
+  }, []);
+  return null;
+}
+
 // ScrollToTop component to handle scroll position on route changes
 function ScrollToTop() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    // Scroll to top immediately
+    // Scroll immediately so the new page is not stuck at previous scroll position
     window.scrollTo(0, 0);
-    
-    // Also ensure scroll to top after a brief delay to handle any async rendering
-    const timer = setTimeout(() => {
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'smooth'
-      });
-    }, 100);
+    if (document.documentElement) document.documentElement.scrollTop = 0;
+    if (document.body) document.body.scrollTop = 0;
 
-    return () => clearTimeout(timer);
+    // Run again after paint so new route content is mounted and we stay at top
+    const raf = requestAnimationFrame(() => {
+      window.scrollTo(0, 0);
+      if (document.documentElement) document.documentElement.scrollTop = 0;
+      if (document.body) document.body.scrollTop = 0;
+    });
+    const timer = setTimeout(() => {
+      window.scrollTo(0, 0);
+      if (document.documentElement) document.documentElement.scrollTop = 0;
+      if (document.body) document.body.scrollTop = 0;
+    }, 0);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(timer);
+    };
   }, [pathname]);
 
   return null;
@@ -80,10 +100,12 @@ function App() {
 
   return (
     <DarkModeProvider>
-      <Router>
-        <ScrollToTop />
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
-          <Navbar />
+      <AuthProvider>
+        <Router>
+          <ScrollToTop />
+          <ScrollRestorationDisabler />
+          <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+            <Navbar />
           <main className="pt-20">
              <Routes>
                <Route path="/" element={<HomePage />} />
@@ -109,13 +131,15 @@ function App() {
                <Route path="/schedule-free-session" element={<ScheduleFreeSessionPage />} />
                <Route path="/request-call" element={<RequestCallPage />} />
                <Route path="/custom-dashboard-enquiry" element={<CustomDashboardEnquiryPage />} />
+               <Route path="/enquiry" element={<EnquiryPage />} />
                <Route path="/newsletter-subscribe" element={<NewsletterSubscriptionPage />} />
                <Route path="/thank-you" element={<ThankYouPage />} />
              </Routes>
           </main>
-          <Footer />
-        </div>
-      </Router>
+            <Footer />
+          </div>
+        </Router>
+      </AuthProvider>
     </DarkModeProvider>
   );
 }

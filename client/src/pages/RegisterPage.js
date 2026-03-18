@@ -2,21 +2,19 @@ import React, { useState } from 'react';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth, isFirebaseAvailable } from '../firebase';
 import { useNavigate } from 'react-router-dom';
-
-import AuthForm from "../components/AuthForm";
-
-// Removed duplicate default export for Register
-
-
-
+import { useAuth } from '../contexts/AuthContext';
 
 const RegisterPage = () => {
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [city, setCity] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('Investor');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
+  const authContext = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,7 +24,7 @@ const RegisterPage = () => {
       const response = await fetch('/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, role })
+        body: JSON.stringify({ name, email, password, role, phone, city })
       });
       const data = await response.json();
       if (response.ok) {
@@ -61,7 +59,7 @@ const RegisterPage = () => {
       });
       const data = await response.json();
       if (response.ok && data.token) {
-        localStorage.setItem('token', data.token);
+        authContext.login(data.token);
         setSuccess('Registration successful! Redirecting...');
         setTimeout(() => navigate('/'), 1200);
       } else {
@@ -110,15 +108,15 @@ const RegisterPage = () => {
           <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-5 w-full">
             <div className="flex flex-col">
               <label className="block text-gray-700 dark:text-gray-300 mb-1 font-medium">Full Name</label>
-              <input type="text" required placeholder="Your full name" className="w-full px-4 py-2 border border-primary-200 dark:border-primary-700 rounded-xl focus:ring-2 focus:ring-primary-400 dark:bg-gray-800 dark:text-white transition" />
+              <input type="text" required placeholder="Your full name" value={name} onChange={e => setName(e.target.value)} className="w-full px-4 py-2 border border-primary-200 dark:border-primary-700 rounded-xl focus:ring-2 focus:ring-primary-400 dark:bg-gray-800 dark:text-white transition" />
             </div>
             <div className="flex flex-col">
               <label className="block text-gray-700 dark:text-gray-300 mb-1 font-medium">Phone Number</label>
-              <input type="tel" required placeholder="10-digit mobile number" className="w-full px-4 py-2 border border-primary-200 dark:border-primary-700 rounded-xl focus:ring-2 focus:ring-primary-400 dark:bg-gray-800 dark:text-white transition" />
+              <input type="tel" required placeholder="10-digit mobile number" value={phone} onChange={e => setPhone(e.target.value)} className="w-full px-4 py-2 border border-primary-200 dark:border-primary-700 rounded-xl focus:ring-2 focus:ring-primary-400 dark:bg-gray-800 dark:text-white transition" />
             </div>
             <div className="flex flex-col">
               <label className="block text-gray-700 dark:text-gray-300 mb-1 font-medium">City</label>
-              <input type="text" required placeholder="Your city" className="w-full px-4 py-2 border border-primary-200 dark:border-primary-700 rounded-xl focus:ring-2 focus:ring-primary-400 dark:bg-gray-800 dark:text-white transition" />
+              <input type="text" required placeholder="Your city" value={city} onChange={e => setCity(e.target.value)} className="w-full px-4 py-2 border border-primary-200 dark:border-primary-700 rounded-xl focus:ring-2 focus:ring-primary-400 dark:bg-gray-800 dark:text-white transition" />
             </div>
             <div className="flex flex-col">
               <label className="block text-gray-700 dark:text-gray-300 mb-1 font-medium">Email</label>

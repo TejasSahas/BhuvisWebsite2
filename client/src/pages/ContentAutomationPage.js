@@ -70,7 +70,7 @@ const ContentAutomationPage = () => {
             <div className="section-accent" />
           </div>
           <div className="flex flex-wrap justify-center gap-3">
-            <Link to="/schedule-free-session" className="btn-cta shadow-glow-yellow inline-flex items-center gap-2">
+            <Link to="/enquiry" className="btn-cta shadow-glow-yellow inline-flex items-center gap-2">
               Book a Demo
             </Link>
             <Link to="/services" className="btn-cta shadow-glow-yellow inline-flex items-center gap-2">

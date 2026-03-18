@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDarkMode } from '../contexts/DarkModeContext';
+import { useAuth } from '../contexts/AuthContext';
 import {
   Menu,
   X,
@@ -14,6 +15,8 @@ import {
   Zap,
   FileText,
   Database,
+  LogOut,
+  User,
 } from 'lucide-react';
 
 const Navbar = () => {
@@ -21,7 +24,9 @@ const Navbar = () => {
   const [servicesOpen, setServicesOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
   const { isDarkMode, toggleDarkMode } = useDarkMode();
+  const { user, logout } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const isActive = (path) => location.pathname === path;
   const isServicesActive = ['/services', '/services/lead-automation', '/services/content-automation', '/services/data-consulting'].some((p) => location.pathname === p || location.pathname.startsWith(p));
@@ -136,13 +141,32 @@ const Navbar = () => {
               <span className="font-medium">About Us</span>
             </Link>
 
-            <Link
-              to="/login"
-              className="nav-link flex items-center space-x-2 px-4 py-2 rounded-xl transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-            >
-              <Sun className="w-4 h-4" />
-              <span className="font-medium">Login</span>
-            </Link>
+            {user ? (
+              <div className="flex items-center space-x-3 ml-2">
+                <div className="flex items-center space-x-2 px-3 py-1.5 rounded-xl bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-700">
+                  <div className="w-7 h-7 bg-gradient-to-br from-primary-600 to-teal-600 rounded-full flex items-center justify-center">
+                    <span className="text-white text-xs font-bold">{(user.name || user.email)?.charAt(0).toUpperCase()}</span>
+                  </div>
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-200 max-w-[120px] truncate">{user.name || user.email}</span>
+                </div>
+                <button
+                  onClick={() => { logout(); navigate('/'); }}
+                  className="flex items-center space-x-1 px-3 py-2 rounded-xl text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-300"
+                  title="Logout"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span className="text-sm font-medium">Logout</span>
+                </button>
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                className="nav-link flex items-center space-x-2 px-4 py-2 rounded-xl transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+              >
+                <User className="w-4 h-4" />
+                <span className="font-medium">Login</span>
+              </Link>
+            )}
           </div>
 
           <div className="flex items-center space-x-3">
@@ -178,7 +202,24 @@ const Navbar = () => {
                 <Link key={item.path} to={item.path} className="block px-6 py-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800" onClick={() => setIsMenuOpen(false)}>{item.name}</Link>
               ))}
               <Link to="/about" className="nav-link flex items-center space-x-3 px-4 py-3 rounded-xl" onClick={() => setIsMenuOpen(false)}><Info className="w-5 h-5" /><span>About Us</span></Link>
-              <Link to="/login" className="nav-link flex items-center space-x-3 px-4 py-3 rounded-xl" onClick={() => setIsMenuOpen(false)}><span>Login</span></Link>
+              {user ? (
+                <>
+                  <div className="flex items-center space-x-2 px-4 py-3">
+                    <div className="w-7 h-7 bg-gradient-to-br from-primary-600 to-teal-600 rounded-full flex items-center justify-center">
+                      <span className="text-white text-xs font-bold">{(user.name || user.email)?.charAt(0).toUpperCase()}</span>
+                    </div>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-200 truncate">{user.name || user.email}</span>
+                  </div>
+                  <button
+                    onClick={() => { logout(); navigate('/'); setIsMenuOpen(false); }}
+                    className="flex items-center space-x-3 px-4 py-3 rounded-xl text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 w-full"
+                  >
+                    <LogOut className="w-5 h-5" /><span>Logout</span>
+                  </button>
+                </>
+              ) : (
+                <Link to="/login" className="nav-link flex items-center space-x-3 px-4 py-3 rounded-xl" onClick={() => setIsMenuOpen(false)}><User className="w-5 h-5" /><span>Login</span></Link>
+              )}
             </div>
           </div>
         )}

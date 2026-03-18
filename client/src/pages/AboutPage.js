@@ -443,13 +443,13 @@ const AboutPage = () => {
               <span>View All Services</span>
               <ArrowRight className="w-5 h-5" />
             </Link>
-            <button 
+            <Link
+              to="/enquiry"
               className="btn-cta shadow-glow-yellow flex items-center justify-center gap-2"
-              onClick={() => setShowCallModal(true)}
             >
               <Phone className="w-5 h-5" />
               <span>Schedule a Call</span>
-            </button>
+            </Link>
           </div>
         </div>
       </section>
