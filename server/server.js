@@ -49,15 +49,17 @@ const dataService = require('./services/dataService');
 const app = express();
 const PORT = config.server.port;
 
-const calendlyBookings = require("./routes/calendlyBookings");
-app.use("/api/bookings", calendlyBookings);
-
-// Apply middleware
+// Apply middleware first so req.body is parsed before any route
 app.use(helmet());
 app.use(cors(config.cors));
 app.use(morgan('combined'));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+
+const calendlyBookings = require("./routes/calendlyBookings");
+const enquiriesRouter = require('./routes/enquiries');
+app.use("/api/bookings", calendlyBookings);
+app.use('/api/enquiries', enquiriesRouter);
 
 // Initialize data before setting up routes
 const initializeServer = async () => {

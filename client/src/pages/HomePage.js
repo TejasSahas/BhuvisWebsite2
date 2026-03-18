@@ -112,7 +112,7 @@ const HomePage = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 flex-wrap">
               <Link
-                to="/schedule-free-session"
+                to="/enquiry"
                 className="btn-cta shadow-glow-yellow text-base md:text-lg px-8 py-4 flex items-center justify-center gap-2"
               >
                 <Calendar className="w-5 h-5" />
@@ -297,14 +297,14 @@ const HomePage = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
-              to="/request-call"
+              to="/enquiry"
               className="btn-cta shadow-glow-yellow flex items-center justify-center gap-2"
             >
               <Phone className="w-5 h-5" />
               Book Consultation
             </Link>
             <Link
-              to="/schedule-free-session"
+              to="/enquiry"
               className="btn-cta shadow-glow-yellow flex items-center justify-center gap-2"
             >
               <Calendar className="w-5 h-5" />

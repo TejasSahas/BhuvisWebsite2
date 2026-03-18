@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AuthForm from "../components/AuthForm";
-
-
+import { useAuth } from '../contexts/AuthContext';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('Investor');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const auth = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,11 +16,11 @@ const LoginPage = () => {
       const response = await fetch('/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, role })
+        body: JSON.stringify({ email, password })
       });
       const data = await response.json();
       if (response.ok) {
-        localStorage.setItem('token', data.token);
+        auth.login(data.token);
         navigate('/');
       } else {
         setError(data.message || 'Login failed');
@@ -80,16 +78,6 @@ const LoginPage = () => {
             <div className="flex flex-col">
               <label className="block text-gray-700 dark:text-gray-300 mb-1 font-medium">Password</label>
               <input type="password" required value={password} onChange={e => setPassword(e.target.value)} className="w-full px-4 py-2 border border-primary-200 dark:border-primary-700 rounded-xl focus:ring-2 focus:ring-primary-400 dark:bg-gray-800 dark:text-white transition" />
-            </div>
-            <div className="flex flex-col">
-              <label className="block text-gray-700 dark:text-gray-300 mb-1 font-medium">Role</label>
-              <select value={role} onChange={e => setRole(e.target.value)} className="w-full px-4 py-2 border border-primary-200 dark:border-primary-700 rounded-xl focus:ring-2 focus:ring-primary-400 dark:bg-gray-800 dark:text-white transition">
-                <option>Investor</option>
-                <option>Real estate consultant</option>
-                <option>Builder</option>
-                <option>Agent</option>
-                <option>Other</option>
-              </select>
             </div>
             {error && <div className="text-red-600 text-sm text-center">{error}</div>}
             <button

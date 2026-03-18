@@ -1,0 +1,5 @@
+PORT=4000
+NODE_ENV=development
+MONGO_URI=mongodb+srv://03satyam009_db_user:0KWTd68XucyMXRlq@cluster0.4kqkgk0.mongodb.net/bhuvisdb?appName=Cluster0
+JWT_SECRET=bhuvis-super-secret-key-2026
+CORS_ORIGIN=*

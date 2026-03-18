@@ -2,10 +2,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CTAButton from "./CTAButton";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function AuthForm({ mode = "login", onSuccess }) {
   const isRegister = mode === "register";
   const navigate = useNavigate();
+  const auth = useAuth();
 
   const [form, setForm] = useState({
     name: "",
@@ -37,7 +39,7 @@ export default function AuthForm({ mode = "login", onSuccess }) {
 
     setLoading(true);
     try {
-      const url = isRegister ? "/api/auth/register" : "/api/auth/login";
+      const url = isRegister ? "/api/register" : "/api/login";
       const payload = isRegister
         ? { name: form.name, company: form.company, email: form.email, password: form.password }
         : { email: form.email, password: form.password };
@@ -51,8 +53,8 @@ export default function AuthForm({ mode = "login", onSuccess }) {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Server error");
 
-      // Example: store token & redirect. Adjust to your app's auth flow.
-      if (data.token) localStorage.setItem("token", data.token);
+      // Store token via AuthContext so Navbar reacts immediately
+      if (data.token) auth.login(data.token);
       
       // Call onSuccess callback if provided, otherwise navigate
       if (onSuccess) {

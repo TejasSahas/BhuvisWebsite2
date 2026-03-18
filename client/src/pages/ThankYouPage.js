@@ -28,6 +28,11 @@ const ThankYouPage = () => {
           title: 'Successfully Subscribed!',
           description: 'Welcome to our newsletter! Check your email for a welcome message and start receiving updates based on your preferences.',
         };
+      case 'enquiry':
+        return {
+          title: 'Enquiry Submitted!',
+          description: 'Thank you for getting in touch. We\'ve received your enquiry and will get back to you soon.',
+        };
       default:
         return {
           title: 'Thank You!',

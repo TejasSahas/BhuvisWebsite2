@@ -108,10 +108,10 @@ const LeadAutomationPage = () => {
             Ready to automate your lead pipeline?
           </h2>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link to="/schedule-free-session" className="btn-cta shadow-glow-yellow inline-flex items-center gap-2">
+            <Link to="/enquiry" className="btn-cta shadow-glow-yellow inline-flex items-center gap-2">
               Book a Demo
             </Link>
-            <Link to="/request-call" className="btn-cta shadow-glow-yellow inline-flex items-center gap-2">
+            <Link to="/enquiry" className="btn-cta shadow-glow-yellow inline-flex items-center gap-2">
               Request a Call
             </Link>
             <Link to="/services" className="inline-flex items-center gap-2 text-primary-600 dark:text-primary-400 font-medium hover:underline">

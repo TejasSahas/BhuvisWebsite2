@@ -100,13 +100,13 @@ const EnterpriseDashboardPage = () => {
               Comprehensive real estate analytics and data services for companies. Access custom data compilation, market intelligence, and advanced analytics tools.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button 
+              <Link
+                to="/enquiry"
                 className="btn-cta shadow-glow-yellow flex items-center justify-center gap-2"
-                onClick={() => setShowCallModal(true)}
               >
                 <Phone className="w-5 h-5" />
                 <span>Schedule a Call</span>
-              </button>
+              </Link>
               <Link
                 to="/dashboard"
                 className="btn-cta shadow-glow-yellow flex items-center justify-center gap-2"
@@ -186,13 +186,13 @@ const EnterpriseDashboardPage = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button
+              <Link
+                to="/enquiry"
                 className="btn-cta shadow-glow-yellow flex items-center justify-center gap-2"
-                onClick={() => setShowCallModal(true)}
               >
                 <Phone className="w-5 h-5" />
                 <span>Schedule a Call</span>
-              </button>
+              </Link>
               <Link
                 to="/dashboard"
                 className="btn-cta shadow-glow-yellow flex items-center justify-center gap-2"
@@ -233,12 +233,12 @@ const EnterpriseDashboardPage = () => {
                   ))}
                 </ul>
                 <div className="mt-auto">
-                  <button 
-                    className="btn-cta shadow-glow-yellow w-full py-3"
-                    onClick={() => setShowCallModal(true)}
+                  <Link
+                    to="/enquiry"
+                    className="btn-cta shadow-glow-yellow w-full py-3 inline-block text-center"
                   >
-                    {tier.name === 'Custom Dashboard Package' ? 'Schedule a Call' : 'Schedule a Call'}
-                  </button>
+                    Schedule a Call
+                  </Link>
                 </div>
               </div>
             ))}
@@ -259,20 +259,20 @@ const EnterpriseDashboardPage = () => {
             Schedule a call to discuss your requirements and discover how our services can help your business.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button 
+            <Link
+              to="/enquiry"
               className="btn-cta shadow-glow-yellow flex items-center justify-center gap-2"
-              onClick={() => setShowCallModal(true)}
             >
               <Phone className="w-5 h-5" />
               <span>Schedule a Consultation Call</span>
-            </button>
-            <button 
+            </Link>
+            <Link
+              to="/enquiry"
               className="btn-cta shadow-glow-yellow flex items-center justify-center gap-2"
-              onClick={() => setShowMeetingModal(true)}
             >
               <Calendar className="w-5 h-5" />
               <span>Book a Meeting</span>
-            </button>
+            </Link>
           </div>
         </div>
       </section>

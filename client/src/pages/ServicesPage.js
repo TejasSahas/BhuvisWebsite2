@@ -70,11 +70,11 @@ const ServicesPage = () => {
             We help real estate firms automate lead generation, content creation, and sales processes using technology. One place for all your automation and data needs.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link to="/schedule-free-session" className="btn-cta shadow-glow-yellow flex items-center justify-center gap-2">
+            <Link to="/enquiry" className="btn-cta shadow-glow-yellow flex items-center justify-center gap-2">
               <Calendar className="w-5 h-5" />
               Schedule Free Session
             </Link>
-            <Link to="/request-call" className="btn-cta shadow-glow-yellow flex items-center justify-center gap-2">
+            <Link to="/enquiry" className="btn-cta shadow-glow-yellow flex items-center justify-center gap-2">
               <Phone className="w-5 h-5" />
               Request a Call
             </Link>
@@ -166,15 +166,15 @@ const ServicesPage = () => {
             Schedule a call or session to discuss your requirements and see how our services can help.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center flex-wrap">
-            <Link to="/schedule-free-session" className="btn-cta shadow-glow-yellow flex items-center justify-center gap-2">
+            <Link to="/enquiry" className="btn-cta shadow-glow-yellow flex items-center justify-center gap-2">
               <Calendar className="w-5 h-5" />
               Schedule Free Session
             </Link>
-            <Link to="/request-call" className="btn-cta shadow-glow-yellow flex items-center justify-center gap-2">
+            <Link to="/enquiry" className="btn-cta shadow-glow-yellow flex items-center justify-center gap-2">
               <Phone className="w-5 h-5" />
               Request a Call
             </Link>
-            <Link to="/custom-dashboard-enquiry" className="btn-cta shadow-glow-yellow flex items-center justify-center gap-2">
+            <Link to="/enquiry" className="btn-cta shadow-glow-yellow flex items-center justify-center gap-2">
               Custom Dashboard Enquiry
             </Link>
           </div>
